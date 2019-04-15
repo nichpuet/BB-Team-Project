@@ -14,6 +14,7 @@ namespace BrickBreaker
         [STAThread]
         static void Main()
         {
+            //Comment
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

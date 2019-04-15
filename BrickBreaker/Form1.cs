@@ -22,7 +22,7 @@ namespace BrickBreaker
             // Start the program centred on the Menu Screen
             MenuScreen ms = new MenuScreen();
             this.Controls.Add(ms);
-
+            //yuck
             ms.Location = new Point((this.Width - ms.Width) / 2, (this.Height - ms.Height) / 2);
         }
     }

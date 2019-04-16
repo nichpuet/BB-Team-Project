@@ -37,6 +37,9 @@ namespace BrickBreaker
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
+        // pause menu variables
+        bool paused = false; // false - show game screen true - show pause menu
+        //asdf
         #endregion
 
         public GameScreen()
@@ -45,7 +48,7 @@ namespace BrickBreaker
             OnStart();
         }
 
-
+        
         public void OnStart()
         {
             //set life counter
@@ -101,6 +104,21 @@ namespace BrickBreaker
                 case Keys.Right:
                     rightArrowDown = true;
                     break;
+                case Keys.Escape:
+                    // check if paused
+                    if (paused)
+                    {
+                        // stop game loop
+                        paused = false;
+                        gameTimer.Enabled = true;
+                    }
+                    else 
+                    {
+                        paused = true;
+                    }
+
+                    // Carter change screen
+                    break;
                 default:
                     break;
             }
@@ -124,6 +142,15 @@ namespace BrickBreaker
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+            if (paused)
+            {
+                gameTimer.Enabled = false;
+            }
+            else if (!paused)
+            {
+               //pauseScreen ps = new pauseScreen();
+            }
+
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {

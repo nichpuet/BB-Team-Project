@@ -24,9 +24,10 @@ namespace BrickBreaker
 
         // Game values
         int lives;
+        int score;
 
         // Paddle and Ball objects
-        Paddle paddle;
+        public static Paddle paddle;
         Ball ball;
 
         // list of all blocks for current level
@@ -39,7 +40,9 @@ namespace BrickBreaker
 
         // pause menu variables
         bool paused = false; // false - show game screen true - show pause menu
-        //asdf
+
+        // random for powerups
+        Random random;
         #endregion
 
         public GameScreen()
@@ -47,7 +50,6 @@ namespace BrickBreaker
             InitializeComponent();
             OnStart();
         }
-
         
         public void OnStart()
         {
@@ -192,6 +194,12 @@ namespace BrickBreaker
                 if (ball.BlockCollision(b))
                 {
                     blocks.Remove(b);
+
+                    // create a power up based on chance
+                    if (random.Next(1, 10) >= 2)
+                    {
+                        // 20%
+                    }
 
                     if (blocks.Count == 0)
                     {

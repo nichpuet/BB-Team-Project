@@ -110,10 +110,11 @@ namespace BrickBreaker
                     {
                         // stop game loop
                         paused = false;
+                        gameTimer.Enabled = true;
                     }
                     else 
                     {
-                        paused = true;
+                        paused = true;                       
                     }
 
                     // Carter change screen
@@ -144,10 +145,6 @@ namespace BrickBreaker
             if (paused)
             {
                 gameTimer.Enabled = false;
-            }
-            else
-            {
-                gameTimer.Enabled = true;
             }
 
             // Move the paddle

@@ -114,7 +114,7 @@ namespace BrickBreaker
                     }
                     else 
                     {
-                        paused = true;                       
+                        paused = true;
                     }
 
                     // Carter change screen
@@ -145,6 +145,10 @@ namespace BrickBreaker
             if (paused)
             {
                 gameTimer.Enabled = false;
+            }
+            else if (!paused)
+            {
+               //pauseScreen ps = new pauseScreen();
             }
 
             // Move the paddle

@@ -58,7 +58,7 @@ namespace BrickBreaker
             int paddleWidth = 80;
             int paddleHeight = 20;
             int paddleX = ((this.Width / 2) - (paddleWidth / 2));
-            int paddleY = (this.Height - paddleHeight) - 60;
+            int paddleY = (this.Height - paddleHeight);
             int paddleSpeed = 8;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
@@ -146,13 +146,13 @@ namespace BrickBreaker
                 b.WallCollision(this);
 
                 // Check for ball hitting bottom of screen
-                if (b.BottomCollision(this))
+                if (b.BottomCollision(this, paddle))
                 {
                     lives--;
 
                     // Moves the ball back to origin
                     b.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
-                    b.y = (this.Height - paddle.height) - 85;
+                    b.y = 30;
 
                     if (lives == 0)
                     {
@@ -183,8 +183,6 @@ namespace BrickBreaker
                     }
                 }
             }
-
-
             //redraw the screen
             Refresh();
         }

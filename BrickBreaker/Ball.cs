@@ -11,7 +11,7 @@ namespace BrickBreaker
         public Color colour;
 
         public static Random rand = new Random();
-
+        
         public Ball(int _x, int _y, int _xSpeed, int _ySpeed, int _ballSize, double _Xangle, double _Yangle)
         {
             x = _x;
@@ -50,11 +50,6 @@ namespace BrickBreaker
             if (ballRec.IntersectsWith(paddleRec))
             {
                 ySpeed *= -1;
-                
-                if(y > p.y)
-                {
-                    y -= p.width;
-                }
 
                 if (pMovingLeft)
                     xSpeed = -Math.Abs(xSpeed);
@@ -80,15 +75,16 @@ namespace BrickBreaker
             // Collision with top wall
             if (y <= 2)
             {
+                y = 0;
                 ySpeed *= -1;
             }
         }
 
-        public bool BottomCollision(UserControl UC)
+        public bool BottomCollision(UserControl UC, Paddle p)
         {
             Boolean didCollide = false;
 
-            if (y >= UC.Height)
+            if (y + size - 2 > p.y)
             {
                 didCollide = true;
             }

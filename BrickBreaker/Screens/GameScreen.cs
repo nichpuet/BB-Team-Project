@@ -45,7 +45,7 @@ namespace BrickBreaker
             OnStart();
         }
 
-
+        List<Ball> ballList = new List<Ball>();
         public void OnStart()
         {
             //set life counter
@@ -62,15 +62,17 @@ namespace BrickBreaker
             int paddleSpeed = 8;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
-            // setup starting ball values
-            int ballX = this.Width / 2 - 10;
-            int ballY = this.Height - paddle.height - 80;
-
             // Creates a new ball
             int xSpeed = 6;
             int ySpeed = 6;
             int ballSize = 20;
-            ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1);
+
+            // setup starting ball values
+            int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
+            int ballY = this.Height - paddle.height - paddle.y;
+
+            ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
+
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -135,46 +137,53 @@ namespace BrickBreaker
             }
 
             // Move ball
-            ball.Move();
-
-            // Check for collision with top and side walls
-            ball.WallCollision(this);
-
-            // Check for ball hitting bottom of screen
-            if (ball.BottomCollision(this))
+            foreach(Ball b in ballList)
             {
-                lives--;
+                // Move ball
+                b.Move();
 
-                // Moves the ball back to origin
-                ball.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
-                ball.y = (this.Height - paddle.height) - 85;
+                // Check for collision with top and side walls
+                b.WallCollision(this);
 
-                if (lives == 0)
+                // Check for ball hitting bottom of screen
+                if (b.BottomCollision(this))
                 {
-                    gameTimer.Enabled = false;
-                    OnEnd();
-                }
-            }
+                    lives--;
 
-            // Check for collision of ball with paddle, (incl. paddle movement)
-            ball.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+                    // Moves the ball back to origin
+                    b.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
+                    b.y = (this.Height - paddle.height) - 85;
 
-            // Check if ball has collided with any blocks
-            foreach (Block b in blocks)
-            {
-                if (ball.BlockCollision(b))
-                {
-                    blocks.Remove(b);
-
-                    if (blocks.Count == 0)
+                    if (lives == 0)
                     {
                         gameTimer.Enabled = false;
                         OnEnd();
                     }
+                }
+                // Check for collision of ball with paddle, (incl. paddle movement)
+                b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+            }
 
-                    break;
+            // Check if ball has collided with any blocks
+            foreach(Ball ba in ballList)
+            {
+                foreach (Block b in blocks)
+                {
+                    if (ba.BlockCollision(b))
+                    {
+                        blocks.Remove(b);
+
+                        if (blocks.Count == 0)
+                        {
+                            gameTimer.Enabled = false;
+                            OnEnd();
+                        }
+
+                        break;
+                    }
                 }
             }
+
 
             //redraw the screen
             Refresh();
@@ -205,7 +214,10 @@ namespace BrickBreaker
             }
 
             // Draws ball
-            e.Graphics.FillRectangle(ballBrush, Convert.ToSingle(ball.x), Convert.ToInt32(ball.y), ball.size, ball.size);
+            foreach(Ball b in ballList)
+            {
+                e.Graphics.FillRectangle(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
+            }
         }
     }
 }

@@ -32,7 +32,7 @@ namespace BrickBreaker
         public bool BlockCollision(Block b)
         {
             Rectangle blockRec = new Rectangle(b.x, b.y, b.width, b.height);
-            Rectangle ballRec = new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), size, size);
+            Rectangle ballRec = new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y) - 2, size, size);
 
             if (ballRec.IntersectsWith(blockRec))
             {
@@ -45,7 +45,7 @@ namespace BrickBreaker
         public void PaddleCollision(Paddle p, bool pMovingLeft, bool pMovingRight)
         {
             Rectangle ballRec = new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), size, size);
-            Rectangle paddleRec = new Rectangle(p.x, p.y, p.width, p.height);
+            Rectangle paddleRec = new Rectangle(p.x, p.y - 2, p.width, p.height);
 
             if (ballRec.IntersectsWith(paddleRec))
             {
@@ -66,11 +66,13 @@ namespace BrickBreaker
             // Collision with left wall
             if (x <= 0)
             {
+                x = 2;
                 xSpeed *= -1;
             }
             // Collision with right wall
             if (x >= (UC.Width - size))
             {
+                x = UC.Width - size - 2;
                 xSpeed *= -1;
             }
             // Collision with top wall

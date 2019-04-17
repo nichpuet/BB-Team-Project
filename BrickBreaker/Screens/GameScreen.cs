@@ -20,14 +20,14 @@ namespace BrickBreaker
         #region global values
 
         //player1 button control keys - DO NOT CHANGE
-        Boolean leftArrowDown, rightArrowDown;
+        Boolean leftArrowDown, rightArrowDown, ADown, DDown;
 
         // Game values
-        int lives;
+        int lives, p2lives;
 
         // Paddle and Ball objects
-        Paddle paddle;
-        Ball ball;
+        Paddle paddle, newPaddle;
+        Ball ball, ball2;
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -48,7 +48,7 @@ namespace BrickBreaker
             OnStart();
         }
 
-        
+        List<Ball> ballList = new List<Ball>();
         public void OnStart()
         {
             //set life counter
@@ -61,19 +61,21 @@ namespace BrickBreaker
             int paddleWidth = 80;
             int paddleHeight = 20;
             int paddleX = ((this.Width / 2) - (paddleWidth / 2));
-            int paddleY = (this.Height - paddleHeight) - 60;
+            int paddleY = (this.Height - paddleHeight);
             int paddleSpeed = 8;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
-
-            // setup starting ball values
-            int ballX = this.Width / 2 - 10;
-            int ballY = this.Height - paddle.height - 80;
 
             // Creates a new ball
             int xSpeed = 6;
             int ySpeed = 6;
             int ballSize = 20;
-            ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize);
+
+            // setup starting ball values
+            int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
+            int ballY = this.Height - paddle.height - paddle.y;
+
+            ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
+
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -98,6 +100,12 @@ namespace BrickBreaker
             //player 1 button presses
             switch (e.KeyCode)
             {
+                case Keys.A:
+                    ADown = true;
+                    break;
+                case Keys.D:
+                    DDown = true;
+                    break;
                 case Keys.Left:
                     leftArrowDown = true;
                     break;
@@ -129,6 +137,12 @@ namespace BrickBreaker
             //player 1 button releases
             switch (e.KeyCode)
             {
+                case Keys.A:
+                    ADown = false;
+                    break;
+                case Keys.D:
+                    DDown = false;
+                    break;
                 case Keys.Left:
                     leftArrowDown = false;
                     break;
@@ -162,47 +176,52 @@ namespace BrickBreaker
             }
 
             // Move ball
-            ball.Move();
-
-            // Check for collision with top and side walls
-            ball.WallCollision(this);
-
-            // Check for ball hitting bottom of screen
-            if (ball.BottomCollision(this))
+            foreach(Ball b in ballList)
             {
-                lives--;
+                // Move ball
+                b.Move();
 
-                // Moves the ball back to origin
-                ball.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
-                ball.y = (this.Height - paddle.height) - 85;
+                // Check for collision with top and side walls
+                b.WallCollision(this);
 
-                if (lives == 0)
+                // Check for ball hitting bottom of screen
+                if (b.BottomCollision(this, paddle))
                 {
-                    gameTimer.Enabled = false;
-                    OnEnd();
-                }
-            }
+                    lives--;
 
-            // Check for collision of ball with paddle, (incl. paddle movement)
-            ball.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+                    // Moves the ball back to origin
+                    b.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
+                    b.y = 30;
 
-            // Check if ball has collided with any blocks
-            foreach (Block b in blocks)
-            {
-                if (ball.BlockCollision(b))
-                {
-                    blocks.Remove(b);
-
-                    if (blocks.Count == 0)
+                    if (lives == 0)
                     {
                         gameTimer.Enabled = false;
                         OnEnd();
                     }
-
-                    break;
                 }
+                // Check for collision of ball with paddle, (incl. paddle movement)
+                b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
             }
 
+            // Check if ball has collided with any blocks
+            foreach(Ball ba in ballList)
+            {
+                foreach (Block b in blocks)
+                {
+                    if (ba.BlockCollision(b))
+                    {
+                        blocks.Remove(b);
+
+                        if (blocks.Count == 0)
+                        {
+                            gameTimer.Enabled = false;
+                            OnEnd();
+                        }
+
+                        break;
+                    }
+                }
+            }
             //redraw the screen
             Refresh();
         }
@@ -224,6 +243,8 @@ namespace BrickBreaker
             // Draws paddle
             paddleBrush.Color = paddle.colour;
             e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
+            paddleBrush.Color = newPaddle.colour;
+            e.Graphics.FillRectangle(paddleBrush, newPaddle.x, newPaddle.y, newPaddle.width, newPaddle.height);
 
             // Draws blocks
             foreach (Block b in blocks)
@@ -232,7 +253,61 @@ namespace BrickBreaker
             }
 
             // Draws ball
+            foreach(Ball b in ballList)
+            {
+                e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
+            }
             e.Graphics.FillRectangle(ballBrush, ball.x, ball.y, ball.size, ball.size);
+            e.Graphics.FillRectangle(ballBrush, ball2.x, ball2.y, ball2.size, ball2.size);
+        }
+
+        public void NickMethod()
+        {
+            //set life counter
+            lives = p2lives = 3;
+
+            //set all button presses to false.
+            leftArrowDown = rightArrowDown = ADown = DDown = false;
+
+            // setup starting paddle values and create paddle object
+            int paddleWidth = 80;
+            int paddleHeight = 20;
+            int paddleX = ((this.Width / 2) - (paddleWidth / 2)) - ((this.Width / 2) / 2);
+            int newPaddleX = ((this.Width / 2) - (paddleWidth / 2)) + ((this.Width / 2) / 2);
+            int paddleY = (this.Height - paddleHeight) - 60;
+            int paddleSpeed = 8;
+            paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.Firebrick);
+            newPaddle = new Paddle(newPaddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.RoyalBlue);
+
+            // setup starting ball values
+            int ballX = (this.Width / 2 - 10) - ((this.Width / 2) / 2);
+            int ballX2 = (this.Width / 2 - 10) + ((this.Width / 2) / 2);
+            int ballY = this.Height - paddle.height - 80;
+
+            // Creates a new ball
+            int xSpeed = 6;
+            int ySpeed = 6;
+            int ballSize = 20;
+            ball2 = new Ball(ballX2, ballY, xSpeed, ySpeed, ballSize);
+            ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize);
+
+            #region Creates blocks for generic level. Need to replace with code that loads levels.
+
+            blocks.Clear();
+            int x = 10;
+
+            while (blocks.Count < 12)
+            {
+                x += 57;
+                Block b1 = new Block(x, 10, 1, Color.White);
+                blocks.Add(b1);
+            }
+
+            #endregion
+
+            // start the game engine loop
+            gameTimer.Enabled = true;
+
         }
     }
 }

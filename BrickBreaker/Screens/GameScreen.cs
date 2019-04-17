@@ -39,6 +39,10 @@ namespace BrickBreaker
 
         #endregion
 
+            // Creates a new ball
+            int xSpeed = 6;
+            int ySpeed = 6;
+            int ballSize = 20;
         public GameScreen()
         {
             InitializeComponent();
@@ -62,16 +66,12 @@ namespace BrickBreaker
             int paddleSpeed = 8;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
-            // Creates a new ball
-            int xSpeed = 6;
-            int ySpeed = 6;
-            int ballSize = 20;
-
             // setup starting ball values
             int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
             int ballY = this.Height - paddle.height - paddle.y;
 
             ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
+
 
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
@@ -218,7 +218,6 @@ namespace BrickBreaker
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
-
         }
 
         public void NickMethod()
@@ -241,9 +240,13 @@ namespace BrickBreaker
 
             // setup starting ball values
             int ballX = (this.Width / 2 - 10) - ((this.Width / 2) / 2);
-            int ballX2 = (this.Width / 2 - 10) + ((this.Width / 2) / 2);
             int ballY = this.Height - paddle.height - 80;
 
+            /// BallList[0] is P1
+            /// BallList[1] is P2
+            ballList.Clear();
+            ballList.Add(ball = new Ball(ballX, ballY, ySpeed, xSpeed, ballSize, 1, 1));
+            ballList.Add(ball = new Ball(ballX, this.Height - ballY, ySpeed, xSpeed, ballSize, 1, 1));
             // Creates a new ball
             int xSpeed = 6;
             int ySpeed = 6;

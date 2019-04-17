@@ -20,14 +20,14 @@ namespace BrickBreaker
         #region global values
 
         //player1 button control keys - DO NOT CHANGE
-        Boolean leftArrowDown, rightArrowDown, ADown, DDown;
+        Boolean leftArrowDown, rightArrowDown;
 
         // Game values
-        int lives, p2lives;
+        int lives;
 
         // Paddle and Ball objects
-        Paddle paddle, newPaddle;
-        Ball ball, ball2;
+        Paddle paddle;
+        Ball ball;
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -37,9 +37,6 @@ namespace BrickBreaker
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
-        // pause menu variables
-        bool paused = false; // false - show game screen true - show pause menu
-        //asdf
         #endregion
 
         public GameScreen()
@@ -100,32 +97,11 @@ namespace BrickBreaker
             //player 1 button presses
             switch (e.KeyCode)
             {
-                case Keys.A:
-                    ADown = true;
-                    break;
-                case Keys.D:
-                    DDown = true;
-                    break;
                 case Keys.Left:
                     leftArrowDown = true;
                     break;
                 case Keys.Right:
                     rightArrowDown = true;
-                    break;
-                case Keys.Escape:
-                    // check if paused
-                    if (paused)
-                    {
-                        // stop game loop
-                        paused = false;
-                        gameTimer.Enabled = true;
-                    }
-                    else 
-                    {
-                        paused = true;
-                    }
-
-                    // Carter change screen
                     break;
                 default:
                     break;
@@ -137,12 +113,6 @@ namespace BrickBreaker
             //player 1 button releases
             switch (e.KeyCode)
             {
-                case Keys.A:
-                    ADown = false;
-                    break;
-                case Keys.D:
-                    DDown = false;
-                    break;
                 case Keys.Left:
                     leftArrowDown = false;
                     break;
@@ -156,15 +126,6 @@ namespace BrickBreaker
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-            if (paused)
-            {
-                gameTimer.Enabled = false;
-            }
-            else if (!paused)
-            {
-               //pauseScreen ps = new pauseScreen();
-            }
-
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {
@@ -257,6 +218,7 @@ namespace BrickBreaker
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
+
         }
 
         public void NickMethod()
@@ -303,7 +265,6 @@ namespace BrickBreaker
 
             // start the game engine loop
             gameTimer.Enabled = true;
-
         }
     }
 }

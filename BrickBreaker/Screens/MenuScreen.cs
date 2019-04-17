@@ -23,11 +23,21 @@ namespace BrickBreaker
             }
         }
 
+        /// <summary>
+        /// The event code for when the exist button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
+        /// <summary>
+        /// The event code for when the play button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void playButton_Click(object sender, EventArgs e)
         {
             // Goes to the game screen
@@ -40,12 +50,22 @@ namespace BrickBreaker
             gs.Location = new Point((form.Width - gs.Width) / 2, (form.Height - gs.Height) / 2);
         }
 
+        /// <summary>
+        /// The event code for when the Menu Screen finishes initializing loads
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuScreen_Load(object sender, EventArgs e)
         {
             playButton.Location = new Point((Width / 2) - (playButton.Width / 2), (Height/3));
             exitButton.Location = new Point((Width / 2) - (playButton.Width / 2), (Height / 3 * 2));
         }
 
+        /// <summary>
+        /// The event code for when the Main Menu detects a key press
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuScreen_KeyDown(object sender, KeyEventArgs e)
         {
             switch(e.KeyCode)
@@ -56,14 +76,18 @@ namespace BrickBreaker
                 case Keys.Down:
                     newButton(1).Focus();
                     break;
-                    //Comment
-                    //Another Comment
             }
         }
 
+        /// <summary>
+        /// Gets the newly selected button based on where the last one was
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
         private Button newButton(int where)
         { 
             index += where;
+            //If the button is out of range set the button within range
             if (index < 0)
                 index = 0;
             else if (index >= buttons.Count)

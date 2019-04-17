@@ -17,7 +17,7 @@ namespace BrickBreaker
         [STAThread]
         static void Main()
         {
-            //If the file system does not exist, create it
+            //If the game's file system does not exist, create it
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
             Application.EnableVisualStyles();

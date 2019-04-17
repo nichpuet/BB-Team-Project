@@ -23,11 +23,12 @@ namespace BrickBreaker
         Boolean leftArrowDown, rightArrowDown;
 
         // Game values
-        int lives;
+        public static int lives;
+        public static int score;
 
         // Paddle and Ball objects
-        Paddle paddle;
-        Ball ball;
+        public static Paddle paddle;
+        public static Ball ball;
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -37,6 +38,15 @@ namespace BrickBreaker
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
+        // Text variables
+        SolidBrush sb = new SolidBrush(Color.White);
+        Font textFont;
+
+        // pause menu variables
+        bool paused = false; // false - show game screen true - show pause menu
+
+        // random for powerups
+        Random random = new Random();
         #endregion
 
         public GameScreen()
@@ -44,12 +54,14 @@ namespace BrickBreaker
             InitializeComponent();
             OnStart();
         }
-
-
+        
         public void OnStart()
         {
             //set life counter
             lives = 3;
+
+            // create text graphics
+            textFont = new Font("Verdana", 14, FontStyle.Regular);
 
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
@@ -101,6 +113,21 @@ namespace BrickBreaker
                 case Keys.Right:
                     rightArrowDown = true;
                     break;
+                case Keys.Escape:
+                    // check if paused
+                    if (paused)
+                    {
+                        // stop game loop
+                        paused = false;
+                        gameTimer.Enabled = true;
+                    }
+                    else 
+                    {
+                        paused = true;
+                    }
+
+                    // Carter change screen
+                    break;
                 default:
                     break;
             }
@@ -124,6 +151,15 @@ namespace BrickBreaker
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+            if (paused)
+            {
+                gameTimer.Enabled = false;
+            }
+            else if (!paused)
+            {
+               //pauseScreen ps = new pauseScreen();
+            }
+
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {
@@ -166,6 +202,14 @@ namespace BrickBreaker
                 {
                     blocks.Remove(b);
 
+                    score += 100;
+
+                    // create a power up based on chance
+                    if (random.Next(1, 10) >= 2)
+                    {
+                        // 20%
+
+                    }         
                     if (blocks.Count == 0)
                     {
                         gameTimer.Enabled = false;
@@ -206,6 +250,9 @@ namespace BrickBreaker
 
             // Draws ball
             e.Graphics.FillRectangle(ballBrush, ball.x, ball.y, ball.size, ball.size);
+
+            // Draw score
+            e.Graphics.DrawString("Score: " + score, textFont, sb, 0, 25);
         }
     }
 }

@@ -23,12 +23,12 @@ namespace BrickBreaker
         Boolean leftArrowDown, rightArrowDown;
 
         // Game values
-        int lives;
-        int score;
+        public static int lives;
+        public static int score;
 
         // Paddle and Ball objects
         public static Paddle paddle;
-        Ball ball;
+        public static Ball ball;
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -38,11 +38,15 @@ namespace BrickBreaker
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
+        // Text variables
+        SolidBrush sb = new SolidBrush(Color.White);
+        Font textFont;
+
         // pause menu variables
         bool paused = false; // false - show game screen true - show pause menu
 
         // random for powerups
-        Random random;
+        Random random = new Random();
         #endregion
 
         public GameScreen()
@@ -55,6 +59,9 @@ namespace BrickBreaker
         {
             //set life counter
             lives = 3;
+
+            // create text graphics
+            textFont = new Font("Verdana", 14, FontStyle.Regular);
 
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
@@ -195,12 +202,14 @@ namespace BrickBreaker
                 {
                     blocks.Remove(b);
 
+                    score += 100;
+
                     // create a power up based on chance
                     if (random.Next(1, 10) >= 2)
                     {
                         // 20%
-                    }
 
+                    }         
                     if (blocks.Count == 0)
                     {
                         gameTimer.Enabled = false;
@@ -241,6 +250,9 @@ namespace BrickBreaker
 
             // Draws ball
             e.Graphics.FillRectangle(ballBrush, ball.x, ball.y, ball.size, ball.size);
+
+            // Draw score
+            e.Graphics.DrawString("Score: " + score, textFont, sb, 0, 25);
         }
     }
 }

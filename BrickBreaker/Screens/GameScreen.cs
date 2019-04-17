@@ -214,7 +214,7 @@ namespace BrickBreaker
             // Draws ball
             foreach(Ball b in ballList)
             {
-                e.Graphics.FillRectangle(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
+                e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
         }
     }

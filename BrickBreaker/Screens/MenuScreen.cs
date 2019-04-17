@@ -34,5 +34,10 @@ namespace BrickBreaker
             gs.Location = new Point((form.Width - gs.Width) / 2, (form.Height - gs.Height) / 2);
         }
 
+        private void MenuScreen_Load(object sender, EventArgs e)
+        {
+            playButton.Location = new Point((Width / 2) - (playButton.Width / 2), (Height/3));
+            exitButton.Location = new Point((Width / 2) - (playButton.Width / 2), (Height / 3 * 2));
+        }
     }
 }

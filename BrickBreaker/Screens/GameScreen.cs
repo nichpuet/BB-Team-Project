@@ -257,7 +257,7 @@ namespace BrickBreaker
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
-            e.Graphics.FillRectangle(ballBrush, ball.x, ball.y, ball.size, ball.size);
+            e.Graphics.FillRectangle(ballBrush, ball. ball.y, ball.size, ball.size);
             e.Graphics.FillRectangle(ballBrush, ball2.x, ball2.y, ball2.size, ball2.size);
         }
 

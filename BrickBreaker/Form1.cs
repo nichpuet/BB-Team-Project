@@ -7,6 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+
+//This is a stud
+
+//Carter Leitch Branch
+
+// Malcolm Branch
 
 namespace BrickBreaker
 {
@@ -15,6 +22,7 @@ namespace BrickBreaker
         public Form1()
         {
             InitializeComponent();
+            Directory.SetCurrentDirectory(Program.filePath);//Set the program to work in the created directory
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -22,7 +30,7 @@ namespace BrickBreaker
             // Start the program centred on the Menu Screen
             MenuScreen ms = new MenuScreen();
             this.Controls.Add(ms);
-
+            //yuck
             ms.Location = new Point((this.Width - ms.Width) / 2, (this.Height - ms.Height) / 2);
         }
     }

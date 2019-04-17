@@ -228,6 +228,8 @@ namespace BrickBreaker
         {
             // Goes to the game over screen
             Form form = this.FindForm();
+
+            // TODO: Add game over screen
             MenuScreen ps = new MenuScreen();
             
             ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
@@ -251,9 +253,12 @@ namespace BrickBreaker
             // Draws ball
             e.Graphics.FillRectangle(ballBrush, ball.x, ball.y, ball.size, ball.size);
 
+            // TODO: Fix design for score and lives
             // Draw score
-            // finished
             e.Graphics.DrawString("Score: " + score, textFont, sb, 0, 25);
+
+            // Draw lives
+            e.Graphics.DrawString("Lives: " + lives, textFont, sb, 0, 75);
         }
     }
 }

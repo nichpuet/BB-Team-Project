@@ -204,6 +204,8 @@ namespace BrickBreaker
             // Draws paddle
             paddleBrush.Color = paddle.colour;
             e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
+            //paddleBrush.Color = newPaddle.colour;
+            //e.Graphics.FillRectangle(paddleBrush, newPaddle.x, newPaddle.y, newPaddle.width, newPaddle.height);
 
             // Draws blocks
             foreach (Block b in blocks)
@@ -216,6 +218,53 @@ namespace BrickBreaker
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
+
+        }
+
+        public void NickMethod()
+        {
+            //set life counter
+            lives = p2lives = 3;
+
+            //set all button presses to false.
+            leftArrowDown = rightArrowDown = ADown = DDown = false;
+
+            // setup starting paddle values and create paddle object
+            int paddleWidth = 80;
+            int paddleHeight = 20;
+            int paddleX = ((this.Width / 2) - (paddleWidth / 2)) - ((this.Width / 2) / 2);
+            int newPaddleX = ((this.Width / 2) - (paddleWidth / 2)) + ((this.Width / 2) / 2);
+            int paddleY = (this.Height - paddleHeight) - 60;
+            int paddleSpeed = 8;
+            paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.Firebrick);
+            newPaddle = new Paddle(newPaddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.RoyalBlue);
+
+            // setup starting ball values
+            int ballX = (this.Width / 2 - 10) - ((this.Width / 2) / 2);
+            int ballX2 = (this.Width / 2 - 10) + ((this.Width / 2) / 2);
+            int ballY = this.Height - paddle.height - 80;
+
+            // Creates a new ball
+            int xSpeed = 6;
+            int ySpeed = 6;
+            int ballSize = 20;
+
+            #region Creates blocks for generic level. Need to replace with code that loads levels.
+
+            blocks.Clear();
+            int x = 10;
+
+            while (blocks.Count < 12)
+            {
+                x += 57;
+                Block b1 = new Block(x, 10, 1, Color.White);
+                blocks.Add(b1);
+            }
+
+            #endregion
+
+            // start the game engine loop
+            gameTimer.Enabled = true;
         }
     }
 }

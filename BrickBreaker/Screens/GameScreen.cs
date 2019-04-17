@@ -252,6 +252,7 @@ namespace BrickBreaker
             e.Graphics.FillRectangle(ballBrush, ball.x, ball.y, ball.size, ball.size);
 
             // Draw score
+            // finished
             e.Graphics.DrawString("Score: " + score, textFont, sb, 0, 25);
         }
     }

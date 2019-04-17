@@ -243,8 +243,8 @@ namespace BrickBreaker
             // Draws paddle
             paddleBrush.Color = paddle.colour;
             e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
-            paddleBrush.Color = newPaddle.colour;
-            e.Graphics.FillRectangle(paddleBrush, newPaddle.x, newPaddle.y, newPaddle.width, newPaddle.height);
+            //paddleBrush.Color = newPaddle.colour;
+            //e.Graphics.FillRectangle(paddleBrush, newPaddle.x, newPaddle.y, newPaddle.width, newPaddle.height);
 
             // Draws blocks
             foreach (Block b in blocks)
@@ -257,8 +257,6 @@ namespace BrickBreaker
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
-            e.Graphics.FillRectangle(ballBrush, ball. ball.y, ball.size, ball.size);
-            e.Graphics.FillRectangle(ballBrush, ball2.x, ball2.y, ball2.size, ball2.size);
         }
 
         public void NickMethod()
@@ -288,8 +286,6 @@ namespace BrickBreaker
             int xSpeed = 6;
             int ySpeed = 6;
             int ballSize = 20;
-            ball2 = new Ball(ballX2, ballY, xSpeed, ySpeed, ballSize);
-            ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize);
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 

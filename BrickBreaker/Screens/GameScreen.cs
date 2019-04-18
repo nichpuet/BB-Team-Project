@@ -43,11 +43,19 @@ namespace BrickBreaker
             int xSpeed = 6;
             int ySpeed = 6;
             int ballSize = 20;
+
         public GameScreen()
         {
             InitializeComponent();
             OnStart();
         }
+
+        // angle change buttons
+        int angleposition = 1;
+        bool start = false;
+
+        bool Akeydown = false;
+        bool Dkeydown = false;
 
         List<Ball> ballList = new List<Ball>();
         public void OnStart()
@@ -68,9 +76,9 @@ namespace BrickBreaker
 
             // setup starting ball values
             int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
-            int ballY = this.Height - paddle.height - paddle.y;
-
-            ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
+            int ballY =  paddle.y - 20;
+            ballList.Clear();
+            ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
 
 
 
@@ -103,8 +111,28 @@ namespace BrickBreaker
                 case Keys.Right:
                     rightArrowDown = true;
                     break;
+                case Keys.Space:
+                    start = true;
+                    break;
                 default:
                     break;
+            }
+
+
+            if (!start)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.A:
+                            ballList[0].Xangle = -0.1;
+                            ballList[0].Yangle = 1.9;
+                        
+                        break;
+                    case Keys.D:
+                            ballList[0].Xangle = -1;
+                            ballList[0].Yangle = 1.9;
+                        break;
+                }
             }
         }
 
@@ -119,9 +147,12 @@ namespace BrickBreaker
                 case Keys.Right:
                     rightArrowDown = false;
                     break;
-                default:
-                    break;
             }
+
+        }
+
+        private void anglechange()
+        {
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
@@ -136,32 +167,43 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
-            // Move ball
-            foreach(Ball b in ballList)
+            if (!start)
+            {
+                ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
+                ballList[0].y = paddle.y - 20;
+            }
+
+            if (start)
             {
                 // Move ball
-                b.Move();
-
-                // Check for collision with top and side walls
-                b.WallCollision(this);
-
-                // Check for ball hitting bottom of screen
-                if (b.BottomCollision(this, paddle))
+                foreach(Ball b in ballList)
                 {
-                    lives--;
+                    // Move ball
+                    b.Move();
 
-                    // Moves the ball back to origin
-                    b.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
-                    b.y = 30;
+                    // Check for collision with top and side walls
+                    b.WallCollision(this);
 
-                    if (lives == 0)
+                    // Check for ball hitting bottom of screen
+                    if (b.BottomCollision(this, paddle))
                     {
-                        gameTimer.Enabled = false;
-                        OnEnd();
+                        start = false;
+                        int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
+                        int ballY = paddle.y - 20;
+                        //ballList[0] = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1);
+                        lives--;
+
+
+                        if (lives == 0)
+                        {
+                            gameTimer.Enabled = false;
+                            OnEnd();
+                        }
                     }
+                    // Check for collision of ball with paddle, (incl. paddle movement)
+                    b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
                 }
-                // Check for collision of ball with paddle, (incl. paddle movement)
-                b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+
             }
 
             // Check if ball has collided with any blocks

@@ -28,7 +28,7 @@ namespace BrickBreaker
 
         // Paddle and Ball objects
         public static Paddle paddle;
-        public static Ball ball;
+        public static List<Ball> balls = new List<Ball>();
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -82,7 +82,9 @@ namespace BrickBreaker
             int xSpeed = 6;
             int ySpeed = 6;
             int ballSize = 20;
-            ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize);
+            Ball b = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize);
+
+            balls.Add(b);
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -171,19 +173,19 @@ namespace BrickBreaker
             }
 
             // Move ball
-            ball.Move();
+            balls[0].Move();
 
             // Check for collision with top and side walls
-            ball.WallCollision(this);
+            balls[0].WallCollision(this);
 
             // Check for ball hitting bottom of screen
-            if (ball.BottomCollision(this))
+            if (balls[0].BottomCollision(this))
             {
                 lives--;
 
                 // Moves the ball back to origin
-                ball.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
-                ball.y = (this.Height - paddle.height) - 85;
+                balls[0].x = ((paddle.x - (balls[0].size / 2)) + (paddle.width / 2));
+                balls[0].y = (this.Height - paddle.height) - 85;
 
                 if (lives == 0)
                 {
@@ -193,12 +195,12 @@ namespace BrickBreaker
             }
 
             // Check for collision of ball with paddle, (incl. paddle movement)
-            ball.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+            balls[0].PaddleCollision(paddle, leftArrowDown, rightArrowDown);
 
             // Check if ball has collided with any blocks
             foreach (Block b in blocks)
             {
-                if (ball.BlockCollision(b))
+                if (balls[0].BlockCollision(b))
                 {
                     blocks.Remove(b);
 
@@ -251,7 +253,7 @@ namespace BrickBreaker
             }
 
             // Draws ball
-            e.Graphics.FillRectangle(ballBrush, ball.x, ball.y, ball.size, ball.size);
+            e.Graphics.FillRectangle(ballBrush, balls[0].x, balls[0].y, balls[0].size, balls[0].size);
 
             // TODO: Fix design for score and lives
             // Draw score

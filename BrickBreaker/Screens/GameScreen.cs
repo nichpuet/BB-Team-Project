@@ -95,6 +95,24 @@ namespace BrickBreaker
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
+            if(e.KeyCode == Keys.Escape && gameTimer.Enabled)
+            {
+                gameTimer.Enabled = false;
+                rightArrowDown = leftArrowDown = false;
+
+                DialogResult result = PauseScreen.Show();
+
+                if(result == DialogResult.Cancel)
+                {
+                    gameTimer.Enabled = true;
+                }
+                else if(result == DialogResult.Abort)
+                {
+                    MenuScreen.ChangeScreen(this, "MenuScreen");
+                }
+
+            }
+
             //player 1 button presses
             switch (e.KeyCode)
             {
@@ -105,19 +123,6 @@ namespace BrickBreaker
                     rightArrowDown = true;
                     break;
                 case Keys.Escape:
-                    // check if paused
-                    if (paused)
-                    {
-                        // stop game loop
-                        paused = false;
-                        gameTimer.Enabled = true;
-                    }
-                    else 
-                    {
-                        paused = true;
-                    }
-
-                    // Carter change screen
                     break;
                 default:
                     break;
@@ -135,22 +140,15 @@ namespace BrickBreaker
                 case Keys.Right:
                     rightArrowDown = false;
                     break;
+                case Keys.Escape:
+                    break;
                 default:
                     break;
             }
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
-        {
-            if (paused)
-            {
-                gameTimer.Enabled = false;
-            }
-            else if (!paused)
-            {
-               //pauseScreen ps = new pauseScreen();
-            }
-
+        { 
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {

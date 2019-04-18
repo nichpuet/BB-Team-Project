@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace BrickBreaker
 {
@@ -17,10 +18,31 @@ namespace BrickBreaker
         public MenuScreen()
         {
             InitializeComponent();
+            //Foreach button in the screen's controls add it to a list and add code to the button Events when it gains and loses focus
             foreach(var button in Controls.OfType<Button>())
             {
                 buttons.Add(button);
+                button.LostFocus += lostFocus;
+                button.GotFocus += gainFocus;
             }
+        }
+
+        /// <summary>
+        /// Only for buttons made by Thayen
+        /// </summary>
+        private void gainFocus(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            button.ForeColor = Color.Red;
+        }
+
+        /// <summary>
+        /// Only for buttons made by Thayen
+        /// </summary>
+        private void lostFocus(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            button.ForeColor = Color.Black;
         }
 
         /// <summary>
@@ -56,9 +78,10 @@ namespace BrickBreaker
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void MenuScreen_Load(object sender, EventArgs e)
-        {
-            playButton.Location = new Point((Width / 2) - (playButton.Width / 2), (Height/3));
-            exitButton.Location = new Point((Width / 2) - (playButton.Width / 2), (Height / 3 * 2));
+        {   
+            //For every button in the screen set the location to the middle X of the screen and the Height divided by the number of buttons
+            for(int i = 0; i < buttons.Count; i++)
+                buttons[i].Location = new Point((Width / 2) - (buttons[i].Width / 2), Height / (buttons.Count - i) - buttons[i].Height);
         }
 
         /// <summary>
@@ -68,6 +91,7 @@ namespace BrickBreaker
         /// <param name="e"></param>
         private void MenuScreen_KeyDown(object sender, KeyEventArgs e)
         {
+            //Thayen
             switch(e.KeyCode)
             {
                 case Keys.Up:
@@ -80,13 +104,14 @@ namespace BrickBreaker
         }
 
         /// <summary>
-        /// Gets the newly selected button based on where the last one was
+        /// Gets the newly selected button based on where the last one was. Pass a negative to go back in the buttons
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
-        private Button newButton(int where)
+        private Button newButton(int changeInIndex)
         { 
-            index += where;
+            //Thayen
+            index += changeInIndex;
             //If the button is out of range set the button within range
             if (index < 0)
                 index = 0;

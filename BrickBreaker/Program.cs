@@ -10,7 +10,7 @@ namespace BrickBreaker
     static class Program
     {
         //Declares a file system path
-        public static string filePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Brick Breaker";
+        public static string filePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Brick Breaker";//Thayen with all Directory code
         /// <summary>
         /// The main entry point for the application.
         /// </summary>

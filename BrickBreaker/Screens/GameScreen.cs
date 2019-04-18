@@ -62,6 +62,14 @@ namespace BrickBreaker
             if (multiplayer)
                 player2Lives = 3;
         }
+        // angle change buttons
+        int angleposition = 1;
+        bool start = false;
+
+        bool Akeydown = false;
+        bool Dkeydown = false;
+
+        List<Ball> ballList = new List<Ball>();
         public void OnStart()
         {
             //set all button presses to false.
@@ -77,9 +85,9 @@ namespace BrickBreaker
 
             // setup starting ball values
             int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
-            int ballY = this.Height - paddle.height - paddle.y;
-
-            .Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
+            int ballY =  paddle.y - 20;
+            ballList.Clear();
+            ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -101,6 +109,24 @@ namespace BrickBreaker
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
+            if(e.KeyCode == Keys.Escape && gameTimer.Enabled)
+            {
+                gameTimer.Enabled = false;
+                rightArrowDown = leftArrowDown = false;
+
+                DialogResult result = PauseScreen.Show();
+
+                if(result == DialogResult.Cancel)
+                {
+                    gameTimer.Enabled = true;
+                }
+                else if(result == DialogResult.Abort)
+                {
+                    MenuScreen.ChangeScreen(this, "MenuScreen");
+                }
+
+            }
+
             //player 1 button presses
             switch (e.KeyCode)
             {
@@ -110,8 +136,29 @@ namespace BrickBreaker
                 case Keys.Right:
                     rightArrowDown = true;
                     break;
+                case Keys.Space:
+                    start = true;
+                case Keys.Escape:
+                    break;
                 default:
                     break;
+            }
+
+
+            if (!start)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.A:
+                            ballList[0].Xangle = -0.1;
+                            ballList[0].Yangle = 1.9;
+                        
+                        break;
+                    case Keys.D:
+                            ballList[0].Xangle = -1;
+                            ballList[0].Yangle = 1.9;
+                        break;
+                }
             }
         }
 
@@ -126,13 +173,20 @@ namespace BrickBreaker
                 case Keys.Right:
                     rightArrowDown = false;
                     break;
+                case Keys.Escape:
+                    break;
                 default:
                     break;
             }
+
+        }
+
+        private void anglechange()
+        {
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
-        {
+        { 
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {
@@ -143,34 +197,53 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
-            foreach(Ball b in `-``)
+            foreach(Ball b in balls)
+            {
+                ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
+                ballList[0].y = paddle.y - 20;
+            }
+
+            if (start)
             {
                 // Move ball
-                b.Move();
-
-                // Check for collision with top and side walls
-                b.WallCollision(this);
-
-                // Check for ball hitting bottom of screen
-                if (b.BottomCollision(this, paddle))
+                foreach(Ball b in ballList)
                 {
+                    // Move ball
+                    b.Move();
+
+                    // Check for collision with top and side walls
+                    b.WallCollision(this);
+
+                    // Check for ball hitting bottom of screen
+                    if (b.BottomCollision(this, paddle))
                     player1Lives--;
 
                     // Moves the ball back to origin
-                    b.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
+                    b.x = ((paddle.x - (b.size / 2)) + (paddle.width / 2));
                     b.y = 30;
 
                     if (player1Lives == 0)
                     {
-                        gameTimer.Enabled = false;
-                        OnEnd();
+                        start = false;
+                        int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
+                        int ballY = paddle.y - 20;
+                        //ballList[0] = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1);
+                        lives--;
+
+
+                        if (player2Lives == 0)
+                        {
+                            gameTimer.Enabled = false;
+                            OnEnd();
+                        }
                     }
+                    // Check for collision of ball with paddle, (incl. paddle movement)
+                    b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
                 }
-                // Check for collision of ball with paddle, (incl. paddle movement)
-                b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+
             }
             // Check if ball has collided with any blocks
-            foreach(Ball ba in )
+            foreach(Ball ba in balls)
             {
                 foreach (Block b in blocks)
                 {
@@ -221,7 +294,7 @@ namespace BrickBreaker
             }
 
             // Draws ball
-            foreach(Ball b in )
+            foreach(Ball b in balls)
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
@@ -229,9 +302,14 @@ namespace BrickBreaker
 
         public void NickMethod()
         {
-
             //set all button presses to false.
-            leftArrowDown = rightArrowDown = ADown = DDown = false;
+            leftArrowDown = rightArrowDown = false;
+            bool ADown = false;
+            bool DDown = false;
+
+            int xSpeed = 6;
+            int ySpeed = 6;
+            int ballSize = 20;
 
             // setup starting paddle values and create paddle object
             int paddleWidth = 80;
@@ -240,19 +318,16 @@ namespace BrickBreaker
             int newPaddleX = ((this.Width / 2) - (paddleWidth / 2)) + ((this.Width / 2) / 2);
             int paddleY = (this.Height - paddleHeight) - 60;
             int paddleSpeed = 8;
-            paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.Firebrick);
-            //newPaddle = new Paddle(newPaddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.RoyalBlue);
+            Paddle paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.Firebrick);
+            Paddle newPaddle = new Paddle(newPaddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.RoyalBlue);
 
             // setup starting ball values
             int ballX = (this.Width / 2 - 10) - ((this.Width / 2) / 2);
             int ballY = this.Height - paddle.height - 80;
 
-            /// [0] is P1
-            /// [1] is P2
-            .Clear();
-            .Add(ball = new Ball(ballX, ballY, 6, 6, 20, 1, 1));
-            .Add(ball = new Ball(ballX, this.Height - ballY, 6, 6, 20, 1, 1));
-            // Creates a new ball
+            ballList.Clear();
+            ballList.Add(ball = new Ball(ballX, ballY, ySpeed, xSpeed, ballSize, 1, 1));
+            ballList.Add(ball = new Ball(ballX, this.Height - ballY, ySpeed, xSpeed, ballSize, 1, 1));
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 

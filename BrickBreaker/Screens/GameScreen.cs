@@ -223,10 +223,17 @@ namespace BrickBreaker
         public void NickMethod()
         {
             //set life counter
-            lives = p2lives = 3;
+            int lives = 3;
+            int p2lives = 3;
 
             //set all button presses to false.
-            leftArrowDown = rightArrowDown = ADown = DDown = false;
+            leftArrowDown = rightArrowDown = false;
+            bool ADown = false;
+            bool DDown = false;
+
+            int xSpeed = 6;
+            int ySpeed = 6;
+            int ballSize = 20;
 
             // setup starting paddle values and create paddle object
             int paddleWidth = 80;
@@ -235,8 +242,8 @@ namespace BrickBreaker
             int newPaddleX = ((this.Width / 2) - (paddleWidth / 2)) + ((this.Width / 2) / 2);
             int paddleY = (this.Height - paddleHeight) - 60;
             int paddleSpeed = 8;
-            paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.Firebrick);
-            newPaddle = new Paddle(newPaddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.RoyalBlue);
+            Paddle paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.Firebrick);
+            Paddle newPaddle = new Paddle(newPaddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.RoyalBlue);
 
             // setup starting ball values
             int ballX = (this.Width / 2 - 10) - ((this.Width / 2) / 2);
@@ -247,10 +254,6 @@ namespace BrickBreaker
             ballList.Clear();
             ballList.Add(ball = new Ball(ballX, ballY, ySpeed, xSpeed, ballSize, 1, 1));
             ballList.Add(ball = new Ball(ballX, this.Height - ballY, ySpeed, xSpeed, ballSize, 1, 1));
-            // Creates a new ball
-            int xSpeed = 6;
-            int ySpeed = 6;
-            int ballSize = 20;
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 

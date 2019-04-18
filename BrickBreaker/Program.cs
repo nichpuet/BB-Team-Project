@@ -10,14 +10,14 @@ namespace BrickBreaker
     static class Program
     {
         //Declares a file system path
-        public static string filePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Brick Breaker";
+        public static string filePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Brick Breaker";//Thayen with all Directory code
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            //If the file system does not exist, create it
+            //If the game's file system does not exist, create it
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
             Application.EnableVisualStyles();

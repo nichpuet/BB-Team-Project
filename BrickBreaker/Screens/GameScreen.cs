@@ -20,10 +20,7 @@ namespace BrickBreaker
         #region global values
 
         //player1 button control keys - DO NOT CHANGE
-        Boolean leftArrowDown, rightArrowDown;
-
-        // Game values
-        int lives;
+        Boolean leftArrowDown, rightArrowDown, ADown, DDown;
 
         // Paddle and Ball objects
         Paddle paddle;
@@ -37,24 +34,25 @@ namespace BrickBreaker
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
+        // Lives
+        public int player1Lives = 3;
+        public int? player2Lives = null;
         #endregion
 
-            // Creates a new ball
-            int xSpeed = 6;
-            int ySpeed = 6;
-            int ballSize = 20;
-        public GameScreen()
+        // Creates a new ball
+        int xSpeed = 6;
+        int ySpeed = 6;
+        int ballSize = 20;
+        public GameScreen(bool multiplayer = false)
         {
             InitializeComponent();
             OnStart();
+            if (multiplayer)
+                player2Lives = 3;
         }
-
         List<Ball> ballList = new List<Ball>();
         public void OnStart()
         {
-            //set life counter
-            lives = 3;
-
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 
@@ -148,13 +146,13 @@ namespace BrickBreaker
                 // Check for ball hitting bottom of screen
                 if (b.BottomCollision(this, paddle))
                 {
-                    lives--;
+                    player1Lives--;
 
                     // Moves the ball back to origin
                     b.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
                     b.y = 30;
 
-                    if (lives == 0)
+                    if (player1Lives == 0)
                     {
                         gameTimer.Enabled = false;
                         OnEnd();
@@ -222,8 +220,6 @@ namespace BrickBreaker
 
         public void NickMethod()
         {
-            //set life counter
-            lives = p2lives = 3;
 
             //set all button presses to false.
             leftArrowDown = rightArrowDown = ADown = DDown = false;
@@ -236,7 +232,7 @@ namespace BrickBreaker
             int paddleY = (this.Height - paddleHeight) - 60;
             int paddleSpeed = 8;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.Firebrick);
-            newPaddle = new Paddle(newPaddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.RoyalBlue);
+            //newPaddle = new Paddle(newPaddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.RoyalBlue);
 
             // setup starting ball values
             int ballX = (this.Width / 2 - 10) - ((this.Width / 2) / 2);
@@ -245,12 +241,9 @@ namespace BrickBreaker
             /// BallList[0] is P1
             /// BallList[1] is P2
             ballList.Clear();
-            ballList.Add(ball = new Ball(ballX, ballY, ySpeed, xSpeed, ballSize, 1, 1));
-            ballList.Add(ball = new Ball(ballX, this.Height - ballY, ySpeed, xSpeed, ballSize, 1, 1));
+            ballList.Add(ball = new Ball(ballX, ballY, 6, 6, 20, 1, 1));
+            ballList.Add(ball = new Ball(ballX, this.Height - ballY, 6, 6, 20, 1, 1));
             // Creates a new ball
-            int xSpeed = 6;
-            int ySpeed = 6;
-            int ballSize = 20;
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 

@@ -20,6 +20,7 @@ namespace BrickBreaker
             //If the game's file system does not exist, create it
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

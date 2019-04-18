@@ -143,7 +143,7 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
-            foreach(Ball b in )
+            foreach(Ball b in `-``)
             {
                 // Move ball
                 b.Move();

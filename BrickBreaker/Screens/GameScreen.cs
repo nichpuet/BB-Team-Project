@@ -87,7 +87,7 @@ namespace BrickBreaker
             int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
             int ballY =  paddle.y - 20 - 1;
             ballList.Clear();
-            ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
+            ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -138,6 +138,7 @@ namespace BrickBreaker
                     break;
                 case Keys.Space:
                     start = true;
+                    break;
                 case Keys.Escape:
                     break;
                 default:
@@ -358,8 +359,8 @@ namespace BrickBreaker
             int ballY = this.Height - paddle.height - 80;
 
             ballList.Clear();
-            ballList.Add(ball = new Ball(ballX, ballY, ySpeed, xSpeed, ballSize, 1, 1));
-            ballList.Add(ball = new Ball(ballX, this.Height - ballY, ySpeed, xSpeed, ballSize, 1, 1));
+            ballList.Add(new Ball(ballX, ballY, ySpeed, xSpeed, ballSize, 1, 1));
+            ballList.Add(new Ball(ballX, this.Height - ballY, ySpeed, xSpeed, ballSize, 1, 1));
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 

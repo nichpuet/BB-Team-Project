@@ -21,10 +21,13 @@ namespace BrickBreaker
 
         //player1 button control keys - DO NOT CHANGE
         Boolean leftArrowDown, rightArrowDown, ADown, DDown;
+        // Game values
+        public static int lives;
+        public static int score;
 
         // Paddle and Ball objects
-        Paddle paddle;
-        Ball ball;
+        public static Paddle paddle;
+        public static List<Ball> balls = new List<Ball>();
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -34,6 +37,15 @@ namespace BrickBreaker
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
+        // Text variables
+        SolidBrush sb = new SolidBrush(Color.White);
+        Font textFont;
+
+        // pause menu variables
+        bool paused = false; // false - show game screen true - show pause menu
+
+        // random for powerups
+        Random random = new Random();
         // Lives
         public int player1Lives = 3;
         public int? player2Lives = null;
@@ -50,7 +62,7 @@ namespace BrickBreaker
             if (multiplayer)
                 player2Lives = 3;
         }
-        List<Ball> ballList = new List<Ball>();
+        ballList = new List<Ball>();
         public void OnStart()
         {
             //set all button presses to false.
@@ -69,8 +81,6 @@ namespace BrickBreaker
             int ballY = this.Height - paddle.height - paddle.y;
 
             ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
-
-
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -134,7 +144,6 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
-            // Move ball
             foreach(Ball b in ballList)
             {
                 // Move ball
@@ -161,7 +170,6 @@ namespace BrickBreaker
                 // Check for collision of ball with paddle, (incl. paddle movement)
                 b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
             }
-
             // Check if ball has collided with any blocks
             foreach(Ball ba in ballList)
             {
@@ -189,6 +197,8 @@ namespace BrickBreaker
         {
             // Goes to the game over screen
             Form form = this.FindForm();
+
+            // TODO: Add game over screen
             MenuScreen ps = new MenuScreen();
             
             ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);

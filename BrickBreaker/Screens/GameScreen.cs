@@ -62,7 +62,6 @@ namespace BrickBreaker
             if (multiplayer)
                 player2Lives = 3;
         }
-        ballList = new List<Ball>();
         public void OnStart()
         {
             //set all button presses to false.
@@ -80,7 +79,7 @@ namespace BrickBreaker
             int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
             int ballY = this.Height - paddle.height - paddle.y;
 
-            ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
+            .Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -144,7 +143,7 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
-            foreach(Ball b in ballList)
+            foreach(Ball b in )
             {
                 // Move ball
                 b.Move();
@@ -171,7 +170,7 @@ namespace BrickBreaker
                 b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
             }
             // Check if ball has collided with any blocks
-            foreach(Ball ba in ballList)
+            foreach(Ball ba in )
             {
                 foreach (Block b in blocks)
                 {
@@ -222,7 +221,7 @@ namespace BrickBreaker
             }
 
             // Draws ball
-            foreach(Ball b in ballList)
+            foreach(Ball b in )
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
@@ -248,11 +247,11 @@ namespace BrickBreaker
             int ballX = (this.Width / 2 - 10) - ((this.Width / 2) / 2);
             int ballY = this.Height - paddle.height - 80;
 
-            /// BallList[0] is P1
-            /// BallList[1] is P2
-            ballList.Clear();
-            ballList.Add(ball = new Ball(ballX, ballY, 6, 6, 20, 1, 1));
-            ballList.Add(ball = new Ball(ballX, this.Height - ballY, 6, 6, 20, 1, 1));
+            /// [0] is P1
+            /// [1] is P2
+            .Clear();
+            .Add(ball = new Ball(ballX, ballY, 6, 6, 20, 1, 1));
+            .Add(ball = new Ball(ballX, this.Height - ballY, 6, 6, 20, 1, 1));
             // Creates a new ball
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.

@@ -51,7 +51,7 @@ namespace BrickBreaker
         }
 
         // angle change buttons
-        int angleposition = 1;
+        int angleposition = 3;
         bool start = false;
 
         bool Akeydown = false;
@@ -76,7 +76,7 @@ namespace BrickBreaker
 
             // setup starting ball values
             int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
-            int ballY =  paddle.y - 20;
+            int ballY =  paddle.y - 20 - 1;
             ballList.Clear();
             ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
 
@@ -118,21 +118,55 @@ namespace BrickBreaker
                     break;
             }
 
-
             if (!start)
             {
                 switch (e.KeyCode)
                 {
                     case Keys.A:
-                            ballList[0].Xangle = -0.1;
-                            ballList[0].Yangle = 1.9;
-                        
+                        if(angleposition > 1)
+                        {
+                            angleposition--;
+                        }
                         break;
                     case Keys.D:
-                            ballList[0].Xangle = -1;
-                            ballList[0].Yangle = 1.9;
+                        if (angleposition < 6)
+                        {
+                            angleposition++;
+                        }
                         break;
                 }
+            }
+        }
+
+        private void anglechange()
+        {
+            // For the first ball, it works fine. For subsequent it breaks
+            switch (angleposition)
+            {
+                case 1:
+                    ballList[0].Xangle = 1;
+                    ballList[0].Yangle = -0.5;
+                    break;
+                case 2:
+                    ballList[0].Xangle = 1;
+                    ballList[0].Yangle = -1;
+                    break;
+                case 3:
+                    ballList[0].Xangle = 0.5;
+                    ballList[0].Yangle = -1;
+                    break;
+                case 4:
+                    ballList[0].Xangle = -1;
+                    ballList[0].Yangle = -0.5;
+                    break;
+                case 5:
+                    ballList[0].Xangle = -1;
+                    ballList[0].Yangle = -1;
+                    break;
+                case 6:
+                    ballList[0].Xangle = -0.5;
+                    ballList[0].Yangle = -1;
+                    break;
             }
         }
 
@@ -151,10 +185,6 @@ namespace BrickBreaker
 
         }
 
-        private void anglechange()
-        {
-        }
-
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             // Move the paddle
@@ -170,11 +200,12 @@ namespace BrickBreaker
             if (!start)
             {
                 ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
-                ballList[0].y = paddle.y - 20;
+                ballList[0].y = paddle.y - 21;
             }
 
             if (start)
             {
+                anglechange();
                 // Move ball
                 foreach(Ball b in ballList)
                 {
@@ -188,9 +219,10 @@ namespace BrickBreaker
                     if (b.BottomCollision(this, paddle))
                     {
                         start = false;
-                        int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
-                        int ballY = paddle.y - 20;
-                        //ballList[0] = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1);
+
+                        ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
+                        ballList[0].y = paddle.y - 40;
+                        ballList[0].Yangle *= -1;
                         lives--;
 
 

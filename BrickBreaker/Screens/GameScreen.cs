@@ -20,10 +20,7 @@ namespace BrickBreaker
         #region global values
 
         //player1 button control keys - DO NOT CHANGE
-        Boolean leftArrowDown, rightArrowDown;
-
-        // Game values
-        int lives;
+        Boolean leftArrowDown, rightArrowDown, ADown, DDown;
 
         // Paddle and Ball objects
         Paddle paddle;
@@ -37,20 +34,25 @@ namespace BrickBreaker
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
+        // Lives
+        public int player1Lives = 3;
+        public int? player2Lives = null;
         #endregion
 
-        public GameScreen()
+        // Creates a new ball
+        int xSpeed = 6;
+        int ySpeed = 6;
+        int ballSize = 20;
+        public GameScreen(bool multiplayer = false)
         {
             InitializeComponent();
             OnStart();
+            if (multiplayer)
+                player2Lives = 3;
         }
-
-
+        List<Ball> ballList = new List<Ball>();
         public void OnStart()
         {
-            //set life counter
-            lives = 3;
-
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 
@@ -58,19 +60,17 @@ namespace BrickBreaker
             int paddleWidth = 80;
             int paddleHeight = 20;
             int paddleX = ((this.Width / 2) - (paddleWidth / 2));
-            int paddleY = (this.Height - paddleHeight) - 60;
+            int paddleY = (this.Height - paddleHeight);
             int paddleSpeed = 8;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
             // setup starting ball values
-            int ballX = this.Width / 2 - 10;
-            int ballY = this.Height - paddle.height - 80;
+            int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
+            int ballY = this.Height - paddle.height - paddle.y;
 
-            // Creates a new ball
-            int xSpeed = 6;
-            int ySpeed = 6;
-            int ballSize = 20;
-            ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize);
+            ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
+
+
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -135,47 +135,52 @@ namespace BrickBreaker
             }
 
             // Move ball
-            ball.Move();
-
-            // Check for collision with top and side walls
-            ball.WallCollision(this);
-
-            // Check for ball hitting bottom of screen
-            if (ball.BottomCollision(this))
+            foreach(Ball b in ballList)
             {
-                lives--;
+                // Move ball
+                b.Move();
 
-                // Moves the ball back to origin
-                ball.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
-                ball.y = (this.Height - paddle.height) - 85;
+                // Check for collision with top and side walls
+                b.WallCollision(this);
 
-                if (lives == 0)
+                // Check for ball hitting bottom of screen
+                if (b.BottomCollision(this, paddle))
                 {
-                    gameTimer.Enabled = false;
-                    OnEnd();
-                }
-            }
+                    player1Lives--;
 
-            // Check for collision of ball with paddle, (incl. paddle movement)
-            ball.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+                    // Moves the ball back to origin
+                    b.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
+                    b.y = 30;
 
-            // Check if ball has collided with any blocks
-            foreach (Block b in blocks)
-            {
-                if (ball.BlockCollision(b))
-                {
-                    blocks.Remove(b);
-
-                    if (blocks.Count == 0)
+                    if (player1Lives == 0)
                     {
                         gameTimer.Enabled = false;
                         OnEnd();
                     }
-
-                    break;
                 }
+                // Check for collision of ball with paddle, (incl. paddle movement)
+                b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
             }
 
+            // Check if ball has collided with any blocks
+            foreach(Ball ba in ballList)
+            {
+                foreach (Block b in blocks)
+                {
+                    if (ba.BlockCollision(b))
+                    {
+                        blocks.Remove(b);
+
+                        if (blocks.Count == 0)
+                        {
+                            gameTimer.Enabled = false;
+                            OnEnd();
+                        }
+
+                        break;
+                    }
+                }
+            }
             //redraw the screen
             Refresh();
         }
@@ -197,6 +202,8 @@ namespace BrickBreaker
             // Draws paddle
             paddleBrush.Color = paddle.colour;
             e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
+            //paddleBrush.Color = newPaddle.colour;
+            //e.Graphics.FillRectangle(paddleBrush, newPaddle.x, newPaddle.y, newPaddle.width, newPaddle.height);
 
             // Draws blocks
             foreach (Block b in blocks)
@@ -205,7 +212,55 @@ namespace BrickBreaker
             }
 
             // Draws ball
-            e.Graphics.FillRectangle(ballBrush, ball.x, ball.y, ball.size, ball.size);
+            foreach(Ball b in ballList)
+            {
+                e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
+            }
+        }
+
+        public void NickMethod()
+        {
+
+            //set all button presses to false.
+            leftArrowDown = rightArrowDown = ADown = DDown = false;
+
+            // setup starting paddle values and create paddle object
+            int paddleWidth = 80;
+            int paddleHeight = 20;
+            int paddleX = ((this.Width / 2) - (paddleWidth / 2)) - ((this.Width / 2) / 2);
+            int newPaddleX = ((this.Width / 2) - (paddleWidth / 2)) + ((this.Width / 2) / 2);
+            int paddleY = (this.Height - paddleHeight) - 60;
+            int paddleSpeed = 8;
+            paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.Firebrick);
+            //newPaddle = new Paddle(newPaddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.RoyalBlue);
+
+            // setup starting ball values
+            int ballX = (this.Width / 2 - 10) - ((this.Width / 2) / 2);
+            int ballY = this.Height - paddle.height - 80;
+
+            /// BallList[0] is P1
+            /// BallList[1] is P2
+            ballList.Clear();
+            ballList.Add(ball = new Ball(ballX, ballY, 6, 6, 20, 1, 1));
+            ballList.Add(ball = new Ball(ballX, this.Height - ballY, 6, 6, 20, 1, 1));
+            // Creates a new ball
+
+            #region Creates blocks for generic level. Need to replace with code that loads levels.
+
+            blocks.Clear();
+            int x = 10;
+
+            while (blocks.Count < 12)
+            {
+                x += 57;
+                Block b1 = new Block(x, 10, 1, Color.White);
+                blocks.Add(b1);
+            }
+
+            #endregion
+
+            // start the game engine loop
+            gameTimer.Enabled = true;
         }
     }
 }

@@ -78,10 +78,17 @@ namespace BrickBreaker
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void MenuScreen_Load(object sender, EventArgs e)
-        {   
+        {
+            
+            var buttonGap = 50;
+            var maxSpace = buttons[0].Height * buttons.Count() + (buttonGap * (buttons.Count() - 1));
+            //var 
             //For every button in the screen set the location to the middle X of the screen and the Height divided by the number of buttons
             for(int i = 0; i < buttons.Count; i++)
-                buttons[i].Location = new Point((Width / 2) - (buttons[i].Width / 2), Height / (buttons.Count - i) - buttons[i].Height);
+            {
+                
+                buttons[i].Location = new Point((Width / 2) - (buttons[i].Width / 2), Height / buttons.Count - buttons[i].Height + buttonGap);
+            }
         }
 
         /// <summary>

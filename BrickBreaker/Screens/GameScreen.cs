@@ -79,7 +79,7 @@ namespace BrickBreaker
             int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
             int ballY = this.Height - paddle.height - paddle.y;
 
-            .Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
+            balls.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -143,7 +143,7 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
-            foreach(Ball b in )
+            foreach(Ball b in balls)
             {
                 // Move ball
                 b.Move();
@@ -157,7 +157,7 @@ namespace BrickBreaker
                     player1Lives--;
 
                     // Moves the ball back to origin
-                    b.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
+                    b.x = ((paddle.x - (b.size / 2)) + (paddle.width / 2));
                     b.y = 30;
 
                     if (player1Lives == 0)
@@ -170,7 +170,7 @@ namespace BrickBreaker
                 b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
             }
             // Check if ball has collided with any blocks
-            foreach(Ball ba in )
+            foreach(Ball ba in balls)
             {
                 foreach (Block b in blocks)
                 {
@@ -221,7 +221,7 @@ namespace BrickBreaker
             }
 
             // Draws ball
-            foreach(Ball b in )
+            foreach(Ball b in balls)
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
@@ -249,9 +249,8 @@ namespace BrickBreaker
 
             /// [0] is P1
             /// [1] is P2
-            .Clear();
-            .Add(ball = new Ball(ballX, ballY, 6, 6, 20, 1, 1));
-            .Add(ball = new Ball(ballX, this.Height - ballY, 6, 6, 20, 1, 1));
+            balls.Add(new Ball(ballX, ballY, 6, 6, 20, 1, 1));
+            balls.Add(new Ball(ballX, this.Height - ballY, 6, 6, 20, 1, 1));
             // Creates a new ball
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.

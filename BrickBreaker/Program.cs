@@ -21,6 +21,9 @@ namespace BrickBreaker
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
 
+            if(!Directory.Exists($@"{filePath}\Resources"))
+                Directory.CreateDirectory($@"{filePath}\Resources");
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

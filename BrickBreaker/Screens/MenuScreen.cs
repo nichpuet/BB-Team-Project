@@ -12,9 +12,14 @@ namespace BrickBreaker
 {
     public partial class MenuScreen : UserControl
     {
+
         public MenuScreen()
         {
             InitializeComponent();
+            //Testing: Displaying Scores
+            highScoreLabel.Text = "High Scores\n" + GameScreen.score;
+
+
         }
 
         private void exitButton_Click(object sender, EventArgs e)
@@ -32,6 +37,7 @@ namespace BrickBreaker
             form.Controls.Remove(this);
 
             gs.Location = new Point((form.Width - gs.Width) / 2, (form.Height - gs.Height) / 2);
+            
         }
 
     }

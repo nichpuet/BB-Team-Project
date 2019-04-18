@@ -32,10 +32,17 @@ namespace BrickBreaker
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
 
+
+
         // Brushes
         SolidBrush paddleBrush = new SolidBrush(Color.White);
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
+
+        //Testing: Declaring variables
+        public static int score = 0;
+        List<int> scores = new List<int>();
+
 
         #endregion
 
@@ -43,6 +50,7 @@ namespace BrickBreaker
         {
             InitializeComponent();
             OnStart();
+            
         }
 
 
@@ -156,6 +164,17 @@ namespace BrickBreaker
                 }
             }
 
+            //Testing Purposes: Score Tracker
+            foreach (Block b in blocks)
+            {
+                if (ball.ScoreTracker(b))
+                {
+                    score++;
+                    scoreOutput.Text = score + "";
+                }
+            }
+            
+
             // Check for collision of ball with paddle, (incl. paddle movement)
             ball.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
 
@@ -175,9 +194,24 @@ namespace BrickBreaker
                     break;
                 }
             }
-
+            
             //redraw the screen
             Refresh();
+        }
+
+        //Testing Method 
+        public void scoresDisplay() 
+        {
+            //DISCUSS WAYS TO GET THIS TO WORK 
+            scores.Add(score);
+
+            scoresLabel.Text = scores[0] + "";
+            //Add the first score to "highScores" and "scores"
+            //Compare the first and second score and then display accordingly
+            //Not sure if we even need list of scores and high scores
+            //display in numerical order by highScores.Sort(); 
+            //if there are more than 5 items in highScore, 
+                //determine is the next number is larger than the rest in the list
         }
 
         public void OnEnd()

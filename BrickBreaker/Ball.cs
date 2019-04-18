@@ -90,5 +90,20 @@ namespace BrickBreaker
             return didCollide;
         }
 
+        //Testing Purposes: Collision Method
+        public bool ScoreTracker(Block bl)
+        {
+            Rectangle ball = new Rectangle(x, y, size, size);
+            Rectangle block = new Rectangle(bl.x, bl.y, bl.width, bl.height);
+
+            if (ball.IntersectsWith(block))
+            {
+                //Adding values to score 
+                return true;
+                
+            }
+            return false;
+        }
+
     }
 }

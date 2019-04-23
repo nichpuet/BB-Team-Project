@@ -1,8 +1,4 @@
-﻿/*  Created by: Steven HL
- *  Project: Brick Breaker
- *  Date: Tuesday, April 4th
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -57,6 +53,8 @@ namespace BrickBreaker
         bool Akeydown = false;
         bool Dkeydown = false;
         List<Ball> ballList = new List<Ball>();
+        private int lives;
+
         public void OnStart()
         {
             //set all button presses to false.
@@ -75,7 +73,6 @@ namespace BrickBreaker
             int ballY =  paddle.y - 20 - 1;
             ballList.Clear();
             ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
-            int ballY = this.Height - paddle.height - paddle.y;
 
             ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
 
@@ -197,7 +194,7 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
-            foreach(Ball b in balls)
+            foreach(Ball b in ballList)
             {
                 ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
                 ballList[0].y = paddle.y - 21;

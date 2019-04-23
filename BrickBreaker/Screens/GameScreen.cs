@@ -1,8 +1,4 @@
-﻿/*  Created by: Steven HL
- *  Project: Brick Breaker
- *  Date: Tuesday, April 4th
- */ 
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -50,7 +46,15 @@ namespace BrickBreaker
             if (multiplayer)
                 player2Lives = 3;
         }
+        // angle change buttons
+        int angleposition = 3;
+        bool start = false;
+
+        bool Akeydown = false;
+        bool Dkeydown = false;
         List<Ball> ballList = new List<Ball>();
+        private int lives;
+
         public void OnStart()
         {
             //set all button presses to false.
@@ -66,11 +70,9 @@ namespace BrickBreaker
 
             // setup starting ball values
             int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
-            int ballY = this.Height - paddle.height - paddle.y;
-
-            ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
-
-
+            int ballY =  paddle.y - 21;
+            ballList.Clear();
+            ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -101,7 +103,63 @@ namespace BrickBreaker
                 case Keys.Right:
                     rightArrowDown = true;
                     break;
+                case Keys.Space:
+                    start = true;
+                    break;
+                case Keys.Escape:
+                    break;
                 default:
+                    break;
+            }
+
+            if (!start)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.A:
+                        if(angleposition > 1)
+                        {
+                            angleposition--;
+                        }
+                        break;
+                    case Keys.D:
+                        if (angleposition < 6)
+                        {
+                            angleposition++;
+                        }
+                        break;
+                }
+            }
+        }
+
+        private void anglechange()
+        {
+            // For the first ball, it works fine. For subsequent it breaks
+            switch (angleposition)
+            {
+                case 1:
+                    ballList[0].Xangle = 1;
+                    ballList[0].Yangle = -0.5;
+                    break;
+                case 2:
+                    ballList[0].Xangle = 1;
+                    ballList[0].Yangle = -1;
+                    break;
+                case 3:
+                    ballList[0].Xangle = 0.5;
+                    ballList[0].Yangle = -1;
+                    break;
+                case 4:
+                    ballList[0].Xangle = -1;
+                    ballList[0].Yangle = -0.5;
+                    break;
+                case 5:
+                    ballList[0].Xangle = -1;
+                    ballList[0].Yangle = -1;
+                    break;
+                case 6:
+                    ballList[0].Xangle = -0.5;
+                    ballList[0].Yangle = -1;
                     break;
             }
         }
@@ -134,9 +192,17 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
-            // Move ball
             foreach(Ball b in ballList)
             {
+                ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
+                ballList[0].y = paddle.y - 21;
+            }
+
+            if (start)
+            // Move ball
+            foreach (Ball b in ballList)
+            {
+                anglechange();
                 // Move ball
                 b.Move();
 
@@ -154,6 +220,19 @@ namespace BrickBreaker
 
                     if (player1Lives == 0)
                     {
+                        start = false;
+
+                        ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
+                        ballList[0].y = paddle.y - 40;
+                        ballList[0].Yangle *= -1;
+                        player1Lives--;
+
+
+                        if (player2Lives == 0)
+                        {
+                            gameTimer.Enabled = false;
+                            OnEnd();
+                        }
                         gameTimer.Enabled = false;
                         OnEnd();
                     }
@@ -163,7 +242,7 @@ namespace BrickBreaker
             }
 
             // Check if ball has collided with any blocks
-            foreach(Ball ba in ballList)
+            foreach (Ball ba in ballList)
             {
                 foreach (Block b in blocks)
                 {
@@ -190,7 +269,7 @@ namespace BrickBreaker
             // Goes to the game over screen
             Form form = this.FindForm();
             MenuScreen ps = new MenuScreen();
-            
+
             ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
 
             form.Controls.Add(ps);
@@ -212,7 +291,7 @@ namespace BrickBreaker
             }
 
             // Draws ball
-            foreach(Ball b in ballList)
+            foreach (Ball b in ballList)
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }

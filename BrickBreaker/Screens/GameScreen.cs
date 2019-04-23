@@ -50,6 +50,12 @@ namespace BrickBreaker
             if (multiplayer)
                 player2Lives = 3;
         }
+        // angle change buttons
+        int angleposition = 3;
+        bool start = false;
+
+        bool Akeydown = false;
+        bool Dkeydown = false;
         List<Ball> ballList = new List<Ball>();
         public void OnStart()
         {
@@ -66,11 +72,12 @@ namespace BrickBreaker
 
             // setup starting ball values
             int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
+            int ballY =  paddle.y - 20 - 1;
+            ballList.Clear();
+            ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
             int ballY = this.Height - paddle.height - paddle.y;
 
             ballList.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
-
-
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -101,7 +108,63 @@ namespace BrickBreaker
                 case Keys.Right:
                     rightArrowDown = true;
                     break;
+                case Keys.Space:
+                    start = true;
+                    break;
+                case Keys.Escape:
+                    break;
                 default:
+                    break;
+            }
+
+            if (!start)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.A:
+                        if(angleposition > 1)
+                        {
+                            angleposition--;
+                        }
+                        break;
+                    case Keys.D:
+                        if (angleposition < 6)
+                        {
+                            angleposition++;
+                        }
+                        break;
+                }
+            }
+        }
+
+        private void anglechange()
+        {
+            // For the first ball, it works fine. For subsequent it breaks
+            switch (angleposition)
+            {
+                case 1:
+                    ballList[0].Xangle = 1;
+                    ballList[0].Yangle = -0.5;
+                    break;
+                case 2:
+                    ballList[0].Xangle = 1;
+                    ballList[0].Yangle = -1;
+                    break;
+                case 3:
+                    ballList[0].Xangle = 0.5;
+                    ballList[0].Yangle = -1;
+                    break;
+                case 4:
+                    ballList[0].Xangle = -1;
+                    ballList[0].Yangle = -0.5;
+                    break;
+                case 5:
+                    ballList[0].Xangle = -1;
+                    ballList[0].Yangle = -1;
+                    break;
+                case 6:
+                    ballList[0].Xangle = -0.5;
+                    ballList[0].Yangle = -1;
                     break;
             }
         }
@@ -134,9 +197,17 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
+            foreach(Ball b in balls)
+            {
+                ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
+                ballList[0].y = paddle.y - 21;
+            }
+
+            if (start)
             // Move ball
             foreach (Ball b in ballList)
             {
+                anglechange();
                 // Move ball
                 b.Move();
 
@@ -154,6 +225,19 @@ namespace BrickBreaker
 
                     if (player1Lives == 0)
                     {
+                        start = false;
+
+                        ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
+                        ballList[0].y = paddle.y - 40;
+                        ballList[0].Yangle *= -1;
+                        lives--;
+
+
+                        if (player2Lives == 0)
+                        {
+                            gameTimer.Enabled = false;
+                            OnEnd();
+                        }
                         gameTimer.Enabled = false;
                         OnEnd();
                     }

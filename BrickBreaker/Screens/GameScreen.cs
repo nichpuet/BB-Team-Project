@@ -56,12 +56,16 @@ namespace BrickBreaker
 
         bool Akeydown = false;
         bool Dkeydown = false;
-        private int lives;
+        Font textFont;
+        SolidBrush sb = new SolidBrush(Color.White);
 
         public void OnStart()
         {
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
+
+            // create text graphics
+            textFont = new Font("Verdana", 14, FontStyle.Regular);
 
             // setup starting paddle values and create paddle object
             int paddleX = ((this.Width / 2) - (paddleWidth / 2));
@@ -220,21 +224,24 @@ namespace BrickBreaker
                         paddle.x = ((this.Width / 2) - (paddleWidth / 2));
                         paddle.y =  (this.Height - paddleHeight);
 
-                        // TODO: Fix problem with the ball angle on second and third tries (only works on the first shot)
+                        // reset x and y angles
                         ballList[0].Xangle = 1;
                         ballList[0].Yangle = 1;
+
+                        // reset x and y speeds
+                        ballList[0].xSpeed = xSpeed;
+                        ballList[0].ySpeed = ySpeed;
 
                         if (player1Lives == 0)
                         {
                             start = false;                            
-
-                            lives--;
                             
                             if (player2Lives == 0)
                             {
                                 gameTimer.Enabled = false;
                                 OnEnd();
                             }
+                            // TODO: Why is this here?
                             gameTimer.Enabled = false;
                             OnEnd();
                         }
@@ -305,6 +312,11 @@ namespace BrickBreaker
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
+
+            // Draw lives and font
+            e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 25));
+            //e.Graphics.DrawString(scoe.ToString(), textFont, sb, new Point(25, 75));
+            // TODO: Draw score (Rie)
         }
 
         public void NickMethod()

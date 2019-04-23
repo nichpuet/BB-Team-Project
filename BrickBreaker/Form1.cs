@@ -23,7 +23,7 @@ namespace BrickBreaker
         public Form1()
         {
             InitializeComponent();
-            Directory.SetCurrentDirectory(Program.filePath);//Set the program to put files in the created directory
+            Directory.SetCurrentDirectory(Program.FilePath);//Set the program to put files in the created directory
         }
 
         private void Form1_Load(object sender, EventArgs e)

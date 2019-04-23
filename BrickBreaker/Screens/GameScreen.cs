@@ -1,8 +1,4 @@
-﻿/*  Created by: Steven HL
- *  Project: Brick Breaker
- *  Date: Tuesday, April 4th
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -57,6 +53,8 @@ namespace BrickBreaker
         bool Akeydown = false;
         bool Dkeydown = false;
         List<Ball> ballList = new List<Ball>();
+        private int lives;
+
         public void OnStart()
         {
             //set all button presses to false.

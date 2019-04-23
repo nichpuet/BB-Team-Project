@@ -33,6 +33,7 @@ namespace BrickBreaker
             this.Controls.Add(ms);
             //Center the control
             ms.Location = new Point((this.Width - ms.Width) / 2, (this.Height - ms.Height) / 2);
+            //ms.Size = new Size(this.Width, this.Height);
         }
     }
 }

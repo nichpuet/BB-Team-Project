@@ -26,6 +26,8 @@ namespace BrickBreaker
         int paddleX;
         int paddleY;
 
+        Random random = new Random();
+
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
 
@@ -37,6 +39,7 @@ namespace BrickBreaker
         // Lives
         public int player1Lives = 3;
         public int? player2Lives = null;
+        public static int score = 0;
         #endregion
 
         // Creates a new ball
@@ -215,8 +218,8 @@ namespace BrickBreaker
                     // Check for collision with top and side walls
                     b.WallCollision(this);
 
-                    // Check for ball hitting bottom of screen
-                    if (b.BottomCollision(this, paddle))
+                    // Check for ball hitting bottom of screen and if there is only one ball
+                    if (b.BottomCollision(this, paddle) && ballList.Count == 1)
                     {
                         // decrease player 1 lives
                         player1Lives--;
@@ -262,6 +265,15 @@ namespace BrickBreaker
                         if (ba.BlockCollision(b))
                         {
                             blocks.Remove(b);
+
+                            score += 100;
+
+                            // powerups random
+                            if (random.Next(1, 11) <= 2)
+                            {
+                                // 20 % chance
+                                // TODO: powerups
+                            }
 
                             if (blocks.Count == 0)
                             {
@@ -317,10 +329,9 @@ namespace BrickBreaker
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
 
-            // Draw lives and font
-            e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 25));
-            //e.Graphics.DrawString(scoe.ToString(), textFont, sb, new Point(25, 75));
-            // TODO: Draw score (Rie)
+            // Draw lives and score
+            e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 100));
+            e.Graphics.DrawString("Score: " + score.ToString(), textFont, sb, new Point(this.Width - 200, this.Height - 100));
         }
 
         public void NickMethod()

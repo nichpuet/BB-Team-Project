@@ -117,15 +117,16 @@ namespace BrickBreaker
                 switch (e.KeyCode)
                 {
                     case Keys.A:
-                        if(6 > angleposition && angleposition > 1)
+                        if (6 > angleposition && angleposition > 0)
                         {
-                            angleposition--;
+                            angleposition++;
                         }
                         break;
                     case Keys.D:
-                        if (1 < angleposition && angleposition < 6)
+                        // move right
+                        if (7 > angleposition && angleposition > 1)
                         {
-                            angleposition++;
+                            angleposition--;
                         }
                         break;
                 }
@@ -182,6 +183,8 @@ namespace BrickBreaker
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+            angleLable.Text = angleposition.ToString();
+
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {

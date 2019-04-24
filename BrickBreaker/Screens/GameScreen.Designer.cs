@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
+            this.angleLable = new System.Windows.Forms.Label();
+
             this.SuspendLayout();
             // 
             // gameTimer
@@ -51,11 +53,23 @@
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GameScreen_KeyUp);
             this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.GameScreen_PreviewKeyDown);
             this.ResumeLayout(false);
+            // 
+            // angleLable
+            // 
+            this.angleLable.AutoSize = true;
+            this.angleLable.ForeColor = System.Drawing.Color.Coral;
+            this.angleLable.Location = new System.Drawing.Point(960, 247);
+            this.angleLable.Name = "angleLable";
+            this.angleLable.Size = new System.Drawing.Size(46, 17);
+            this.angleLable.TabIndex = 1;
+            this.angleLable.Text = "label2";
 
         }
 
         #endregion
 
         private System.Windows.Forms.Timer gameTimer;
+        private System.Windows.Forms.Label angleLable;
+
     }
 }

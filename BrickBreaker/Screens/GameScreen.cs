@@ -21,6 +21,7 @@ namespace BrickBreaker
         // Paddle and Ball objects
         public static Paddle paddle;
         public static List<Ball> ballList = new List<Ball>();
+        public static List<Ball> removeBalls = new List<Ball>();
         public static int paddleWidth = 80;
         public static int paddleHeight = 20;
         int paddleX;
@@ -70,7 +71,7 @@ namespace BrickBreaker
             leftArrowDown = rightArrowDown = false;
 
             // create text graphics
-            textFont = new Font("Verdana", 14, FontStyle.Regular);
+            textFont = new Font("Verdana", 20, FontStyle.Regular);
 
             // setup starting paddle values and create paddle object
             paddleX = ((this.Width / 2) - (paddleWidth / 2));
@@ -126,6 +127,7 @@ namespace BrickBreaker
             {
                 switch (e.KeyCode)
                 {
+                    // TODO: Fix angle adjustment when you have the ball on the paddle
                     case Keys.A:
                         // move left
                         if (angleposition > 1)
@@ -252,8 +254,20 @@ namespace BrickBreaker
                             OnEnd();
                         }
                     }
+                    else if (b.BottomCollision(this, paddle))
+                    {
+                        // add the ball to the remove list
+                        removeBalls.Add(b);
+                    }
+
                     // Check for collision of ball with paddle, (incl. paddle movement)
                     b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+                }
+
+                // remove any balls that need to be removed
+                foreach (Ball b in removeBalls)
+                {
+                    ballList.Remove(b);
                 }
 
                 // Check if ball has collided with any blocks

@@ -19,7 +19,7 @@ namespace BrickBreaker
         {
             InitializeComponent();
             //Foreach button in the screen's controls add it to a list and add code to the button Events when it gains and loses focus
-            foreach(var button in Controls.OfType<Button>())
+            foreach (var button in Controls.OfType<Button>())
             {
                 buttons.Add(button);
                 button.LostFocus += lostFocus;
@@ -72,16 +72,49 @@ namespace BrickBreaker
             gs.Location = new Point((form.Width - gs.Width) / 2, (form.Height - gs.Height) / 2);
         }
 
+        public static void ChangeScreen(UserControl current, string next)
+        {
+            //f is set to the form that the current control is on
+            Form f = current.FindForm();
+            f.Controls.Remove(current);
+            UserControl ns = null;
+
+            ///If any screens, (UserControls), are added to the program they need to
+            ///be added within this switch block as well.
+            switch (next)
+            {
+                case "MenuScreen":
+                    ns = new MenuScreen();
+                    break;
+                case "GameScreen":
+                    ns = new GameScreen();
+                    break;
+                    //case "ScoreScreen":
+                    //    ns = new ScoreScreen();
+                    //    break;
+            }
+
+            //centres the control on the screen
+            ns.Location = new Point((f.Width - ns.Width) / 2, (f.Height - ns.Height) / 2);
+
+            f.Controls.Add(ns);
+            ns.Focus();
+        }
         /// <summary>
         /// The event code for when the Menu Screen finishes initializing loads
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void MenuScreen_Load(object sender, EventArgs e)
-        {   
+        {
+            var buttonGap = 50;
+            var maxSpace = buttons[0].Height * buttons.Count() + (buttonGap * (buttons.Count() - 1));
             //For every button in the screen set the location to the middle X of the screen and the Height divided by the number of buttons
-            for(int i = 0; i < buttons.Count; i++)
-                buttons[i].Location = new Point((Width / 2) - (buttons[i].Width / 2), Height / (buttons.Count - i) - buttons[i].Height);
+            for (int i = 0; i < buttons.Count; i++)
+            {
+                var space = maxSpace / (1 + i);
+                buttons[i].Location = new Point((Width / 2) - (buttons[i].Width / 2), space);
+            }
         }
 
         /// <summary>
@@ -91,8 +124,7 @@ namespace BrickBreaker
         /// <param name="e"></param>
         private void MenuScreen_KeyDown(object sender, KeyEventArgs e)
         {
-            //Thayen
-            switch(e.KeyCode)
+            switch (e.KeyCode)
             {
                 case Keys.Up:
                     newButton(-1).Focus();
@@ -109,7 +141,7 @@ namespace BrickBreaker
         /// <param name="where"></param>
         /// <returns></returns>
         private Button newButton(int changeInIndex)
-        { 
+        {
             //Thayen
             index += changeInIndex;
             //If the button is out of range set the button within range

@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
+using System.Xml;
 
 namespace BrickBreaker
 {
@@ -40,8 +41,9 @@ namespace BrickBreaker
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
         //Testing: Declaring variables
-        public static int score = 0;
-        List<int> scores = new List<int>();
+        int score = 0;
+        
+
 
 
         #endregion
@@ -96,6 +98,9 @@ namespace BrickBreaker
 
             // start the game engine loop
             gameTimer.Enabled = true;
+
+           
+            
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -164,19 +169,19 @@ namespace BrickBreaker
                 }
             }
 
-            //Testing Purposes: Score Tracker
+            //Testing Purposes: Score Tracker...1st Tracker...Adding the number to scores
             foreach (Block b in blocks)
             {
                 if (ball.ScoreTracker(b))
                 {
                     score++;
-                    scoreOutput.Text = score + "";
                 }
             }
             
 
             // Check for collision of ball with paddle, (incl. paddle movement)
             ball.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+
 
             // Check if ball has collided with any blocks
             foreach (Block b in blocks)
@@ -187,39 +192,63 @@ namespace BrickBreaker
 
                     if (blocks.Count == 0)
                     {
+                        //changed
                         gameTimer.Enabled = false;
-                        OnEnd();
+                        scores();
+                       
                     }
 
                     break;
                 }
             }
-            
+
             //redraw the screen
             Refresh();
         }
 
-        //Testing Method 
-        public void scoresDisplay() 
+        //testing 
+        public void scores()
         {
-            //DISCUSS WAYS TO GET THIS TO WORK 
-            scores.Add(score);
+            string scoreNumber = score.ToString();
+            HighScore s = new HighScore(scoreNumber);
+            Form1.highScores.Add(s);
 
-            scoresLabel.Text = scores[0] + "";
-            //Add the first score to "highScores" and "scores"
-            //Compare the first and second score and then display accordingly
-            //Not sure if we even need list of scores and high scores
-            //display in numerical order by highScores.Sort(); 
-            //if there are more than 5 items in highScore, 
-                //determine is the next number is larger than the rest in the list
+            OnEnd();
+        }
+        
+
+        //testing
+        public void saveScores()
+        {
+            XmlWriter writer = XmlWriter.Create("Resources/GameLevels.xml", null);
+
+            writer.WriteStartElement("HighScores");
+
+            foreach (HighScore s in Form1.highScores)
+            {
+                writer.WriteStartElement("HighScore");
+
+                writer.WriteElementString("Score", s.score);
+
+                writer.WriteEndElement();
+            }
+
+            writer.WriteEndElement();
+
+            writer.Close();
         }
 
         public void OnEnd()
         {
-            // Goes to the game over screen
+
+            //Testing: Saving the scores
+            saveScores();
+
+            
+
+            // Goes to the game over screen //changed
             Form form = this.FindForm();
             MenuScreen ps = new MenuScreen();
-            
             ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
 
             form.Controls.Add(ps);

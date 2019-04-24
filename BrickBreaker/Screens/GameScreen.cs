@@ -23,6 +23,8 @@ namespace BrickBreaker
         public static List<Ball> ballList = new List<Ball>();
         public static int paddleWidth = 80;
         public static int paddleHeight = 20;
+        int paddleX;
+        int paddleY;
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -68,8 +70,8 @@ namespace BrickBreaker
             textFont = new Font("Verdana", 14, FontStyle.Regular);
 
             // setup starting paddle values and create paddle object
-            int paddleX = ((this.Width / 2) - (paddleWidth / 2));
-            int paddleY = (this.Height - paddleHeight);
+            paddleX = ((this.Width / 2) - (paddleWidth / 2));
+            paddleY = (this.Height - paddleHeight);
             int paddleSpeed = 8;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
@@ -219,16 +221,19 @@ namespace BrickBreaker
                         // move the ball and paddle back
                         start = false;
 
+                        // reset paddle x and y
+                        paddle.x = paddleX;
+                        paddle.y = paddleY;
+
                         ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
                         ballList[0].y = paddle.y - 40;
                         ballList[0].Yangle *= -1;
-                        player1Lives--;
 
                         // reset x and y speeds
                         ballList[0].xSpeed = xSpeed;
                         ballList[0].ySpeed = ySpeed;
 
-                        if (player1Lives == 0)
+                        if (player1Lives <= 0)
                         {
                             start = false;                            
                             

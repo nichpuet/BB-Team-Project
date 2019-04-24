@@ -117,13 +117,13 @@ namespace BrickBreaker
                 switch (e.KeyCode)
                 {
                     case Keys.A:
-                        if(angleposition > 1)
+                        if(6 > angleposition && angleposition > 1)
                         {
                             angleposition--;
                         }
                         break;
                     case Keys.D:
-                        if (angleposition < 6)
+                        if (1 < angleposition && angleposition < 6)
                         {
                             angleposition++;
                         }

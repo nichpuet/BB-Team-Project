@@ -75,9 +75,9 @@ namespace BrickBreaker
 
             // setup starting ball values
             int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
-            int ballY = paddle.y - 21;
+            int ballY =  paddle.y - 21;
             ballList.Clear();
-            ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
+            ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -221,12 +221,10 @@ namespace BrickBreaker
                         // move the ball and paddle back
                         start = false;
 
-                        paddle.x = ((this.Width / 2) - (paddleWidth / 2));
-                        paddle.y =  (this.Height - paddleHeight);
-
-                        // reset x and y angles
-                        ballList[0].Xangle = 1;
-                        ballList[0].Yangle = 1;
+                        ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
+                        ballList[0].y = paddle.y - 40;
+                        ballList[0].Yangle *= -1;
+                        player1Lives--;
 
                         // reset x and y speeds
                         ballList[0].xSpeed = xSpeed;

@@ -14,12 +14,11 @@ namespace BrickBreaker
 {
     public partial class Form1 : Form
     {
-        private static SoundPlayer player;
+        private static SoundPlayer player = new SoundPlayer();
         public static GameScreen currentGame;
         public Form1()
         {
             InitializeComponent();
-
             Directory.SetCurrentDirectory(Program.FilePath);//Set the program to put files in the created directory
         }
 

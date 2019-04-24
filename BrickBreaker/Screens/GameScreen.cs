@@ -218,8 +218,8 @@ namespace BrickBreaker
                     // Check for collision with top and side walls
                     b.WallCollision(this);
 
-                    // Check for ball hitting bottom of screen
-                    if (b.BottomCollision(this, paddle))
+                    // Check for ball hitting bottom of screen and if there is only one ball
+                    if (b.BottomCollision(this, paddle) && ballList.Count == 1)
                     {
                         // decrease player 1 lives
                         player1Lives--;

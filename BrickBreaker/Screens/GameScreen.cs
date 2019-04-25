@@ -73,6 +73,9 @@ namespace BrickBreaker
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 
+            // reset score
+            score = 0;
+
             // create text graphics
             textFont = new Font("Verdana", 20, FontStyle.Regular);
 

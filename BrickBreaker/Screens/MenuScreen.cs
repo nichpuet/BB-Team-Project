@@ -64,42 +64,11 @@ namespace BrickBreaker
         {
             // Goes to the game screen
             GameScreen gs = new GameScreen();
-            Form form = this.FindForm();
-
-            form.Controls.Add(gs);
-            form.Controls.Remove(this);
-
-            gs.Location = new Point((form.Width - gs.Width) / 2, (form.Height - gs.Height) / 2);
+            var form = FindForm() as Form1;
+            form.ChangeScreen(this, new GameScreen());
         }
 
-        public static void ChangeScreen(UserControl current, string next)
-        {
-            //f is set to the form that the current control is on
-            Form f = current.FindForm();
-            f.Controls.Remove(current);
-            UserControl ns = null;
-
-            ///If any screens, (UserControls), are added to the program they need to
-            ///be added within this switch block as well.
-            switch (next)
-            {
-                case "MenuScreen":
-                    ns = new MenuScreen();
-                    break;
-                case "GameScreen":
-                    ns = new GameScreen();
-                    break;
-                    //case "ScoreScreen":
-                    //    ns = new ScoreScreen();
-                    //    break;
-            }
-
-            //centres the control on the screen
-            ns.Location = new Point((f.Width - ns.Width) / 2, (f.Height - ns.Height) / 2);
-
-            f.Controls.Add(ns);
-            ns.Focus();
-        }
+        
         /// <summary>
         /// The event code for when the Menu Screen finishes initializing loads
         /// </summary>
@@ -127,20 +96,20 @@ namespace BrickBreaker
             switch (e.KeyCode)
             {
                 case Keys.Up:
-                    newButton(-1).Focus();
+                    _newButton(-1).Focus();
                     break;
                 case Keys.Down:
-                    newButton(1).Focus();
+                    _newButton(1).Focus();
                     break;
             }
         }
 
         /// <summary>
-        /// Gets the newly selected button based on where the last one was. Pass a negative to go back in the buttons
+        /// Gets the newly selected button based on where the last one was. Pass a negative to go back in the list of buttons
         /// </summary>
-        /// <param name="where"></param>
+        /// <param name="changeInIndex"></param>
         /// <returns></returns>
-        private Button newButton(int changeInIndex)
+        private Button _newButton(int changeInIndex)
         {
             //Thayen
             index += changeInIndex;

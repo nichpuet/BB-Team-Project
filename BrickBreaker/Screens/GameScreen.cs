@@ -67,7 +67,7 @@ namespace BrickBreaker
         public void OnStart()
         {
             // Create a switch case thing for reader
-            XmlReader reader = XmlReader.Create("level1.xml");
+            XmlReader reader = XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/BrickBreaker/level1.xml");
 
             while (reader.Read())
             {

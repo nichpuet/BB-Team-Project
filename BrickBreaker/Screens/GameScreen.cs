@@ -86,10 +86,9 @@ namespace BrickBreaker
             
                 currentlevel.Add(new Block(X, Y, HP));
             }
+
             reader.Close();
-
-
-
+                       
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 

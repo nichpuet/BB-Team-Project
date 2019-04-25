@@ -23,10 +23,16 @@ namespace BrickBreaker
         // Paddle and Ball objects
         public static Paddle paddle;
         public static List<Ball> ballList = new List<Ball>();
+        public static List<Ball> removeBalls = new List<Ball>();
         public static int paddleWidth = 80;
         public static int paddleHeight = 20;
         int paddleX;
         int paddleY;
+
+        Random random = new Random();
+
+        // TODO: Add sound effects
+
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -39,6 +45,7 @@ namespace BrickBreaker
         // Lives
         public int player1Lives = 3;
         public int? player2Lives = null;
+        public static int score = 0;
         #endregion
 
         // Creates a new ball
@@ -87,8 +94,11 @@ namespace BrickBreaker
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 
+            // reset score
+            score = 0;
+
             // create text graphics
-            textFont = new Font("Verdana", 14, FontStyle.Regular);
+            textFont = new Font("Verdana", 20, FontStyle.Regular);
 
             // setup starting paddle values and create paddle object
             paddleX = ((this.Width / 2) - (paddleWidth / 2));
@@ -131,14 +141,15 @@ namespace BrickBreaker
                 switch (e.KeyCode)
                 {
                     case Keys.A:
-                        if (6 > angleposition && angleposition > 0)
+                        // move left
+                        if (angleposition >= 1 && angleposition < 6)
                         {
                             angleposition++;
                         }
                         break;
                     case Keys.D:
                         // move right
-                        if (7 > angleposition && angleposition > 1)
+                        if (angleposition <= 6 && angleposition > 1)
                         {
                             angleposition--;
                         }
@@ -147,18 +158,19 @@ namespace BrickBreaker
             }
         }
 
-        private void anglechange()
+        private void anglechange()//Dima's hands only
         {
             // For the first ball, it works fine. For subsequent it breaks
             switch (angleposition)
             {
                 case 1:
-                    ballList[0].Xangle = 1;
-                    ballList[0].Yangle = -0.5;
+                    ballList[0].Xangle = 0.5;
+                    ballList[0].Yangle = -1;
+                    
                     break;
                 case 2:
                     ballList[0].Xangle = 1;
-                    ballList[0].Yangle = -1;
+                    ballList[0].Yangle = -0.5;
                     break;
                 case 3:
                     ballList[0].Xangle = 0.5;
@@ -195,6 +207,8 @@ namespace BrickBreaker
             }
         }
 
+        //TODO Nit: Can you make the ball fall a little farther before resetting the ball, something doesn't feel right when it falls
+        //Note Form1 has a soundplayer, you can access it will Form1.<function for the soundplayer>
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             angleLable.Text = angleposition.ToString();
@@ -222,14 +236,17 @@ namespace BrickBreaker
                     // Check for collision with top and side walls
                     b.WallCollision(this);
 
-                    // Check for ball hitting bottom of screen
-                    if (b.BottomCollision(this, paddle))
+                    // Check for ball hitting bottom of screen and if there is only one ball
+                    if (b.BottomCollision(this, paddle) && ballList.Count == 1)
                     {
                         // decrease player 1 lives
                         player1Lives--;
 
                         // move the ball and paddle back
                         start = false;
+
+                        // reset ball angle
+                        angleposition = 3;
 
                         // reset paddle x and y
                         paddle.x = paddleX;
@@ -257,8 +274,20 @@ namespace BrickBreaker
                             OnEnd();
                         }
                     }
+                    else if (b.BottomCollision(this, paddle))
+                    {
+                        // add the ball to the remove list
+                        removeBalls.Add(b);
+                    }
+
                     // Check for collision of ball with paddle, (incl. paddle movement)
                     b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+                }
+
+                // remove any balls that need to be removed
+                foreach (Ball b in removeBalls)
+                {
+                    ballList.Remove(b);
                 }
 
                 // Check if ball has collided with any blocks
@@ -269,8 +298,17 @@ namespace BrickBreaker
                         if (ba.BlockCollision(b))
                         {
                             currentlevel.Remove(b);
-
                             if (currentlevel.Count == 0)
+                            score += b.score;
+
+                            // powerups random
+                            if (random.Next(1, 11) <= 2)
+                            {
+                                // 20 % chance
+                                // TODO: powerups
+                            }
+
+                            if (blocks.Count == 0)
                             {
                                 gameTimer.Enabled = false;
                                 OnEnd();
@@ -323,10 +361,9 @@ namespace BrickBreaker
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
 
-            // Draw lives and font
-            e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 25));
-            //e.Graphics.DrawString(score.ToString(), textFont, sb, new Point(25, 75));
-            // TODO: Draw score (Rie)
+            // Draw lives and score
+            e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 100));
+            e.Graphics.DrawString("Score: " + score.ToString(), textFont, sb, new Point(this.Width - 200, this.Height - 100));
         }
 
         public void NickMethod()

@@ -135,14 +135,14 @@ namespace BrickBreaker
                 {
                     case Keys.A:
                         // move left
-                        if (angleposition > 1 && angleposition < 6)
+                        if (angleposition >= 1 && angleposition < 6)
                         {
                             angleposition++;
                         }
                         break;
                     case Keys.D:
                         // move right
-                        if (angleposition < 6 && angleposition > 1)
+                        if (angleposition <= 6 && angleposition > 1)
                         {
                             angleposition--;
                         }
@@ -157,12 +157,13 @@ namespace BrickBreaker
             switch (angleposition)
             {
                 case 1:
-                    ballList[0].Xangle = 1;
-                    ballList[0].Yangle = -0.5;
+                    ballList[0].Xangle = 0.5;
+                    ballList[0].Yangle = -1;
+                    
                     break;
                 case 2:
                     ballList[0].Xangle = 1;
-                    ballList[0].Yangle = -1;
+                    ballList[0].Yangle = -0.5;
                     break;
                 case 3:
                     ballList[0].Xangle = 0.5;
@@ -234,6 +235,9 @@ namespace BrickBreaker
 
                         // move the ball and paddle back
                         start = false;
+
+                        // reset ball angle
+                        angleposition = 3;
 
                         // reset paddle x and y
                         paddle.x = paddleX;

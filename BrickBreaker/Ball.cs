@@ -31,7 +31,7 @@ namespace BrickBreaker
 
         public bool BlockCollision(Block b)
         {
-            Rectangle blockRec = new Rectangle(b.x, b.y, b.width, b.height);
+            Rectangle blockRec = new Rectangle(Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
             Rectangle ballRec = new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), size, size);
 
             if (ballRec.IntersectsWith(blockRec))
@@ -82,14 +82,13 @@ namespace BrickBreaker
 
         public bool BottomCollision(UserControl UC, Paddle p)
         {
-            Boolean didCollide = false;
-
-            if (y + size - 2 > p.y)
+            if (y + size -4 > p.y)
+            //if(y >= UC.Height)
             {
-                didCollide = true;
+                return true;
             }
 
-            return didCollide;
+            return false;
         }
     }
 }

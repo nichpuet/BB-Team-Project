@@ -15,16 +15,18 @@ namespace BrickBreaker
         public int x;
         public int y; 
         public int hp;
+        public int score; // TODO: Have bricks in a designed level have more points or less
         public Color colour;
 
         public static Random rand = new Random();
 
-        public Block(int _x, int _y, int _hp, Color _colour)
+        public Block(int _x, int _y, int _hp, Color _colour, int _score = 100)
         {
             x = _x;
             y = _y;
             hp = _hp;
             colour = _colour;
+            score = _score;
         }
     }
 }

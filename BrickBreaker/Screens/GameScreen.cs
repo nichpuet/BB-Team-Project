@@ -79,7 +79,7 @@ namespace BrickBreaker
             int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
             int ballY = this.Height - paddle.height - paddle.y;
 
-            .Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
+            //.Add(ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, 1));
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -165,7 +165,7 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
-            foreach(Ball b in )
+            //foreach(Ball b in )
             {
                 // Move ball
                 b.Move();

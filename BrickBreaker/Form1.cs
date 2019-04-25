@@ -14,7 +14,11 @@ namespace BrickBreaker
 {
     public partial class Form1 : Form
     {
-        private static SoundPlayer player = new SoundPlayer();
+        /// <summary>
+        /// The Game's Soundplayer.
+        /// Note that remember that playSoundFrom and preloadSound will save lines of code when used
+        /// </summary>
+        public static SoundPlayer SoundPlayer = new SoundPlayer();
         public static GameScreen currentGame;
         public Form1()
         {
@@ -51,14 +55,6 @@ namespace BrickBreaker
                 return true;
             }
             return false;
-        }
-
-        /// <summary>
-        /// Plays the .wav file loaded with preloadSound
-        /// </summary>
-        public static void playSound()
-        {
-            player.Play();
         }
 
         private void Form1_Load(object sender, EventArgs e)

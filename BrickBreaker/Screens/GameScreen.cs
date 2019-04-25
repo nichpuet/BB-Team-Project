@@ -148,7 +148,7 @@ namespace BrickBreaker
             }
         }
 
-        private void anglechange()
+        private void anglechange()//Dima's hands only
         {
             // For the first ball, it works fine. For subsequent it breaks
             switch (angleposition)
@@ -196,6 +196,8 @@ namespace BrickBreaker
             }
         }
 
+        //TODO Nit: Can you make the ball fall a little farther before resetting the ball, something doesn't feel right when it falls
+        //Note Form1 has a soundplayer, you can access it will Form1.<function for the soundplayer>
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             angleLable.Text = angleposition.ToString();

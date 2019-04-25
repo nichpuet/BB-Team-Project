@@ -198,6 +198,8 @@ namespace BrickBreaker
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+            angleLable.Text = angleposition.ToString();
+
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {

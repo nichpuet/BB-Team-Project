@@ -73,9 +73,17 @@ namespace BrickBreaker
         
         List<XmlReader> levelList = new List<XmlReader>();
         int currentlevelnum = 0;
-        public void OnStart()
+        bool levelLoadstart = true;
+
+        public void levelLoad()
         {
-            levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/BrickBreaker/level1.xml"));
+            if (levelLoadstart)
+            {
+                // need ten total items, current items are for test purposes only
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/BrickBreaker/level1.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level4.xml"));
+            }
+
             XmlReader reader = levelList[0];
             switch (currentlevelnum)
             {
@@ -92,7 +100,7 @@ namespace BrickBreaker
                     reader = levelList[3];
                     break;
                 case 4:
-                    reader = levelList[0];
+                    reader = levelList[4];
                     break;
                 case 5:
                     reader = levelList[5];
@@ -111,6 +119,7 @@ namespace BrickBreaker
                     break;
             }
 
+            currentlevel.Clear();
             while (reader.Read())
             {
                 string X, Y, HP;
@@ -118,13 +127,15 @@ namespace BrickBreaker
                 X = reader.GetAttribute("x");
                 Y = reader.GetAttribute("y");
                 HP = reader.GetAttribute("hp");
-            
+
                 currentlevel.Add(new Block(X, Y, HP));
             }
             reader.Close();
+        }
 
-
-
+        public void OnStart()
+        {
+            levelLoad();
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 
@@ -192,9 +203,8 @@ namespace BrickBreaker
             }
         }
 
-        private void anglechange()//Dima's hands only (fix it then)
+        private void anglechange()
         {
-            // For the first ball, it works fine. For subsequent it breaks
             switch (angleposition)
             {
                 case 1:
@@ -346,7 +356,14 @@ namespace BrickBreaker
                             if (blocks.Count == 0)
                             {
                                 gameTimer.Enabled = false;
-                                OnEnd();
+                                if(currentlevelnum == levelList.Count())
+                                {
+                                    OnEnd();
+                                }
+                                else
+                                {
+                                    currentlevelnum++;
+                                }
                             }
 
                             break;

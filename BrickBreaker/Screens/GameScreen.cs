@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
+using System.Xml;
+
 
 namespace BrickBreaker
 {
@@ -60,9 +62,28 @@ namespace BrickBreaker
         bool Dkeydown = false;
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
+        List<Block> currentlevel = new List<Block>();
 
         public void OnStart()
         {
+            // Create a switch case thing for reader
+            XmlReader reader = XmlReader.Create("level1.xml");
+
+            while (reader.Read())
+            {
+                string X, Y, HP;
+                reader.ReadToFollowing("brick");
+                X = reader.GetAttribute("x");
+                Y = reader.GetAttribute("y");
+                HP = reader.GetAttribute("hp");
+
+            
+                currentlevel.Add(new Block(X, Y, HP));
+            }
+            reader.Close();
+
+
+
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 
@@ -80,20 +101,6 @@ namespace BrickBreaker
             int ballY =  paddle.y - 21;
             ballList.Clear();
             ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
-
-            #region Creates blocks for generic level. Need to replace with code that loads levels.
-
-            blocks.Clear();
-            int x = 10;
-
-            while (blocks.Count < 12)
-            {
-                x += 57;
-                Block b1 = new Block(x, 10, 1, Color.White);
-                blocks.Add(b1);
-            }
-
-            #endregion
 
             // start the game engine loop
             gameTimer.Enabled = true;
@@ -257,13 +264,13 @@ namespace BrickBreaker
                 // Check if ball has collided with any blocks
                 foreach (Ball ba in ballList)
                 {
-                    foreach (Block b in blocks)
+                    foreach (Block b in currentlevel)
                     {
                         if (ba.BlockCollision(b))
                         {
-                            blocks.Remove(b);
+                            currentlevel.Remove(b);
 
-                            if (blocks.Count == 0)
+                            if (currentlevel.Count == 0)
                             {
                                 gameTimer.Enabled = false;
                                 OnEnd();
@@ -302,13 +309,12 @@ namespace BrickBreaker
             // Draws paddle
             paddleBrush.Color = paddle.colour;
             e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
-            //paddleBrush.Color = newPaddle.colour;
-            //e.Graphics.FillRectangle(paddleBrush, newPaddle.x, newPaddle.y, newPaddle.width, newPaddle.height);
+;
 
             // Draws blocks
-            foreach (Block b in blocks)
+            foreach (Block b in currentlevel)
             {
-                e.Graphics.FillRectangle(blockBrush, b.x, b.y, b.width, b.height);
+                e.Graphics.FillRectangle(blockBrush, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
             }
 
             // Draws ball
@@ -319,7 +325,7 @@ namespace BrickBreaker
 
             // Draw lives and font
             e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 25));
-            //e.Graphics.DrawString(scoe.ToString(), textFont, sb, new Point(25, 75));
+            //e.Graphics.DrawString(score.ToString(), textFont, sb, new Point(25, 75));
             // TODO: Draw score (Rie)
         }
 
@@ -352,14 +358,14 @@ namespace BrickBreaker
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
             blocks.Clear();
-            int x = 10;
+            //int x = 10;
 
-            while (blocks.Count < 12)
-            {
-                x += 57;
-                Block b1 = new Block(x, 10, 1, Color.White);
-                blocks.Add(b1);
-            }
+            //while (blocks.Count < 12)
+            //{
+            //    x += 57;
+            //    Block b1 = new Block(x, 10, 1, Color.White);
+            //    blocks.Add(b1);
+            //}
 
             #endregion
 

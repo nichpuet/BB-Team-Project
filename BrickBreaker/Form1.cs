@@ -66,5 +66,17 @@ namespace BrickBreaker
             ms.Location = new Point((this.Width - ms.Width) / 2, (this.Height - ms.Height) / 2);
             //ms.Size = new Size(this.Width, this.Height);
         }
+
+        public void ChangeScreen(UserControl current, UserControl next)
+        {
+            //f is set to the form that the current control is on
+            Controls.Remove(current);
+
+            //centres the control on the screen
+            next.Location = new Point((Width - next.Width) / 2, (Height - next.Height) / 2);
+
+            Controls.Add(next);
+            next.Focus();
+        }
     }
 }

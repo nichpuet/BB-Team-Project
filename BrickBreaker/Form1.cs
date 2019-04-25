@@ -14,7 +14,11 @@ namespace BrickBreaker
 {
     public partial class Form1 : Form
     {
-        private static SoundPlayer player = new SoundPlayer();
+        /// <summary>
+        /// The Game's Soundplayer.
+        /// Note that remember that playSoundFrom and preloadSound will save lines of code when used
+        /// </summary>
+        public static SoundPlayer SoundPlayer = new SoundPlayer();
         public static GameScreen currentGame;
         public Form1()
         {
@@ -23,22 +27,22 @@ namespace BrickBreaker
         }
 
         /// <summary>
-        /// Gets a WAV file from the file path and plays it
+        /// Gets a .wav file from the file path and plays it
         /// </summary>
         /// <param name="filePath"></param>
         public static void playSoundFrom(string filePath)
         {
             if (File.Exists(filePath))
             {
-                player.SoundLocation = filePath;
-                player.PlaySync();
+                SoundPlayer.SoundLocation = filePath;
+                SoundPlayer.PlaySync();
             }
             else
                 throw new Exception("Could not find the required file");
         }
 
         /// <summary>
-        /// Gets the WAV file from specified location and loads it into the soundplayer
+        /// Gets the .wav file from specified location and loads it into the soundplayer
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
@@ -46,19 +50,11 @@ namespace BrickBreaker
         {
             if(File.Exists(filePath))
             {
-                player.SoundLocation = filePath;
-                player.Load();
+                SoundPlayer.SoundLocation = filePath;
+                SoundPlayer.Load();
                 return true;
             }
             return false;
-        }
-
-        /// <summary>
-        /// Plays the WAV file loaded with preloadSound
-        /// </summary>
-        public static void playSound()
-        {
-            player.Play();
         }
 
         private void Form1_Load(object sender, EventArgs e)

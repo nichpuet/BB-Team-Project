@@ -29,6 +29,9 @@ namespace BrickBreaker
 
         Random random = new Random();
 
+        // TODO: Add sound effects
+
+
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
 
@@ -127,17 +130,16 @@ namespace BrickBreaker
             {
                 switch (e.KeyCode)
                 {
-                    // TODO: Fix angle adjustment when you have the ball on the paddle
                     case Keys.A:
                         // move left
-                        if (angleposition > 1)
+                        if (angleposition > 1 && angleposition < 6)
                         {
                             angleposition++;
                         }
                         break;
                     case Keys.D:
                         // move right
-                        if (angleposition < 6)
+                        if (angleposition < 6 && angleposition > 1)
                         {
                             angleposition--;
                         }
@@ -279,7 +281,7 @@ namespace BrickBreaker
                         {
                             blocks.Remove(b);
 
-                            score += 100;
+                            score += b.score;
 
                             // powerups random
                             if (random.Next(1, 11) <= 2)

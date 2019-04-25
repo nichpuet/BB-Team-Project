@@ -23,7 +23,7 @@ namespace BrickBreaker
         }
 
         /// <summary>
-        /// Gets a WAV file from the file path and plays it
+        /// Gets a .wav file from the file path and plays it
         /// </summary>
         /// <param name="filePath"></param>
         public static void playSoundFrom(string filePath)
@@ -38,7 +38,7 @@ namespace BrickBreaker
         }
 
         /// <summary>
-        /// Gets the WAV file from specified location and loads it into the soundplayer
+        /// Gets the .wav file from specified location and loads it into the soundplayer
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
@@ -54,7 +54,7 @@ namespace BrickBreaker
         }
 
         /// <summary>
-        /// Plays the WAV file loaded with preloadSound
+        /// Plays the .wav file loaded with preloadSound
         /// </summary>
         public static void playSound()
         {

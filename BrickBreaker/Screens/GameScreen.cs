@@ -70,11 +70,46 @@ namespace BrickBreaker
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
         List<Block> currentlevel = new List<Block>();
-
+        
+        List<XmlReader> levelList = new List<XmlReader>();
+        int currentlevelnum = 0;
         public void OnStart()
         {
-            // Create a switch case thing for reader
-            XmlReader reader = XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/BrickBreaker/level1.xml");
+            levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/BrickBreaker/level1.xml"));
+            XmlReader reader = levelList[0];
+            switch (currentlevelnum)
+            {
+                case 0:
+                    reader = levelList[0];
+                    break;
+                case 1:
+                    reader = levelList[1];
+                    break;
+                case 2:
+                    reader = levelList[2];
+                    break;
+                case 3:
+                    reader = levelList[3];
+                    break;
+                case 4:
+                    reader = levelList[0];
+                    break;
+                case 5:
+                    reader = levelList[5];
+                    break;
+                case 6:
+                    reader = levelList[6];
+                    break;
+                case 7:
+                    reader = levelList[7];
+                    break;
+                case 8:
+                    reader = levelList[8];
+                    break;
+                case 9:
+                    reader = levelList[9];
+                    break;
+            }
 
             while (reader.Read())
             {

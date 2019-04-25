@@ -118,7 +118,6 @@ namespace BrickBreaker
                 X = reader.GetAttribute("x");
                 Y = reader.GetAttribute("y");
                 HP = reader.GetAttribute("hp");
-
             
                 currentlevel.Add(new Block(X, Y, HP));
             }
@@ -193,7 +192,7 @@ namespace BrickBreaker
             }
         }
 
-        private void anglechange()//Dima's hands only
+        private void anglechange()//Dima's hands only (fix it then)
         {
             // For the first ball, it works fine. For subsequent it breaks
             switch (angleposition)
@@ -242,8 +241,9 @@ namespace BrickBreaker
             }
         }
 
-        //TODO Nit: Can you make the ball fall a little farther before resetting the ball, something doesn't feel right when it falls
-        //Note Form1 has a soundplayer, you can access it will Form1.<function for the soundplayer>
+        //Nit: Can you make the ball fall a little farther before resetting the ball, something doesn't feel right when it falls
+        //Nit: Can you make the ball go in whatever the player last moved
+        //Note Form1 has a soundplayer, you can access it with Form1.SoundPlayer
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             angleLable.Text = angleposition.ToString();
@@ -401,6 +401,7 @@ namespace BrickBreaker
             e.Graphics.DrawString("Score: " + score.ToString(), textFont, sb, new Point(this.Width - 200, this.Height - 100));
         }
 
+        [Obsolete("Please rename this method to what it is supposed to do", true)]
         public void NickMethod()
         {
             //set all button presses to false.

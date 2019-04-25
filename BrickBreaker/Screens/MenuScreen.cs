@@ -64,7 +64,7 @@ namespace BrickBreaker
         {
             // Goes to the game screen
             GameScreen gs = new GameScreen();
-            var form = this.FindForm() as Form1;
+            var form = FindForm() as Form1;
             form.ChangeScreen(this, new GameScreen());
         }
 

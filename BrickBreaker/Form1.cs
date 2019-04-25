@@ -34,8 +34,8 @@ namespace BrickBreaker
         {
             if (File.Exists(filePath))
             {
-                player.SoundLocation = filePath;
-                player.PlaySync();
+                SoundPlayer.SoundLocation = filePath;
+                SoundPlayer.PlaySync();
             }
             else
                 throw new Exception("Could not find the required file");
@@ -50,8 +50,8 @@ namespace BrickBreaker
         {
             if(File.Exists(filePath))
             {
-                player.SoundLocation = filePath;
-                player.Load();
+                SoundPlayer.SoundLocation = filePath;
+                SoundPlayer.Load();
                 return true;
             }
             return false;

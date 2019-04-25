@@ -158,7 +158,7 @@ namespace BrickBreaker
             }
         }
 
-        private void anglechange()//Dima's hands only
+        private void anglechange()//Dima's hands only (fix it then)
         {
             // For the first ball, it works fine. For subsequent it breaks
             switch (angleposition)

@@ -27,10 +27,14 @@ namespace BrickBreaker
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
 
+        //Powerups list
+        List<Powerups> powerup = new List<Powerups>();
+
         // Brushes
         SolidBrush paddleBrush = new SolidBrush(Color.White);
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
+        SolidBrush powerupsBrush = new SolidBrush(Color.Green);
 
         // Lives
         public int player1Lives = 3;
@@ -224,13 +228,12 @@ namespace BrickBreaker
                         ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
                         ballList[0].y = paddle.y - 40;
                         ballList[0].Yangle *= -1;
-                        player1Lives--;
 
                         // reset x and y speeds
                         ballList[0].xSpeed = xSpeed;
                         ballList[0].ySpeed = ySpeed;
 
-                        if (player1Lives == 0)
+                        if (player1Lives <= 0)
                         {
                             start = false;                            
                             
@@ -257,6 +260,11 @@ namespace BrickBreaker
                         {
                             blocks.Remove(b);
 
+                            //Powerup Chance 
+                            //TODO want this to happen 20% of the time
+                            Powerups p = new Powerups(b.x, b.y, 5, "three");
+                            powerup.Add(p);
+
                             if (blocks.Count == 0)
                             {
                                 gameTimer.Enabled = false;
@@ -273,6 +281,18 @@ namespace BrickBreaker
                 // center the ball over the paddle
                 ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
                 ballList[0].y = paddle.y - 21;
+            }
+
+            //Move powerups down
+            foreach (Powerups p in powerup)
+            {
+                p.powerupMove();
+            }
+
+            //Check for collision of powerups
+            foreach (Powerups p in powerup)
+            {
+                p.powerupCollision();
             }
 
             //redraw the screen
@@ -309,6 +329,12 @@ namespace BrickBreaker
             foreach (Ball b in ballList)
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
+            }
+
+            //Draws Powerups
+            foreach (Powerups p in powerup)
+            {
+                e.Graphics.FillRectangle(powerupsBrush, p.x, p.y, p.width, p.height);
             }
 
             // Draw lives and font

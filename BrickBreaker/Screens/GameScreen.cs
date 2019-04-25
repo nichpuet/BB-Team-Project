@@ -83,9 +83,8 @@ namespace BrickBreaker
                 X = reader.GetAttribute("x");
                 Y = reader.GetAttribute("y");
                 HP = reader.GetAttribute("hp");
-
             
-                currentlevel.Add(new Block(X, Y, HP));
+                currentlevel.Add(new Block(int.Parse(X), int.Parse(Y), int.Parse(HP), Color.Red));
             }
             reader.Close();
 

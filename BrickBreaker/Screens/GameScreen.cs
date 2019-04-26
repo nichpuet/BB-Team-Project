@@ -34,7 +34,7 @@ namespace BrickBreaker
         // TODO: Add sound effects
 
 
-        // list of all blocks for current level
+        // list of all blocks for current level (dont use this, use currentlevel)
         List<Block> blocks = new List<Block>();
 
         // Brushes
@@ -352,7 +352,9 @@ namespace BrickBreaker
                         {
                             currentlevel.Remove(b);
                             if (currentlevel.Count == 0)
-                            score += b.score;
+                            {
+                                score += b.score;
+                            }
 
                             // powerups random
                             if (random.Next(1, 11) <= 2)
@@ -361,7 +363,7 @@ namespace BrickBreaker
                                 // TODO: powerups
                             }
 
-                            if (blocks.Count == 0)
+                            if (currentlevel.Count == 0)
                             {
                                 gameTimer.Enabled = false;
                                 if(currentlevelnum == levelList.Count())
@@ -407,11 +409,11 @@ namespace BrickBreaker
             // Draws paddle
             paddleBrush.Color = paddle.colour;
             e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
-;
 
             // Draws blocks
             foreach (Block b in currentlevel)
             {
+                blockBrush.Color = b.colour();
                 e.Graphics.FillRectangle(blockBrush, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
             }
 
@@ -455,7 +457,7 @@ namespace BrickBreaker
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
-            blocks.Clear();
+            //blocks.Clear();
             //int x = 10;
 
             //while (blocks.Count < 12)

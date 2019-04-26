@@ -292,7 +292,7 @@ namespace BrickBreaker
             //Check for collision of powerups
             foreach (Powerups p in powerup)
             {
-                p.powerupCollision();
+                p.PowerupCollision();
             }
 
             //redraw the screen

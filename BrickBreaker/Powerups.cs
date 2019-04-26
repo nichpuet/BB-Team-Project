@@ -27,7 +27,7 @@ namespace BrickBreaker
             y += speed;
         }
 
-        public void powerupCollision()
+        public bool PowerupCollision()
         {
             Rectangle paddleR = new Rectangle(GameScreen.paddle.x, GameScreen.paddle.y, GameScreen.paddle.width, GameScreen.paddle.height);
             Rectangle powerupR = new Rectangle(x, y, width, height);
@@ -35,6 +35,11 @@ namespace BrickBreaker
             if (powerupR.IntersectsWith(paddleR))
             {
                 //TODO this would activate the powerup
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

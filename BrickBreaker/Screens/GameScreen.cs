@@ -53,14 +53,6 @@ namespace BrickBreaker
         int ySpeed = 6;
         int ballSize = 20;
 
-        public GameScreen(bool multiplayer = false)
-        {
-            InitializeComponent();
-            OnStart();
-            if (multiplayer)
-                player2Lives = 3;
-        }
-
         // angle change buttons
         int angleposition = 3;
         bool start = false;
@@ -68,10 +60,18 @@ namespace BrickBreaker
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
         List<Block> currentlevel = new List<Block>();
-        
+
         List<XmlReader> levelList = new List<XmlReader>();
         int currentlevelnum = 0;
         bool levelLoadstart = true;
+
+        public GameScreen(bool multiplayer = false)
+        {
+            InitializeComponent();
+            OnStart();
+            if (multiplayer)
+                player2Lives = 3;
+        }
 
         public void levelLoad()
         {

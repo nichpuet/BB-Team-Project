@@ -262,7 +262,7 @@ namespace BrickBreaker
 
                             //Powerup Chance 
                             //TODO want this to happen 20% of the time
-                            Powerups p = new Powerups(b.x, b.y, 5, "three");
+                            Powerups p = new Powerups(b.x, b.y, 5, "3");
                             powerup.Add(p);
 
                             if (blocks.Count == 0)
@@ -292,9 +292,15 @@ namespace BrickBreaker
             //Check for collision of powerups
             foreach (Powerups p in powerup)
             {
-                p.PowerupCollision();
-            }
+                if (p.PowerupCollision() == true)
+                {
+                    //Activate powerup
+                    ballList.Add(new Ball(paddlex, paddley,Speed, ballSize, 1, -1));
+                    break;
+                }
 
+            }  
+            
             //redraw the screen
             Refresh();
         }

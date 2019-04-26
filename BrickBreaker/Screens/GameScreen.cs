@@ -143,6 +143,7 @@ namespace BrickBreaker
         public void OnStart()
         {
             levelLoad();
+
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 

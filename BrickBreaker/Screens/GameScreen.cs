@@ -27,8 +27,9 @@ namespace BrickBreaker
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
 
-        //Powerups list
+        //Powerups
         List<Powerups> powerup = new List<Powerups>();
+        Boolean activated = false;
 
         // Brushes
         SolidBrush paddleBrush = new SolidBrush(Color.White);
@@ -290,16 +291,22 @@ namespace BrickBreaker
             }
 
             //Check for collision of powerups
+
             foreach (Powerups p in powerup)
             {
-                if (p.PowerupCollision() == true)
+                if (p.PowerupCollision() == true && activated == false)
                 {
-                    //Activate powerup
-                    ballList.Add(new Ball(paddlex, paddley,Speed, ballSize, 1, -1));
-                    break;
-                }
+                    //activate powerup
+                    Ball b2 = new Ball(200, 100, xSpeed, ySpeed, ballSize, 1, -1);
+                    ballList.Add(b2);
 
-            }  
+                    Ball b3 = new Ball(100, 200, xSpeed, ySpeed, ballSize, 1, -1);
+                    ballList.Add(b3);
+
+                    activated = true;
+                }
+            }
+
             
             //redraw the screen
             Refresh();

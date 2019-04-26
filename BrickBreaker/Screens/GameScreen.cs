@@ -345,8 +345,9 @@ namespace BrickBreaker
                 // Check if ball has collided with any blocks
                 foreach (Ball ba in ballList)
                 {
-                    foreach (Block b in currentlevel)
+                    for (int i = 0; i < currentlevel.Count(); i++)
                     {
+                        Block b = currentlevel[i];
                         if (ba.BlockCollision(b))
                         {
                             if(b.hp < 1)

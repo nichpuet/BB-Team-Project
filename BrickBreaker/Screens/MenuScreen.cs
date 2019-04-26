@@ -14,7 +14,7 @@ namespace BrickBreaker
     {
         public MenuScreen()
         {
-            InitializeComponent();
+            InitializeComponent();                   
         }
 
         private void exitButton_Click(object sender, EventArgs e)
@@ -34,5 +34,9 @@ namespace BrickBreaker
             gs.Location = new Point((form.Width - gs.Width) / 2, (form.Height - gs.Height) / 2);
         }
 
+        private void menuTimer_Tick(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-// Max Senez UI branch h
+// Max Senez UI branch
 
 namespace BrickBreaker
 {
@@ -21,11 +21,10 @@ namespace BrickBreaker
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Start the program centred on the Menu Screen
-            MenuScreen ms = new MenuScreen();
-            this.Controls.Add(ms);
+            StartScreen ss = new StartScreen();
+            this.Controls.Add(ss);
 
-            ms.Location = new Point((this.Width - ms.Width) / 2, (this.Height - ms.Height) / 2);
+            ss.Location = new Point((this.Width - ss.Width) / 2, (this.Height - ss.Height) / 2);
         }
     }
 }

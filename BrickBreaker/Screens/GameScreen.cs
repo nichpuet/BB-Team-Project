@@ -55,7 +55,7 @@ namespace BrickBreaker
 
         // angle change buttons
         int angleposition = 3;
-        bool start = false;
+        public static bool start = false;
 
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);

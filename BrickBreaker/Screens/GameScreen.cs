@@ -23,6 +23,7 @@ namespace BrickBreaker
         public static List<Ball> ballList = new List<Ball>();
         public static int paddleWidth = 80;
         public static int paddleHeight = 20;
+        public static int ballNumber = 0;
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -80,9 +81,10 @@ namespace BrickBreaker
 
             // setup starting ball values
             int ballX = ((paddle.x - ballSize) + (paddle.width / 2));
-            int ballY =  paddle.y - 21;
+            int ballY = paddle.y - 21;
             ballList.Clear();
             ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
+            ballNumber += 1;
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
@@ -203,7 +205,7 @@ namespace BrickBreaker
             {
                 paddle.Move("right");
             }
-           
+
             if (start)
             {
                 // Move ball
@@ -220,30 +222,37 @@ namespace BrickBreaker
                     // Check for ball hitting bottom of screen
                     if (b.BottomCollision(this, paddle))
                     {
-                        // decrease player 1 lives
-                        player1Lives--;
+                         if (ballNumber == 1)
+                         {
+                            // decrease player 1 lives
+                            player1Lives--;
 
-                        // move the ball and paddle back
-                        start = false;
+                            // move the ball and paddle back
+                            start = false;
 
-                        ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
-                        ballList[0].y = paddle.y - 40;
-                        ballList[0].Yangle *= -1;
+                            ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
+                            ballList[0].y = paddle.y - 40;
+                            ballList[0].Yangle *= -1;
 
-                        // reset x and y speeds
-                        ballList[0].xSpeed = xSpeed;
-                        ballList[0].ySpeed = ySpeed;
+                            // reset x and y speeds
+                            ballList[0].xSpeed = xSpeed;
+                            ballList[0].ySpeed = ySpeed;
+                         }
+                        else
+                        {
+                            ballNumber -= 1;
+                            //TODO remove ball that hit bottom from list so it wont activate loop again
+                        }
 
                         if (player1Lives <= 0)
                         {
-                            start = false;                            
-                            
+                            start = false;
+
                             if (player2Lives == 0)
                             {
                                 gameTimer.Enabled = false;
                                 OnEnd();
                             }
-                            // TODO: Why is this here?
                             gameTimer.Enabled = false;
                             OnEnd();
                         }
@@ -291,7 +300,6 @@ namespace BrickBreaker
             }
 
             //Check for collision of powerups
-
             foreach (Powerups p in powerup)
             {
                 if (p.PowerupCollision() == true && activated == false)
@@ -299,15 +307,16 @@ namespace BrickBreaker
                     //activate powerup
                     Ball b2 = new Ball(200, 100, xSpeed, ySpeed, ballSize, 1, -1);
                     ballList.Add(b2);
+                    ballNumber+= 1;
 
                     Ball b3 = new Ball(100, 200, xSpeed, ySpeed, ballSize, 1, -1);
                     ballList.Add(b3);
+                    ballNumber+= 1;
 
                     activated = true;
                 }
             }
 
-            
             //redraw the screen
             Refresh();
         }

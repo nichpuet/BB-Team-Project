@@ -78,7 +78,7 @@ namespace BrickBreaker
             if (levelLoadstart)
             {
                 // need ten total items, think of list as actual level number -1
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level10.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level1.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level2.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level3.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level4.xml"));
@@ -312,7 +312,7 @@ namespace BrickBreaker
                         ballList[0].xSpeed = xSpeed;
                         ballList[0].ySpeed = ySpeed;
 
-                        if (player1Lives <= 0)
+                        if (player1Lives < 1)
                         {
                             start = false;                            
                             
@@ -345,12 +345,14 @@ namespace BrickBreaker
                 // Check if ball has collided with any blocks
                 foreach (Ball ba in ballList)
                 {
-                    foreach (Block b in currentlevel)
+                    for (int i = 0; i < currentlevel.Count(); i++)
                     {
+                        Block b = currentlevel[i];
                         if (ba.BlockCollision(b))
                         {
-                            currentlevel.Remove(b);
-                            if (currentlevel.Count == 0)
+                            if(b.hp < 1)
+                                currentlevel.Remove(b);
+
                             score += b.score;
 
                             // powerups random
@@ -360,7 +362,7 @@ namespace BrickBreaker
                                 // TODO: powerups
                             }
 
-                            if (blocks.Count == 0)
+                            if (currentlevel.Count == 0)
                             {
                                 gameTimer.Enabled = false;
                                 if(currentlevelnum == levelList.Count())
@@ -392,7 +394,7 @@ namespace BrickBreaker
         public void OnEnd()
         {
             // Goes to the game over screen
-            Form form = this.FindForm();
+            Form form = this.FindForm() as Form1;
             MenuScreen ps = new MenuScreen();
 
             ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
@@ -411,6 +413,7 @@ namespace BrickBreaker
             // Draws blocks
             foreach (Block b in currentlevel)
             {
+                blockBrush = new SolidBrush(b.colour());
                 e.Graphics.FillRectangle(blockBrush, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
             }
 

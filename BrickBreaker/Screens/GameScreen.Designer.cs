@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
             this.angleLable = new System.Windows.Forms.Label();
-
             this.SuspendLayout();
             // 
             // gameTimer
@@ -39,20 +38,6 @@
             this.gameTimer.Enabled = true;
             this.gameTimer.Interval = 1;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
-            // 
-            // GameScreen
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "GameScreen";
-            this.Size = new System.Drawing.Size(1200, 846);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameScreen_Paint);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GameScreen_KeyUp);
-            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.GameScreen_PreviewKeyDown);
-            this.ResumeLayout(false);
             // 
             // angleLable
             // 
@@ -63,6 +48,20 @@
             this.angleLable.Size = new System.Drawing.Size(46, 17);
             this.angleLable.TabIndex = 1;
             this.angleLable.Text = "label2";
+            // 
+            // GameScreen
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Name = "GameScreen";
+            this.Size = new System.Drawing.Size(1067, 677);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameScreen_Paint);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GameScreen_KeyUp);
+            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.GameScreen_PreviewKeyDown);
+            this.ResumeLayout(false);
 
         }
 

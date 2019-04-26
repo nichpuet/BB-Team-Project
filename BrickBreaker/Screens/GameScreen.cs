@@ -90,7 +90,7 @@ namespace BrickBreaker
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level10.xml"));
             }
 
-            XmlReader reader = levelList[0];
+            XmlReader reader = levelList[1];
             switch (currentlevelnum)
             {
                 case 0:

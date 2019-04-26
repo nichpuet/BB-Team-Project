@@ -78,7 +78,7 @@ namespace BrickBreaker
             if (levelLoadstart)
             {
                 // need ten total items, think of list as actual level number -1
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level1.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level10.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level2.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level3.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level4.xml"));
@@ -88,7 +88,6 @@ namespace BrickBreaker
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level8.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level9.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level10.xml"));
-
             }
 
             XmlReader reader = levelList[0];
@@ -217,8 +216,7 @@ namespace BrickBreaker
             {
                 case 1:
                     ballList[0].Xangle = 0.5;
-                    ballList[0].Yangle = -1;
-                    
+                    ballList[0].Yangle = -1;         
                     break;
                 case 2:
                     ballList[0].Xangle = 1;

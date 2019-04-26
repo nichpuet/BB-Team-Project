@@ -63,7 +63,7 @@ namespace BrickBreaker
 
         // angle change buttons
         int angleposition = 3;
-        static bool start = false;
+        bool start = false;
 
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
@@ -78,7 +78,7 @@ namespace BrickBreaker
             if (levelLoadstart)
             {
                 // need ten total items, think of list as actual level number -1
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level10.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level1.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level2.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level3.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level4.xml"));

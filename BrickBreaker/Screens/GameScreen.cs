@@ -65,17 +65,68 @@ namespace BrickBreaker
         int angleposition = 3;
         bool start = false;
 
-        bool Akeydown = false;
-        bool Dkeydown = false;
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
         List<Block> currentlevel = new List<Block>();
+        
+        List<XmlReader> levelList = new List<XmlReader>();
+        int currentlevelnum = 0;
+        bool levelLoadstart = true;
 
-        public void OnStart()
+        public void levelLoad()
         {
-            // Create a switch case thing for reader
-            XmlReader reader = XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/BrickBreaker/level1.xml");
+            if (levelLoadstart)
+            {
+                // need ten total items, think of list as actual level number -1
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level1.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level2.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level3.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level4.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level5.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level6.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level7.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level8.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level9.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level10.xml"));
 
+            }
+
+            XmlReader reader = levelList[0];
+            switch (currentlevelnum)
+            {
+                case 0:
+                    reader = levelList[0];
+                    break;
+                case 1:
+                    reader = levelList[1];
+                    break;
+                case 2:
+                    reader = levelList[2];
+                    break;
+                case 3:
+                    reader = levelList[3];
+                    break;
+                case 4:
+                    reader = levelList[4];
+                    break;
+                case 5:
+                    reader = levelList[5];
+                    break;
+                case 6:
+                    reader = levelList[6];
+                    break;
+                case 7:
+                    reader = levelList[7];
+                    break;
+                case 8:
+                    reader = levelList[8];
+                    break;
+                case 9:
+                    reader = levelList[9];
+                    break;
+            }
+
+            currentlevel.Clear();
             while (reader.Read())
             {
                 string X, Y, HP;
@@ -83,12 +134,16 @@ namespace BrickBreaker
                 X = reader.GetAttribute("x");
                 Y = reader.GetAttribute("y");
                 HP = reader.GetAttribute("hp");
-            
+
                 currentlevel.Add(new Block(X, Y, HP));
             }
-
             reader.Close();
-                       
+        }
+
+        public void OnStart()
+        {
+            levelLoad();
+
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 
@@ -156,9 +211,8 @@ namespace BrickBreaker
             }
         }
 
-        private void anglechange()//Dima's hands only (fix it then)
+        private void anglechange()
         {
-            // For the first ball, it works fine. For subsequent it breaks
             switch (angleposition)
             {
                 case 1:
@@ -310,7 +364,14 @@ namespace BrickBreaker
                             if (blocks.Count == 0)
                             {
                                 gameTimer.Enabled = false;
-                                OnEnd();
+                                if(currentlevelnum == levelList.Count())
+                                {
+                                    OnEnd();
+                                }
+                                else
+                                {
+                                    currentlevelnum++;
+                                }
                             }
 
                             break;

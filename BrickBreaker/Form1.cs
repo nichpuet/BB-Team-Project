@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Media;
 
 // Max Senez UI branch
 
@@ -14,17 +16,60 @@ namespace BrickBreaker
 {
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// The Game's Soundplayer.
+        /// Note that remember that playSoundFrom and preloadSound will save lines of code when used
+        /// </summary>
+        public static SoundPlayer SoundPlayer = new SoundPlayer();
+        public static GameScreen currentGame;
         public Form1()
         {
             InitializeComponent();
+            Directory.SetCurrentDirectory(Program.FilePath);//Set the program to put files in the created directory
+        }
+
+        /// <summary>
+        /// Gets a .wav file from the file path and plays it
+        /// </summary>
+        /// <param name="filePath"></param>
+        public static void playSoundFrom(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                SoundPlayer.SoundLocation = filePath;
+                SoundPlayer.PlaySync();
+            }
+            else
+                throw new Exception("Could not find the required file");
+        }
+
+        /// <summary>
+        /// Gets the .wav file from specified location and loads it into the soundplayer
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static bool preloadSound(string filePath)
+        {
+            if(File.Exists(filePath))
+            {
+                SoundPlayer.SoundLocation = filePath;
+                SoundPlayer.Load();
+                return true;
+            }
+            return false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
             StartScreen ss = new StartScreen();
             this.Controls.Add(ss);
 
             ss.Location = new Point((this.Width - ss.Width) / 2, (this.Height - ss.Height) / 2);
+
         }
+
+  
+        
     }
 }

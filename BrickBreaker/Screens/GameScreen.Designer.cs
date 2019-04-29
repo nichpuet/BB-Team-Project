@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
+
             this.life5Output = new System.Windows.Forms.Label();
             this.spacer = new System.Windows.Forms.Label();
             this.life1Output = new System.Windows.Forms.Label();
@@ -38,6 +39,7 @@
             this.life4Output = new System.Windows.Forms.Label();
             this.levelLabel = new System.Windows.Forms.Label();
             this.highscoreLabel = new System.Windows.Forms.Label();
+
             this.SuspendLayout();
             // 
             // gameTimer
@@ -46,6 +48,7 @@
             this.gameTimer.Interval = 16;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
             // 
+
             // life5Output
             // 
             this.life5Output.BackColor = System.Drawing.Color.Transparent;
@@ -121,10 +124,11 @@
             this.highscoreLabel.Size = new System.Drawing.Size(518, 67);
             this.highscoreLabel.TabIndex = 7;
             this.highscoreLabel.Text = "HIGHSCORE: 00000";
+
             // 
             // GameScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Controls.Add(this.highscoreLabel);
@@ -136,9 +140,10 @@
             this.Controls.Add(this.spacer);
             this.Controls.Add(this.life5Output);
             this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "GameScreen";
-            this.Size = new System.Drawing.Size(1200, 846);
+            this.Size = new System.Drawing.Size(1067, 677);
+
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameScreen_Paint);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GameScreen_KeyUp);
             this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.GameScreen_PreviewKeyDown);
@@ -149,6 +154,7 @@
         #endregion
 
         private System.Windows.Forms.Timer gameTimer;
+
         private System.Windows.Forms.Label life5Output;
         private System.Windows.Forms.Label spacer;
         private System.Windows.Forms.Label life1Output;
@@ -157,5 +163,6 @@
         private System.Windows.Forms.Label life4Output;
         private System.Windows.Forms.Label levelLabel;
         private System.Windows.Forms.Label highscoreLabel;
+
     }
 }

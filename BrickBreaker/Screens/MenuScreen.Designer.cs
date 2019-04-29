@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+
             this.components = new System.ComponentModel.Container();
             this.titleLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -36,10 +37,12 @@
             this.menuTimer = new System.Windows.Forms.Timer(this.components);
             this.brickWallPic = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.brickWallPic)).BeginInit();
+
             this.SuspendLayout();
             // 
             // titleLabel
             // 
+
             this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.titleLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -120,6 +123,7 @@
             this.Name = "MenuScreen";
             this.Size = new System.Drawing.Size(800, 520);
             ((System.ComponentModel.ISupportInitialize)(this.brickWallPic)).EndInit();
+
             this.ResumeLayout(false);
 
         }
@@ -132,5 +136,6 @@
         private System.Windows.Forms.Label exitLabel;
         private System.Windows.Forms.Timer menuTimer;
         private System.Windows.Forms.PictureBox brickWallPic;
+
     }
 }

@@ -53,6 +53,18 @@ namespace BrickBreaker
         int ySpeed = 6;
         int ballSize = 20;
 
+        // angle change buttons
+        int angleposition = 3;
+        public static bool start = false;
+
+        Font textFont;
+        SolidBrush sb = new SolidBrush(Color.White);
+        List<Block> currentlevel = new List<Block>();
+
+        List<XmlReader> levelList = new List<XmlReader>();
+        int currentlevelnum = 0;
+        bool levelLoadstart = true;
+
         public GameScreen(bool multiplayer = false)
         {
             InitializeComponent();
@@ -60,18 +72,6 @@ namespace BrickBreaker
             if (multiplayer)
                 player2Lives = 3;
         }
-
-        // angle change buttons
-        int angleposition = 3;
-        static bool start = false;
-
-        Font textFont;
-        SolidBrush sb = new SolidBrush(Color.White);
-        List<Block> currentlevel = new List<Block>();
-        
-        List<XmlReader> levelList = new List<XmlReader>();
-        int currentlevelnum = 0;
-        bool levelLoadstart = true;
 
         public void levelLoad()
         {
@@ -88,10 +88,9 @@ namespace BrickBreaker
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level8.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level9.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level10.xml"));
-
             }
 
-            XmlReader reader = levelList[0];
+            XmlReader reader = levelList[1];
             switch (currentlevelnum)
             {
                 case 0:
@@ -143,6 +142,7 @@ namespace BrickBreaker
         public void OnStart()
         {
             levelLoad();
+
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 
@@ -216,8 +216,7 @@ namespace BrickBreaker
             {
                 case 1:
                     ballList[0].Xangle = 0.5;
-                    ballList[0].Yangle = -1;
-                    
+                    ballList[0].Yangle = -1;         
                     break;
                 case 2:
                     ballList[0].Xangle = 1;
@@ -277,6 +276,7 @@ namespace BrickBreaker
            
             if (start)
             {
+                /// asdasdf
                 // Move ball
                 foreach (Ball b in ballList)
                 {
@@ -350,8 +350,7 @@ namespace BrickBreaker
                         Block b = currentlevel[i];
                         if (ba.BlockCollision(b))
                         {
-                            if(b.hp < 1)
-                                currentlevel.Remove(b);
+                            currentlevel.Remove(b);
 
                             score += b.score;
 
@@ -394,7 +393,7 @@ namespace BrickBreaker
         public void OnEnd()
         {
             // Goes to the game over screen
-            Form form = this.FindForm() as Form1;
+            Form form = FindForm();
             MenuScreen ps = new MenuScreen();
 
             ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);

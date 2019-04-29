@@ -270,9 +270,9 @@ namespace BrickBreaker
                         {
                             blocks.Remove(b);
 
-                            //Powerup Chance (20%)
+                            //Powerup Chance 
                             Random randPower = new Random();
-                            randomPowerupChance = randPower.Next(1, 11);
+                            randomPowerupChance = randPower.Next(1, 7);
 
                             if (randomPowerupChance == 1 || randomPowerupChance == 2)
                             {

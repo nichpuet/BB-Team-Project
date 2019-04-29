@@ -15,7 +15,7 @@ namespace BrickBreaker
     {
         #region global values
 
-        //player1 button control keys - DO NOT CHANGE
+        //player1 button control keys
         Boolean leftArrowDown, rightArrowDown, ADown, DDown;
 
         // Paddle and Ball objects
@@ -220,29 +220,22 @@ namespace BrickBreaker
                     b.WallCollision(this);
 
                     // Check for ball hitting bottom of screen
-                    if (b.BottomCollision(this, paddle))
+                    if (b.BottomCollision(this, paddle) && ballNumber == 1)
                     {
-                         if (ballNumber == 1)
-                         {
-                            // decrease player 1 lives
-                            player1Lives--;
 
-                            // move the ball and paddle back
-                            start = false;
+                        // decrease player 1 lives
+                        player1Lives--;
 
-                            ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
-                            ballList[0].y = paddle.y - 40;
-                            ballList[0].Yangle *= -1;
+                        // move the ball and paddle back
+                        start = false;
 
-                            // reset x and y speeds
-                            ballList[0].xSpeed = xSpeed;
-                            ballList[0].ySpeed = ySpeed;
-                         }
-                        else
-                        {
-                            ballNumber -= 1;
-                            //TODO remove ball that hit bottom from list so it wont activate loop again
-                        }
+                        ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
+                        ballList[0].y = paddle.y - 40;
+                        ballList[0].Yangle *= -1;
+
+                        // reset x and y speeds
+                        ballList[0].xSpeed = xSpeed;
+                        ballList[0].ySpeed = ySpeed;
 
                         if (player1Lives <= 0)
                         {
@@ -257,6 +250,12 @@ namespace BrickBreaker
                             OnEnd();
                         }
                     }
+                    else if (b.BottomCollision(this, paddle))
+                    {
+                        //TODO Remove ball that hit bottom from list
+                        ballNumber -= 1;
+                    }
+
                     // Check for collision of ball with paddle, (incl. paddle movement)
                     b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
                 }
@@ -307,11 +306,11 @@ namespace BrickBreaker
                     //activate powerup
                     Ball b2 = new Ball(200, 100, xSpeed, ySpeed, ballSize, 1, -1);
                     ballList.Add(b2);
-                    ballNumber+= 1;
+                    ballNumber += 1;
 
                     Ball b3 = new Ball(100, 200, xSpeed, ySpeed, ballSize, 1, -1);
                     ballList.Add(b3);
-                    ballNumber+= 1;
+                    ballNumber += 1;
 
                     activated = true;
                 }

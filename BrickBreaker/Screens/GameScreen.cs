@@ -32,7 +32,7 @@ namespace BrickBreaker
         Random random = new Random();
 
         // TODO: Add sound effects
-
+        bool start = false;
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -163,7 +163,7 @@ namespace BrickBreaker
             int ballY =  paddle.y - 21;
             ballList.Clear();
             ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
-
+            
             // start the game engine loop
             gameTimer.Enabled = true;
         }
@@ -316,7 +316,7 @@ namespace BrickBreaker
                         {
                             start = false;                            
                             
-                            if (player2Lives == 0)
+                            if (player2Lives < 0)
                             {
                                 gameTimer.Enabled = false;
                                 OnEnd();
@@ -373,7 +373,6 @@ namespace BrickBreaker
                                     currentlevelnum++;
                                 }
                             }
-
                             break;
                         }
                     }
@@ -388,18 +387,13 @@ namespace BrickBreaker
 
             //redraw the screen
             Refresh();
-        }
+         }
 
         public void OnEnd()
         {
             // Goes to the game over screen
-            Form form = FindForm();
-            MenuScreen ps = new MenuScreen();
-
-            ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
-
-            form.Controls.Add(ps);
-            form.Controls.Remove(this);
+            Form1 form = this.FindForm() as Form1;
+            form.ChangeScreen(this, new MenuScreen());
         }
 
         public void GameScreen_Paint(object sender, PaintEventArgs e)

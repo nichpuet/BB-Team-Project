@@ -40,23 +40,30 @@
       -<brick x ="516" y ="167" hp ="1"/>
       -<brick x ="628" y ="167" hp ="1"/>
       -<brick x ="684" y ="167" hp ="1"/>
+      -<brick x ="572" y ="167" hp ="1"/>
 
       -<brick x ="516" y ="198" hp ="1"/>
       -<brick x ="572" y ="198" hp ="1"/>
       -<brick x ="628" y ="198" hp ="1"/>
       -<brick x ="684" y ="198" hp ="1"/>
+      -<brick x ="460" y ="198" hp ="1"/>
 
-      -<brick x ="516" y ="229" hp ="2"/>
+      -<brick x ="516" y ="229" hp ="1"/>
       -<brick x ="572" y ="229" hp ="1"/>
       -<brick x ="628" y ="229" hp ="1"/>
+      -<brick x ="684" y ="229" hp ="1"/>
+      -<brick x ="460" y ="229" hp ="1"/>
       
-      -<brick x ="516" y ="260" hp ="3"/>
+      -<brick x ="516" y ="260" hp ="1"/>
+      -<brick x ="572" y ="260" hp ="1"/>
       -<brick x ="628" y ="260" hp ="1"/>
       -<brick x ="460" y ="260" hp ="1"/>
       -<brick x ="684" y ="260" hp ="1"/>
 
-      -<brick x ="516" y ="291" hp ="4"/>
+      -<brick x ="516" y ="291" hp ="1"/>
+      -<brick x ="572" y ="291" hp ="1"/>
       -<brick x ="628" y ="291" hp ="1"/>
       -<brick x ="460" y ="291" hp ="1"/>
+      -<brick x ="684" y ="291" hp ="1"/>
 
 </level>

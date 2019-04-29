@@ -31,6 +31,7 @@ namespace BrickBreaker
         //Powerups
         List<Powerups> powerup = new List<Powerups>();
         Boolean activated = false;
+        public static int randomPowerupChance;
 
         // Brushes
         SolidBrush paddleBrush = new SolidBrush(Color.White);
@@ -269,10 +270,15 @@ namespace BrickBreaker
                         {
                             blocks.Remove(b);
 
-                            //Powerup Chance 
-                            //TODO want this to happen 20% of the time
-                            Powerups p = new Powerups(b.x, b.y, 5, "3");
-                            powerup.Add(p);
+                            //Powerup Chance (20%)
+                            Random randPower = new Random();
+                            randomPowerupChance = randPower.Next(1, 11);
+
+                            if (randomPowerupChance == 1 || randomPowerupChance == 2)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "3");
+                                powerup.Add(p);
+                            }
 
                             if (blocks.Count == 0)
                             {

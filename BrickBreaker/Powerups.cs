@@ -14,7 +14,7 @@ namespace BrickBreaker
         public int width = 15;
         public int height = 15;
 
-        public Powerups(int _x, int _y, int _speed, string _type)
+        public Powerups (int _x, int _y, int _speed, string _type)
         {
             x = _x;
             y = _y;
@@ -34,6 +34,7 @@ namespace BrickBreaker
 
             if (powerupR.IntersectsWith(paddleR))
             {
+                //TODO this would activate the powerup
                 return true;
             }
             else

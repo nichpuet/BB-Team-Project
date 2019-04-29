@@ -32,7 +32,6 @@ namespace BrickBreaker
         Random random = new Random();
 
         // TODO: Add sound effects
-        bool start = false;
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();

@@ -350,8 +350,7 @@ namespace BrickBreaker
                         Block b = currentlevel[i];
                         if (ba.BlockCollision(b))
                         {
-                            if(b.hp < 1)
-                                currentlevel.Remove(b);
+                            currentlevel.Remove(b);
 
                             score += b.score;
 
@@ -394,7 +393,7 @@ namespace BrickBreaker
         public void OnEnd()
         {
             // Goes to the game over screen
-            Form form = this.FindForm() as Form1;
+            Form form = FindForm() as Form1;
             MenuScreen ps = new MenuScreen();
 
             ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);

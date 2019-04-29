@@ -82,8 +82,7 @@ namespace BrickBreaker
 
         public bool BottomCollision(UserControl UC, Paddle p)
         {
-            if (y + size -4 > p.y)
-            //if(y >= UC.Height)
+            if (y >= UC.Height + 10)
             {
                 return true;
             }

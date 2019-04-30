@@ -39,6 +39,7 @@ namespace BrickBreaker
         SolidBrush paddleBrush = new SolidBrush(Color.White);
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
+        Pen linePen = new Pen(Color.White);
 
         // Lives
         public int player1Lives = 3;
@@ -55,7 +56,8 @@ namespace BrickBreaker
 
         // angle change buttons
         int angleposition = 3;
-       // public static bool start = false;
+        // angle points for the line aim
+        Point p1, p2;
 
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
@@ -385,6 +387,41 @@ namespace BrickBreaker
                 // center the ball over the paddle
                 ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
                 ballList[0].y = paddle.y - 21;
+
+                // draw line to show ball aim
+                p1 = new Point(Convert.ToInt16(ballList[0].x), Convert.ToInt16(ballList[0].y));
+
+                switch (angleposition)
+                {
+                    // right
+                    case 1:
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
+                        break;
+
+                    case 2:
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 25, Convert.ToInt16(ballList[0].y) - 120);
+                        break;
+
+                    case 3:
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 15, Convert.ToInt16(ballList[0].y) - 120);
+                        break;
+
+                    case 4:
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
+                        break;
+
+                    case 5:
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
+                        break;
+
+                    case 6:
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) - 50, Convert.ToInt16(ballList[0].y) - 120);
+                        break;
+                    // left
+                    default:
+
+                        break;
+                }
             }
 
             //redraw the screen
@@ -394,9 +431,6 @@ namespace BrickBreaker
         public void OnEnd()
         {
             // Goes to the game over screen
-
- 
-
             Form1 form = FindForm() as Form1;
             form.ChangeScreen(this, new MenuScreen());
 
@@ -419,6 +453,12 @@ namespace BrickBreaker
             foreach (Ball b in ballList)
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
+            }
+
+            // draw line aim
+            if (!start)
+            {
+                e.Graphics.DrawLine(linePen, p1, p2);
             }
 
             // Draw lives and score

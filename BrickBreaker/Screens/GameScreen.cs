@@ -319,7 +319,7 @@ namespace BrickBreaker
                         ballList[0].xSpeed = xSpeed;
                         ballList[0].ySpeed = ySpeed;
 
-                        if (player1Lives <= 0)
+                        if (player1Lives < 1)
                         {
                             start = false;                            
                             
@@ -352,8 +352,9 @@ namespace BrickBreaker
                 // Check if ball has collided with any blocks
                 foreach (Ball ba in ballList)
                 {
-                    foreach (Block b in currentlevel)
+                    for (int i = 0; i < currentlevel.Count(); i++)
                     {
+                        Block b = currentlevel[i];
                         if (ba.BlockCollision(b))
                         {
                             b.hp = 3;
@@ -411,7 +412,7 @@ namespace BrickBreaker
         public void OnEnd()
         {
             // Goes to the game over screen
-            Form form = this.FindForm();
+            Form form = this.FindForm() as Form1;
             MenuScreen ps = new MenuScreen();
 
             ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);

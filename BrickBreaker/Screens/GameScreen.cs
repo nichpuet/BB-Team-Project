@@ -40,7 +40,7 @@ namespace BrickBreaker
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
         // Lives
-        public int player1Lives = 3;
+        public int player1Lives = 500;
         public int? player2Lives = null;
         public static int score = 0;
         #endregion
@@ -132,6 +132,7 @@ namespace BrickBreaker
 
                 currentlevel.Add(new Block(X, Y, HP));
             }
+            currentlevel.Remove(currentlevel[currentlevel.Count()- 1]);
             reader.Close();
         }
 
@@ -258,8 +259,6 @@ namespace BrickBreaker
         //Note Form1 has a soundplayer, you can access it with Form1.SoundPlayer
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-            angleLable.Text = angleposition.ToString();
-
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {
@@ -311,7 +310,6 @@ namespace BrickBreaker
                         if (player1Lives < 1)
                         {
                             start = false;                            
-                            
                             if (player2Lives < 0)
                             {
                                 gameTimer.Enabled = false;
@@ -331,13 +329,11 @@ namespace BrickBreaker
                     // Check for collision of ball with paddle, (incl. paddle movement)
                     b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
                 }
-
                 // remove any balls that need to be removed
                 foreach (Ball b in removeBalls)
                 {
                     ballList.Remove(b);
                 }
-
                 // Check if ball has collided with any blocks
                 foreach (Ball ba in ballList)
                 {
@@ -359,7 +355,7 @@ namespace BrickBreaker
                                 // TODO: powerups
                             }
 
-                            if (currentlevel.Count == 0)
+                            if (currentlevel.Count < 1)
                             {
                                 gameTimer.Enabled = false;
                                 if(currentlevelnum == levelList.Count())
@@ -415,8 +411,8 @@ namespace BrickBreaker
             }
 
             // Draw lives and score
-            e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 100));
-            e.Graphics.DrawString("Score: " + score.ToString(), textFont, sb, new Point(this.Width - 200, this.Height - 100));
+            e.Graphics.DrawString("Lives: " + player1Lives, textFont, sb, new Point(25, this.Height - 100));
+            e.Graphics.DrawString("Score: " + score, textFont, sb, new Point(this.Width - 200, this.Height - 100));
         }
 
         [Obsolete("Please rename this method to what it is supposed to do", true)]

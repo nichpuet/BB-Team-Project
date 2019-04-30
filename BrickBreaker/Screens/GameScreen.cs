@@ -52,7 +52,7 @@ namespace BrickBreaker
 
         // angle change buttons
         int angleposition = 3;
-        public static bool start = false;
+       // public static bool start = false;
 
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
@@ -258,6 +258,9 @@ namespace BrickBreaker
         //Note Form1 has a soundplayer, you can access it with Form1.SoundPlayer
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+
+         //   angleLable.Text = angleposition.ToString();
+
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {
@@ -390,8 +393,12 @@ namespace BrickBreaker
         public void OnEnd()
         {
             // Goes to the game over screen
+
+ 
+
             Form1 form = FindForm() as Form1;
             form.ChangeScreen(this, new MenuScreen());
+
         }
 
         public void GameScreen_Paint(object sender, PaintEventArgs e)

@@ -60,10 +60,12 @@ namespace BrickBreaker
         }
 
         public void ChangeScreen(UserControl remove, UserControl add)
+
         {
             Controls.Add(add);
             Controls.Remove(remove);
             remove.Dispose();
+
         }
 
         private void Form1_Load(object sender, EventArgs e)

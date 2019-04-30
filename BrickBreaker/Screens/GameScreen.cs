@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
 
+/// <summary>
+/// two errors on my code. paddle can get stuck when it it larger and sometimes it says there are balls left when there is not lol
+/// </summary>
+
 namespace BrickBreaker
 {
     public partial class GameScreen : UserControl
@@ -343,12 +347,18 @@ namespace BrickBreaker
                 {
                     if (p.type == "3")
                     {
+                        Random randGen = new Random();
+                        int x, y;
+
+                        x = randGen.Next(1, 301);
+                        y = randGen.Next(1, 301);
+
                         //activate powerup
-                        Ball b2 = new Ball(200, 100, xSpeed, ySpeed, ballSize, 1, -1);
+                        Ball b2 = new Ball(x, y, xSpeed, ySpeed, ballSize, 1, -1);
                         ballList.Add(b2);
                         ballNumber += 1;
 
-                        Ball b3 = new Ball(100, 200, xSpeed, ySpeed, ballSize, 1, -1);
+                        Ball b3 = new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1);
                         ballList.Add(b3);
                         ballNumber += 1;
                     }

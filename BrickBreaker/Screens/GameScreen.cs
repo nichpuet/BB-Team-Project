@@ -28,6 +28,7 @@ namespace BrickBreaker
         public static int paddleHeight = 20;
         int paddleX;
         int paddleY;
+        bool start = false;
 
         Random random = new Random();
 
@@ -352,9 +353,14 @@ namespace BrickBreaker
                         Block b = currentlevel[i];
                         if (ba.BlockCollision(b))
                         {
-                            currentlevel.Remove(b);
+                            //currentlevel.Remove(b);
+                            b.hp--;
+                            if (b.hp <= 0)
+                            {
+                                currentlevel.Remove(b);
+                            }
 
-                            score += b.score;
+                            score += 100;
 
                             // powerups random
                             if (random.Next(1, 11) <= 2)

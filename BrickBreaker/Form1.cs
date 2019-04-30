@@ -62,11 +62,8 @@ namespace BrickBreaker
         public void ChangeScreen(UserControl remove, UserControl add)
 
         {
-
             Controls.Add(add);
-
             Controls.Remove(remove);
-
             remove.Dispose();
 
         }

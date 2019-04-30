@@ -31,9 +31,6 @@ namespace BrickBreaker
 
         Random random = new Random();
 
-        // TODO: Add sound effects
-        bool start = false;
-
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
 
@@ -262,6 +259,7 @@ namespace BrickBreaker
         //Note Form1 has a soundplayer, you can access it with Form1.SoundPlayer
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+
          //   angleLable.Text = angleposition.ToString();
 
             // Move the paddle
@@ -392,8 +390,12 @@ namespace BrickBreaker
         public void OnEnd()
         {
             // Goes to the game over screen
-            Form1 form = this.FindForm() as Form1;
-          //  form.ChangeScreen(this, new MenuScreen());
+
+ 
+
+            Form1 form = FindForm() as Form1;
+            form.ChangeScreen(this, new MenuScreen());
+
         }
 
         public void GameScreen_Paint(object sender, PaintEventArgs e)

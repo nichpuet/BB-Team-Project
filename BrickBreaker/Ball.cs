@@ -27,6 +27,30 @@ namespace BrickBreaker
             y = y + ySpeed;
         }
 
+        //testing method
+        public void GameOverMove()
+        {
+            y = y + ySpeed;
+        }
+
+        public void WinMove()
+        {
+            y = y - ySpeed;
+        }
+
+        //testing explosions
+        public void ExplosionLeft()
+        {
+            x = x - size;
+            y = y - ySpeed;
+        }
+
+        public void ExplosionRight()
+        {
+            x = x + size;
+            y = y - ySpeed;
+        }
+
         public bool BlockCollision(Block b)
         {
             Rectangle blockRec = new Rectangle(b.x, b.y, b.width, b.height);

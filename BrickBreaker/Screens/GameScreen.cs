@@ -165,7 +165,8 @@ namespace BrickBreaker
                 if (lives == 0)
                 {
                     gameTimer.Enabled = false;
-                    OnEnd();
+                    //testing
+                    scores();
                 }
             }
 
@@ -212,13 +213,14 @@ namespace BrickBreaker
             string scoreNumber = score.ToString();
             HighScore s = new HighScore(scoreNumber);
             Form1.highScores.Add(s);
-
+            
             OnEnd();
+            //GameOver();
         }
         
 
         //testing
-        public void saveScores()
+        public void saveScoresRK()
         {
             XmlWriter writer = XmlWriter.Create("Resources/GameLevels.xml", null);
 
@@ -237,12 +239,24 @@ namespace BrickBreaker
 
             writer.Close();
         }
+        
+
+        //testing
+        public void GameOver()
+        {
+            Form form = this.FindForm();
+            GameOverScreen ps = new GameOverScreen();
+            ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
+
+            form.Controls.Add(ps);
+            form.Controls.Remove(this);
+        }
 
         public void OnEnd()
         {
 
             //Testing: Saving the scores
-            saveScores();
+            saveScoresRK();
 
             
 

@@ -36,67 +36,22 @@ namespace BrickBreaker
 
             ms.Location = new Point((this.Width - ms.Width) / 2, (this.Height - ms.Height) / 2);
 
-            //Below is XML platform to work with 
-            //TESTING PURPOSES
+
+            //Plans for next step...determine if the score should be saved to the list (5 scores should be in high scores)
+            //Set variables to each of the score like highScores[0]...highScores[4]...as these will be displayed 
+            //if the list contains the same score, then do not add it again to the list
+            //if (highScores.Contains(the same score))
+            //{
+            //  Do not display, just proceed
+            //}
+            //if the list does not contain the same score, check if the score is more or less than the scores in highScores
+            //{
+            //  if the score is more, then display
+            //  if the score is less, then do not display
+            //}
         }
-        //public void loadScores()
-        //{
-            
-        //    //creating Xml reader file 
-        //    XmlReader reader = XmlReader.Create("Resources/gameLevels.xml");
-        //    //declaring what needs to be saved...These will eventually become something from the high score list
-        //    string highScore1String, highScore2String, highScore3String, highScore4String, highScore5String;
-        //    //basically highScore1String is going to be highScore #1...and on...etc
-        //    //plan: "highScores" should only contain 5 high "scores"
 
-        //    while (reader.Read())
-        //    {
-        //        if (reader.NodeType == XmlNodeType.Text)
-        //        {
-        //            highScore1String = reader.ReadString();
 
-        //            reader.ReadToNextSibling("highScore1String");
-        //            highScore2String = reader.ReadString();
 
-        //            reader.ReadToNextSibling("highScore2String");
-        //            highScore3String = reader.ReadString();
-
-        //            reader.ReadToNextSibling("highScore3String");
-        //            highScore4String = reader.ReadString();
-
-        //            reader.ReadToNextSibling("highScore4String");
-        //            highScore5String = reader.ReadString();
-
-        //            HighScore scores = new HighScore(highScore1String, highScore2String, highScore3String, highScore4String, highScore5String);
-        //            highScores.Add(scores);
-        //        }
-        //    }
-
-        //    reader.Close();
-        //}
-
-        //public void saveScores()
-        //{
-        //    XmlWriter writer = XmlWriter.Create("Resources/gameLevels.xml", null);
-
-        //    writer.WriteStartElement("High Scores");
-
-        //    foreach (HighScore s in highScores)
-        //    {
-        //            writer.WriteStartElement("High Scores");
-
-        //            writer.WriteElementString("Score #1", s.score1);
-        //            writer.WriteElementString("Score #2", s.score2);
-        //            writer.WriteElementString("Score #3", s.score3);
-        //            writer.WriteElementString("Score #4", s.score4);
-        //            writer.WriteElementString("Score #5", s.score5);
-
-        //            writer.WriteEndElement();
-        //    }
-
-        //        writer.WriteEndElement();
-
-        //        writer.Close();
-        //}
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BrickBreaker
 {
-    partial class GameScreen
+    partial class GameOverScreen
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,35 +29,42 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.gameTimer = new System.Windows.Forms.Timer(this.components);
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.gameOverLabel = new System.Windows.Forms.Label();
+            this.gameOverTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // gameTimer
+            // gameOverLabel
             // 
-            this.gameTimer.Enabled = true;
-            this.gameTimer.Interval = 1;
-            this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
+            this.gameOverLabel.Font = new System.Drawing.Font("Tahoma", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gameOverLabel.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.gameOverLabel.Location = new System.Drawing.Point(662, 376);
+            this.gameOverLabel.Name = "gameOverLabel";
+            this.gameOverLabel.Size = new System.Drawing.Size(1213, 276);
+            this.gameOverLabel.TabIndex = 0;
             // 
-            // GameScreen
+            // gameOverTimer
+            // 
+            this.gameOverTimer.Enabled = true;
+            this.gameOverTimer.Interval = 20;
+            this.gameOverTimer.Tick += new System.EventHandler(this.gameOverTimer_Tick);
+            // 
+            // GameOverScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(19F, 37F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Controls.Add(this.gameOverLabel);
             this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(8, 9, 8, 9);
-            this.Name = "GameScreen";
-            this.Size = new System.Drawing.Size(2533, 1565);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameScreen_Paint);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GameScreen_KeyUp);
-            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.GameScreen_PreviewKeyDown);
+            this.Name = "GameOverScreen";
+            this.Size = new System.Drawing.Size(2535, 1565);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameOver_Paint);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Timer gameTimer;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label gameOverLabel;
+        private System.Windows.Forms.Timer gameOverTimer;
     }
 }

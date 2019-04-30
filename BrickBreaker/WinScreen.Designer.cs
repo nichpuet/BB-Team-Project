@@ -1,6 +1,6 @@
 ﻿namespace BrickBreaker
 {
-    partial class GameScreen
+    partial class WinScreen
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,35 +29,41 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.gameTimer = new System.Windows.Forms.Timer(this.components);
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.winnerLabel = new System.Windows.Forms.Label();
+            this.winnerTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // gameTimer
+            // winnerLabel
             // 
-            this.gameTimer.Enabled = true;
-            this.gameTimer.Interval = 1;
-            this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
+            this.winnerLabel.Font = new System.Drawing.Font("Tahoma", 28F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.winnerLabel.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.winnerLabel.Location = new System.Drawing.Point(817, 291);
+            this.winnerLabel.Name = "winnerLabel";
+            this.winnerLabel.Size = new System.Drawing.Size(1384, 306);
+            this.winnerLabel.TabIndex = 0;
             // 
-            // GameScreen
+            // winnerTimer
+            // 
+            this.winnerTimer.Enabled = true;
+            this.winnerTimer.Interval = 20;
+            this.winnerTimer.Tick += new System.EventHandler(this.winnerTimer_Tick);
+            // 
+            // WinScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(19F, 37F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(8, 9, 8, 9);
-            this.Name = "GameScreen";
-            this.Size = new System.Drawing.Size(2533, 1565);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameScreen_Paint);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GameScreen_KeyUp);
-            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.GameScreen_PreviewKeyDown);
+            this.Controls.Add(this.winnerLabel);
+            this.Name = "WinScreen";
+            this.Size = new System.Drawing.Size(2535, 1565);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.WinScreen_Paint);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Timer gameTimer;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label winnerLabel;
+        private System.Windows.Forms.Timer winnerTimer;
     }
 }

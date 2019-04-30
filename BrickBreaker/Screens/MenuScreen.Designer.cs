@@ -59,7 +59,7 @@
             this.label1.Location = new System.Drawing.Point(325, 162);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(140, 71);
+            this.label1.Size = new System.Drawing.Size(183, 71);
             this.label1.TabIndex = 1;
             this.label1.Text = "PLAY";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

@@ -36,13 +36,13 @@ namespace BrickBreaker
         SolidBrush powerups3Brush = new SolidBrush(Color.Green);
         SolidBrush powerupsLBrush = new SolidBrush(Color.Yellow);
         SolidBrush powerupslBrush = new SolidBrush(Color.Red);
-
+        SolidBrush powerupsBSBrush = new SolidBrush(Color.Purple);
+        SolidBrush powerupsbsBrush = new SolidBrush(Color.OrangeRed);
 
         // Brushes
         SolidBrush paddleBrush = new SolidBrush(Color.White);
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
-       
 
         // Lives
         public int player1Lives = 3;
@@ -297,6 +297,18 @@ namespace BrickBreaker
                                 powerup.Add(p);
                                 activated = false;
                             }
+                            if (randomPowerupChance == 4)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "BS");
+                                powerup.Add(p);
+                                activated = false;
+                            }
+                            if (randomPowerupChance == 5)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "bs");
+                                powerup.Add(p);
+                                activated = false;
+                            }
 
 
                             if (blocks.Count == 0)
@@ -347,7 +359,17 @@ namespace BrickBreaker
                     {
                         paddle.width -= 25;
                     }
-                    
+                    else if (p.type == "BS")
+                    {
+                        xSpeed -= 6;
+                        ySpeed -= 6;
+                    }
+                    else if (p.type == "bs")
+                    {
+                        xSpeed += 6;
+                        ySpeed += 6;
+                    }
+
                     activated = true;
                 }
             }
@@ -402,6 +424,14 @@ namespace BrickBreaker
                 else if (p.type == "l")
                 {
                     e.Graphics.FillRectangle(powerupslBrush, p.x, p.y, p.width, p.height);
+                }
+                else if (p.type == "BS")
+                {
+                    e.Graphics.FillRectangle(powerupsBSBrush, p.x, p.y, p.width, p.height);
+                }
+                else if (p.type == "bs")
+                {
+                    e.Graphics.FillRectangle(powerupsbsBrush, p.x, p.y, p.width, p.height);
                 }
                 else
                 {

@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
-
             this.life5Output = new System.Windows.Forms.Label();
             this.spacer = new System.Windows.Forms.Label();
             this.life1Output = new System.Windows.Forms.Label();
@@ -39,7 +38,6 @@
             this.life4Output = new System.Windows.Forms.Label();
             this.levelLabel = new System.Windows.Forms.Label();
             this.highscoreLabel = new System.Windows.Forms.Label();
-
             this.SuspendLayout();
             // 
             // gameTimer
@@ -48,7 +46,6 @@
             this.gameTimer.Interval = 16;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
             // 
-
             // life5Output
             // 
             this.life5Output.BackColor = System.Drawing.Color.Transparent;
@@ -106,7 +103,7 @@
             // levelLabel
             // 
             this.levelLabel.BackColor = System.Drawing.Color.Transparent;
-            this.levelLabel.Font = new System.Drawing.Font("Tandysoft", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.levelLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.levelLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.levelLabel.Location = new System.Drawing.Point(1030, 787);
             this.levelLabel.Name = "levelLabel";
@@ -117,14 +114,13 @@
             // highscoreLabel
             // 
             this.highscoreLabel.BackColor = System.Drawing.Color.Transparent;
-            this.highscoreLabel.Font = new System.Drawing.Font("Tandysoft", 26F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.highscoreLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 26F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.highscoreLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.highscoreLabel.Location = new System.Drawing.Point(369, 8);
             this.highscoreLabel.Name = "highscoreLabel";
             this.highscoreLabel.Size = new System.Drawing.Size(518, 67);
             this.highscoreLabel.TabIndex = 7;
             this.highscoreLabel.Text = "HIGHSCORE: 00000";
-
             // 
             // GameScreen
             // 
@@ -141,7 +137,7 @@
             this.Controls.Add(this.life5Output);
             this.DoubleBuffered = true;
             this.Name = "GameScreen";
-            this.Size = new System.Drawing.Size(1200, 800);
+            this.Size = new System.Drawing.Size(1200, 900);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameScreen_Paint);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GameScreen_KeyUp);
             this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.GameScreen_PreviewKeyDown);

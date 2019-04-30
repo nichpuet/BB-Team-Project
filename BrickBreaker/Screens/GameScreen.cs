@@ -19,6 +19,7 @@ namespace BrickBreaker
 
         //player1 button control keys - DO NOT CHANGE
         Boolean leftArrowDown, rightArrowDown, ADown, DDown;
+        // TODO: Draw line to show ball aim
 
         // Paddle and Ball objects
         public static Paddle paddle;
@@ -44,6 +45,8 @@ namespace BrickBreaker
         public int? player2Lives = null;
         public static int score = 0;
         #endregion
+
+        public static bool start = false;
 
         // Creates a new ball
         int xSpeed = 6;
@@ -211,12 +214,12 @@ namespace BrickBreaker
             switch (angleposition)
             {
                 case 1:
-                    ballList[0].Xangle = 0.5;
-                    ballList[0].Yangle = -1;         
+                    ballList[0].Xangle = 1;
+                    ballList[0].Yangle = -0.5;                         
                     break;
                 case 2:
-                    ballList[0].Xangle = 1;
-                    ballList[0].Yangle = -0.5;
+                    ballList[0].Xangle = 0.5;
+                    ballList[0].Yangle = -1;
                     break;
                 case 3:
                     ballList[0].Xangle = 0.5;
@@ -227,11 +230,11 @@ namespace BrickBreaker
                     ballList[0].Yangle = -0.5;
                     break;
                 case 5:
-                    ballList[0].Xangle = -1;
+                    ballList[0].Xangle = -0.5;
                     ballList[0].Yangle = -1;
                     break;
                 case 6:
-                    ballList[0].Xangle = -0.5;
+                    ballList[0].Xangle = -1;
                     ballList[0].Yangle = -1;
                     break;
             }
@@ -258,7 +261,6 @@ namespace BrickBreaker
         //Note Form1 has a soundplayer, you can access it with Form1.SoundPlayer
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-
          //   angleLable.Text = angleposition.ToString();
 
             // Move the paddle
@@ -273,7 +275,6 @@ namespace BrickBreaker
            
             if (start)
             {
-                /// asdasdf
                 // Move ball
                 foreach (Ball b in ballList)
                 {

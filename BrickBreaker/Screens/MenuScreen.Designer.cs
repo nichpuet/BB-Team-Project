@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-
             this.components = new System.ComponentModel.Container();
             this.titleLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,12 +36,10 @@
             this.menuTimer = new System.Windows.Forms.Timer(this.components);
             this.brickWallPic = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.brickWallPic)).BeginInit();
-
             this.SuspendLayout();
             // 
             // titleLabel
             // 
-
             this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.titleLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -104,9 +101,9 @@
             // 
             this.brickWallPic.Image = global::BrickBreaker.Properties.Resources.brickWall;
             this.brickWallPic.Location = new System.Drawing.Point(12, 0);
-            this.brickWallPic.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.brickWallPic.Margin = new System.Windows.Forms.Padding(2);
             this.brickWallPic.Name = "brickWallPic";
-            this.brickWallPic.Size = new System.Drawing.Size(17, 548);
+            this.brickWallPic.Size = new System.Drawing.Size(17, 518);
             this.brickWallPic.TabIndex = 4;
             this.brickWallPic.TabStop = false;
             // 
@@ -123,7 +120,6 @@
             this.Name = "MenuScreen";
             this.Size = new System.Drawing.Size(800, 520);
             ((System.ComponentModel.ISupportInitialize)(this.brickWallPic)).EndInit();
-
             this.ResumeLayout(false);
 
         }

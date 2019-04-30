@@ -17,14 +17,9 @@ namespace BrickBreaker
         private List<Button> buttons = new List<Button>();
         public MenuScreen()
         {
-            InitializeComponent();
-            //Foreach button in the screen's controls add it to a list and add code to the button Events when it gains and loses focus
-            foreach (var button in Controls.OfType<Button>())
-            {
-                buttons.Add(button);
-                button.LostFocus += lostFocus;
-                button.GotFocus += gainFocus;
-            }
+
+            InitializeComponent();                   
+
         }
 
         /// <summary>
@@ -68,6 +63,7 @@ namespace BrickBreaker
         }
 
         
+       
         /// <summary>
         /// The event code for when the Menu Screen finishes initializing loads
         /// </summary>
@@ -103,6 +99,11 @@ namespace BrickBreaker
             }
         }
 
+
+        private void menuTimer_Tick(object sender, EventArgs e)
+        {
+}
+
         /// <summary>
         /// Gets the newly selected button based on where the last one was. Pass a negative to go back in the list of buttons
         /// </summary>
@@ -118,6 +119,7 @@ namespace BrickBreaker
             else if (index >= buttons.Count)
                 index = buttons.Count - 1;
             return buttons[index];
+
         }
     }
 }

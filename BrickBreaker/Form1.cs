@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Media;
 
+// Max Senez UI branch
+
 namespace BrickBreaker
 {
     public partial class Form1 : Form
@@ -57,26 +59,26 @@ namespace BrickBreaker
             return false;
         }
 
+        public void ChangeScreen(UserControl remove, UserControl add)
+
+        {
+            Controls.Add(add);
+            Controls.Remove(remove);
+            remove.Dispose();
+
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Start the program centred on the Menu Screen
-            MenuScreen ms = new MenuScreen();
-            this.Controls.Add(ms);
-            //Center the control
-            ms.Location = new Point((this.Width - ms.Width) / 2, (this.Height - ms.Height) / 2);
-            //ms.Size = new Size(this.Width, this.Height);
+
+            StartScreen ss = new StartScreen();
+            this.Controls.Add(ss);
+
+            ss.Location = new Point((this.Width - ss.Width) / 2, (this.Height - ss.Height) / 2);
+
         }
 
-        public void ChangeScreen(UserControl current, UserControl next)
-        {
-            //f is set to the form that the current control is on
-            Controls.Remove(current);
-
-            //centres the control on the screen
-            next.Location = new Point((Width - next.Width) / 2, (Height - next.Height) / 2);
-
-            Controls.Add(next);
-            next.Focus();
-        }
+  
+        
     }
 }

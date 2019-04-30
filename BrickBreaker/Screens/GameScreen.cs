@@ -399,7 +399,6 @@ namespace BrickBreaker
             // Draws paddle
             paddleBrush.Color = paddle.colour;
             e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
-;
 
             // Draws blocks
             foreach (Block b in currentlevel)

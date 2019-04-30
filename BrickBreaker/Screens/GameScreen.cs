@@ -40,7 +40,7 @@ namespace BrickBreaker
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
         // Lives
-        public int player1Lives = 300;
+        public int player1Lives = 5;
         public int? player2Lives = null;
         public static int score = 0;
         #endregion
@@ -63,7 +63,6 @@ namespace BrickBreaker
         bool levelLoadstart = true;
 
         bool needtoremove = false;
-        int blocklistindex;
         
         public GameScreen(bool multiplayer = false)
         {

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Media;
 
 /// <summary>
-/// two errors on my code. paddle can get stuck when it it larger and sometimes it says there are balls left when there is not lol
+/// one errors on my code. sometimes it says there are balls left when there is not lol
 /// </summary>
 
 namespace BrickBreaker
@@ -206,11 +206,11 @@ namespace BrickBreaker
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             // Move the paddle
-            if (leftArrowDown && paddle.x > 0)
+            if (leftArrowDown && paddle.x >= 0)
             {
                 paddle.Move("left");
             }
-            if (rightArrowDown && paddle.x < (this.Width - paddle.width))
+            if (rightArrowDown && paddle.x <= (this.Width - paddle.width))
             {
                 paddle.Move("right");
             }
@@ -281,8 +281,7 @@ namespace BrickBreaker
 
                             //Powerup Chance 
                             Random randPower = new Random();
-                            randomPowerupChance = randPower.Next(1, 6);
-                            //chanve this to (1, 21)
+                            randomPowerupChance = randPower.Next(1, 21);
 
                             if (randomPowerupChance == 1)
                             {

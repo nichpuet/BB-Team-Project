@@ -31,10 +31,7 @@ namespace BrickBreaker
 
         Random random = new Random();
 
-        // TODO: Add sound effects
-
-
-        // list of all blocks for current level (dont use this, use currentlevel)
+        // list of all blocks for current level
         List<Block> blocks = new List<Block>();
 
         // Brushes
@@ -53,14 +50,6 @@ namespace BrickBreaker
         int ySpeed = 6;
         int ballSize = 20;
 
-        public GameScreen(bool multiplayer = false)
-        {
-            InitializeComponent();
-            OnStart();
-            if (multiplayer)
-                player2Lives = 3;
-        }
-
         // angle change buttons
         int angleposition = 2;
         static bool start = false;
@@ -68,13 +57,21 @@ namespace BrickBreaker
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
         List<Block> currentlevel = new List<Block>();
-        
+
         List<XmlReader> levelList = new List<XmlReader>();
         int currentlevelnum = 1;
         bool levelLoadstart = true;
 
         bool needtoremove = false;
         int blocklistindex;
+        
+        public GameScreen(bool multiplayer = false)
+        {
+            InitializeComponent();
+            OnStart();
+            if (multiplayer)
+                player2Lives = 3;
+        }
 
         public void levelLoad()
         {
@@ -91,10 +88,9 @@ namespace BrickBreaker
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level8.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level9.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level10.xml"));
-
             }
 
-            XmlReader reader = levelList[0];
+            XmlReader reader = levelList[1];
             switch (currentlevelnum)
             {
                 case 0:
@@ -140,16 +136,15 @@ namespace BrickBreaker
 
                 currentlevel.Add(new Block(X, Y, HP));
             }
-
             // the line bellow removes the block in the corner, but also some blocks from level
             //currentlevel.RemoveAt(currentlevel.Count - 1);
-
             reader.Close();
         }
 
         public void OnStart()
         {
             levelLoad();
+
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 
@@ -170,7 +165,7 @@ namespace BrickBreaker
             int ballY =  paddle.y - 21;
             ballList.Clear();
             ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
-
+            
             // start the game engine loop
             gameTimer.Enabled = true;
         }
@@ -223,8 +218,7 @@ namespace BrickBreaker
             {
                 case 1:
                     ballList[0].Xangle = 0.5;
-                    ballList[0].Yangle = -1;
-                    
+                    ballList[0].Yangle = -1;         
                     break;
                 case 2:
                     ballList[0].Xangle = 1;
@@ -270,7 +264,8 @@ namespace BrickBreaker
         //Note Form1 has a soundplayer, you can access it with Form1.SoundPlayer
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-            angleLable.Text = angleposition.ToString();
+
+         //   angleLable.Text = angleposition.ToString();
 
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
@@ -284,6 +279,7 @@ namespace BrickBreaker
            
             if (start)
             {
+                /// asdasdf
                 // Move ball
                 foreach (Ball b in ballList)
                 {
@@ -323,7 +319,7 @@ namespace BrickBreaker
                         {
                             start = false;                            
                             
-                            if (player2Lives == 0)
+                            if (player2Lives < 0)
                             {
                                 gameTimer.Enabled = false;
                                 OnEnd();
@@ -357,14 +353,9 @@ namespace BrickBreaker
                         Block b = currentlevel[i];
                         if (ba.BlockCollision(b))
                         {
-                            b.hp = 3;
-                            needtoremove = true;
-                            blocklistindex = currentlevel.IndexOf(b);
+                            currentlevel.Remove(b);
 
-                            if (currentlevel.Count == 0)
-                            {
-                                score += b.score;
-                            }
+                            score += b.score;
 
                             // powerups random
                             if (random.Next(1, 11) <= 2)
@@ -407,29 +398,29 @@ namespace BrickBreaker
 
             //redraw the screen
             Refresh();
-        }
+         }
 
         public void OnEnd()
         {
             // Goes to the game over screen
-            Form form = this.FindForm() as Form1;
-            MenuScreen ps = new MenuScreen();
 
-            ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
+ 
 
-            form.Controls.Add(ps);
-            form.Controls.Remove(this);
+            Form1 form = FindForm() as Form1;
+            form.ChangeScreen(this, new MenuScreen());
+
         }
 
         public void GameScreen_Paint(object sender, PaintEventArgs e)
         {
             // Draws paddle
             e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
+;
 
             // Draws blocks
             foreach (Block b in currentlevel)
             {
-                blockBrush.Color = b.colour();
+                blockBrush = new SolidBrush(b.colour());
                 e.Graphics.FillRectangle(blockBrush, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
             }
 
@@ -473,7 +464,7 @@ namespace BrickBreaker
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
 
-            //blocks.Clear();
+            blocks.Clear();
             //int x = 10;
 
             //while (blocks.Count < 12)

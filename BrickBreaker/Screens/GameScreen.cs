@@ -34,10 +34,10 @@ namespace BrickBreaker
         public static int randomPowerupChance;
 
         SolidBrush powerups3Brush = new SolidBrush(Color.Green);
-        SolidBrush powerupsLBrush = new SolidBrush(Color.Yellow);
+        SolidBrush powerupsLBrush = new SolidBrush(Color.Blue);
         SolidBrush powerupslBrush = new SolidBrush(Color.Red);
         SolidBrush powerupsBSBrush = new SolidBrush(Color.Purple);
-        SolidBrush powerupsbsBrush = new SolidBrush(Color.OrangeRed);
+        SolidBrush powerupsbsBrush = new SolidBrush(Color.Orange);
 
         // Brushes
         SolidBrush paddleBrush = new SolidBrush(Color.White);
@@ -277,7 +277,8 @@ namespace BrickBreaker
 
                             //Powerup Chance 
                             Random randPower = new Random();
-                            randomPowerupChance = randPower.Next(1, 7);
+                            randomPowerupChance = randPower.Next(1, 6);
+                            //chanve this to (1, 21)
 
                             if (randomPowerupChance == 1)
                             {
@@ -361,13 +362,11 @@ namespace BrickBreaker
                     }
                     else if (p.type == "BS")
                     {
-                        xSpeed -= 6;
-                        ySpeed -= 6;
+                        ySpeed -= 2;
                     }
                     else if (p.type == "bs")
                     {
-                        xSpeed += 6;
-                        ySpeed += 6;
+                        ySpeed += 2;
                     }
 
                     activated = true;
@@ -432,10 +431,6 @@ namespace BrickBreaker
                 else if (p.type == "bs")
                 {
                     e.Graphics.FillRectangle(powerupsbsBrush, p.x, p.y, p.width, p.height);
-                }
-                else
-                {
-                    e.Graphics.FillRectangle(ballBrush, p.x, p.y, p.width, p.height);
                 }
             }
 

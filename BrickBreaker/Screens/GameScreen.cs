@@ -31,9 +31,6 @@ namespace BrickBreaker
 
         Random random = new Random();
 
-        // TODO: Add sound effects
-        bool start = false;
-
         // list of all blocks for current level
         List<Block> currentlevel = new List<Block>();
 
@@ -309,7 +306,7 @@ namespace BrickBreaker
                         ballList[0].xSpeed = xSpeed;
                         ballList[0].ySpeed = ySpeed;
 
-                        if (player1Lives < 1)
+                        if (player1Lives <= 1)
                         {
                             start = false;                            
                             
@@ -348,6 +345,8 @@ namespace BrickBreaker
                         if (ba.BlockCollision(b))
                         {
                             b.hp--;
+                            b.colour();
+
                             if(b.hp < 1)
                                 currentlevel.Remove(b);
 

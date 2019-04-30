@@ -157,6 +157,5 @@
         private System.Windows.Forms.Label life4Output;
         private System.Windows.Forms.Label levelLabel;
         private System.Windows.Forms.Label highscoreLabel;
-
     }
 }

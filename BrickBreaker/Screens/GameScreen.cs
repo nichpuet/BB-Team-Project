@@ -32,7 +32,7 @@ namespace BrickBreaker
         Random random = new Random();
 
         // list of all blocks for current level
-        List<Block> blocks = new List<Block>();
+        List<Block> currentlevel = new List<Block>();
 
         // Brushes
         SolidBrush paddleBrush = new SolidBrush(Color.White);
@@ -56,7 +56,6 @@ namespace BrickBreaker
 
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
-        List<Block> currentlevel = new List<Block>();
 
         List<XmlReader> levelList = new List<XmlReader>();
         int currentlevelnum = 1;
@@ -264,9 +263,7 @@ namespace BrickBreaker
         //Note Form1 has a soundplayer, you can access it with Form1.SoundPlayer
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-
-         //   angleLable.Text = angleposition.ToString();
-
+         //angleLable.Text = angleposition.ToString();
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {
@@ -318,7 +315,6 @@ namespace BrickBreaker
                         if (player1Lives < 1)
                         {
                             start = false;                            
-                            
                             if (player2Lives < 0)
                             {
                                 gameTimer.Enabled = false;
@@ -338,13 +334,11 @@ namespace BrickBreaker
                     // Check for collision of ball with paddle, (incl. paddle movement)
                     b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
                 }
-
                 // remove any balls that need to be removed
                 foreach (Ball b in removeBalls)
                 {
                     ballList.Remove(b);
                 }
-
                 // Check if ball has collided with any blocks
                 foreach (Ball ba in ballList)
                 {
@@ -353,13 +347,10 @@ namespace BrickBreaker
                         Block b = currentlevel[i];
                         if (ba.BlockCollision(b))
                         {
-                            //currentlevel.Remove(b);
                             b.hp--;
-                            if (b.hp <= 0)
-                            {
+                            if(b.hp < 1)
                                 currentlevel.Remove(b);
-                            }
-
+                                
                             score += 100;
 
                             // powerups random
@@ -369,7 +360,7 @@ namespace BrickBreaker
                                 // TODO: powerups
                             }
 
-                            if (currentlevel.Count == 1)
+                            if (currentlevel.Count < 1)
                             {
                                 if(currentlevelnum == levelList.Count())
                                 {
@@ -489,8 +480,6 @@ namespace BrickBreaker
             // Creates a new ball
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
-
-            blocks.Clear();
             //int x = 10;
 
             //while (blocks.Count < 12)

@@ -28,7 +28,6 @@ namespace BrickBreaker
         public static int paddleHeight = 20;
         int paddleX;
         int paddleY;
-        bool start = false;
 
         Random random = new Random();
 
@@ -64,7 +63,8 @@ namespace BrickBreaker
         bool levelLoadstart = true;
 
         bool needtoremove = false;
-        
+        private int blocklistindex;
+
         public GameScreen(bool multiplayer = false)
         {
             InitializeComponent();
@@ -137,7 +137,7 @@ namespace BrickBreaker
                 currentlevel.Add(new Block(X, Y, HP));
             }
             // the line bellow removes the block in the corner, but also some blocks from level
-            //currentlevel.RemoveAt(currentlevel.Count - 1);
+            currentlevel.RemoveAt(currentlevel.Count - 1);
             reader.Close();
         }
 
@@ -438,6 +438,27 @@ namespace BrickBreaker
             // Draw lives and score
             e.Graphics.DrawString("Level: " + currentlevelnum.ToString(), textFont, sb, new Point(25, this.Height - 100));
             e.Graphics.DrawString("block number: " + currentlevel.Count().ToString(), textFont, sb, new Point(this.Width - 300, this.Height - 100));
+
+            switch(player1Lives)
+            {
+                case 4:
+                    life5Output.Visible = false;
+                    break;
+                case 3:
+                    life4Output.Visible = false;
+                    break;
+                case 2:
+                    life3Output.Visible = false;
+                    break;
+                case 1:
+                    life2Output.Visible = false;
+                    break;
+                case 0:
+                    life1Output.Visible = false;
+                    break;
+                default:
+                    break;
+            }
         }
 
         [Obsolete("Please rename this method to what it is supposed to do", true)]

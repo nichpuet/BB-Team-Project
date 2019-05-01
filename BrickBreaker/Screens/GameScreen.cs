@@ -53,8 +53,8 @@ namespace BrickBreaker
         public static bool start = false;
 
         // Creates a new ball
-        int xSpeed = 8;
-        int ySpeed = 8;
+        int xSpeed = 12;
+        int ySpeed = 12;
         int ballSize = 20;
 
         // angle change buttons
@@ -82,6 +82,7 @@ namespace BrickBreaker
             if (levelLoadstart)
             {
                 // need ten total items, think of list as actual level number -1
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/testlevel.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level1.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level2.xml"));
                 levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level3.xml"));
@@ -405,6 +406,7 @@ namespace BrickBreaker
                                 {
                                     currentlevelnum++;
                                     levelLoad();
+                                    start = false;
                                     ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
                                     ballList[0].y = paddle.y - 21;
                                 }

@@ -74,18 +74,14 @@ namespace BrickBreaker
             ConfigScreen(ref add);
             Controls.Add(add);
             Controls.Remove(remove);
-            remove.Dispose();
+            if(remove != null)
+                remove.Dispose();
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-            StartScreen ss = new StartScreen();
-            this.Controls.Add(ss);
-
-            ss.Location = new Point((this.Width - ss.Width) / 2, (this.Height - ss.Height) / 2);
-
+            ChangeScreen(null, new StartScreen());
         }
 
   

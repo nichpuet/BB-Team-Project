@@ -215,6 +215,7 @@ namespace BrickBreaker
         {
             switch (angleposition)
             {
+                // right
                 case 1:
                     ballList[0].Xangle = 1;
                     ballList[0].Yangle = -0.5;                         
@@ -228,17 +229,18 @@ namespace BrickBreaker
                     ballList[0].Yangle = -1;
                     break;
                 case 4:
-                    ballList[0].Xangle = -1;
-                    ballList[0].Yangle = -0.5;
-                    break;
-                case 5:
                     ballList[0].Xangle = -0.5;
                     ballList[0].Yangle = -1;
                     break;
-                case 6:
+                case 5:
                     ballList[0].Xangle = -1;
                     ballList[0].Yangle = -1;
                     break;
+                case 6:                   
+                    ballList[0].Xangle = -1;
+                    ballList[0].Yangle = -0.5;
+                    break;
+                    // left
             }
         }
 
@@ -395,7 +397,7 @@ namespace BrickBreaker
                 {
                     // right
                     case 1:
-                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
                         break;
 
                     case 2:
@@ -415,7 +417,7 @@ namespace BrickBreaker
                         break;
 
                     case 6:
-                        p2 = new Point(Convert.ToInt16(ballList[0].x) - 50, Convert.ToInt16(ballList[0].y) - 120);
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
                         break;
                     // left
                     default:

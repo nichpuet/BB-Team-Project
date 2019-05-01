@@ -391,7 +391,7 @@ namespace BrickBreaker
                 ballList[0].y = paddle.y - 21;
 
                 // draw line to show ball aim
-                p1 = new Point(Convert.ToInt16(ballList[0].x), Convert.ToInt16(ballList[0].y));
+                p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
 
                 switch (angleposition)
                 {
@@ -401,11 +401,11 @@ namespace BrickBreaker
                         break;
 
                     case 2:
-                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 25, Convert.ToInt16(ballList[0].y) - 120);
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
                         break;
 
                     case 3:
-                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 15, Convert.ToInt16(ballList[0].y) - 120);
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
                         break;
 
                     case 4:

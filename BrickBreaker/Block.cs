@@ -15,16 +15,34 @@ namespace BrickBreaker
         public int x;
         public int y; 
         public int hp;
-        public Color colour;
+        public int score; // TODO: Have bricks in a designed level have more points or less
+        
+        /// <summary>
+        /// Gets the color based on the hp
+        /// </summary>
+        /// <returns></returns>
+        public Color colour()
+        {
+            switch(hp)
+            {
+                case 1:
+                    return Color.Red;
+                case 2:
+                    return Color.Yellow;
+                case 3:
+                    return Color.Green;
+                default:
+                    return Color.Orange;
+            }
+        }
 
         public static Random rand = new Random();
 
-        public Block(int _x, int _y, int _hp, Color _colour)
+        public Block(string _x, string _y, string _hp)
         {
-            x = _x;
-            y = _y;
-            hp = _hp;
-            colour = _colour;
+            x = Convert.ToInt32(_x);
+            y = Convert.ToInt32(_y);
+            hp = Convert.ToInt32(_hp);
         }
     }
 }

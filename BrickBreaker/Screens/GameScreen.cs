@@ -19,6 +19,7 @@ namespace BrickBreaker
 
         //player1 button control keys - DO NOT CHANGE
         Boolean leftArrowDown, rightArrowDown, ADown, DDown;
+        // TODO: Draw line to show ball aim
 
         // Paddle and Ball objects
         public static Paddle paddle;
@@ -38,12 +39,15 @@ namespace BrickBreaker
         SolidBrush paddleBrush = new SolidBrush(Color.White);
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
+        Pen linePen = new Pen(Color.White);
 
         // Lives
         public int player1Lives = 5;
         public int? player2Lives = null;
         public static int score = 0;
         #endregion
+
+        public static bool start = false;
 
         // Creates a new ball
         int xSpeed = 8;
@@ -52,7 +56,8 @@ namespace BrickBreaker
 
         // angle change buttons
         int angleposition = 3;
-        static bool start = false;
+        // angle points for the line aim
+        Point p1, p2;
 
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
@@ -211,12 +216,13 @@ namespace BrickBreaker
         {
             switch (angleposition)
             {
+                // right
                 case 1:
-                    ballList[0].Xangle = -0.5;
-                    ballList[0].Yangle = -1;         
+                    ballList[0].Xangle = 1;
+                    ballList[0].Yangle = -0.5;                         
                     break;
                 case 2:
-                    ballList[0].Xangle = -1;
+                    ballList[0].Xangle = 0.5;
                     ballList[0].Yangle = -1;
                     break;
                 case 3:
@@ -224,17 +230,19 @@ namespace BrickBreaker
                     ballList[0].Yangle = -0.5;
                     break;
                 case 4:
-                    ballList[0].Xangle = 1;
-                    ballList[0].Yangle = -0.5;
+
+                    ballList[0].Xangle = -0.5;
+                    ballList[0].Yangle = -1;
                     break;
                 case 5:
                     ballList[0].Xangle = 1;
                     ballList[0].Yangle = -1;
                     break;
-                case 6:
-                    ballList[0].Xangle = 0.5;
-                    ballList[0].Yangle = -1;
+                case 6:                   
+                    ballList[0].Xangle = -1;
+                    ballList[0].Yangle = -0.5;
                     break;
+                    // left
             }
         }
 
@@ -259,6 +267,7 @@ namespace BrickBreaker
         //Note Form1 has a soundplayer, you can access it with Form1.SoundPlayer
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+         //   angleLable.Text = angleposition.ToString();
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {
@@ -271,7 +280,6 @@ namespace BrickBreaker
            
             if (start)
             {
-                /// asdasdf
                 // Move ball
                 foreach (Ball b in ballList)
                 {
@@ -307,7 +315,7 @@ namespace BrickBreaker
                         ballList[0].xSpeed = xSpeed;
                         ballList[0].ySpeed = ySpeed;
 
-                        if (player1Lives < 1)
+                        if (player1Lives <= 1)
                         {
                             start = false;                            
                             if (player2Lives < 0)
@@ -379,6 +387,41 @@ namespace BrickBreaker
                 // center the ball over the paddle
                 ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
                 ballList[0].y = paddle.y - 21;
+
+                // draw line to show ball aim
+                p1 = new Point(Convert.ToInt16(ballList[0].x), Convert.ToInt16(ballList[0].y));
+
+                switch (angleposition)
+                {
+                    // right
+                    case 1:
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
+                        break;
+
+                    case 2:
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 25, Convert.ToInt16(ballList[0].y) - 120);
+                        break;
+
+                    case 3:
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 15, Convert.ToInt16(ballList[0].y) - 120);
+                        break;
+
+                    case 4:
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
+                        break;
+
+                    case 5:
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
+                        break;
+
+                    case 6:
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
+                        break;
+                    // left
+                    default:
+
+                        break;
+                }
             }
 
             //redraw the screen
@@ -388,9 +431,6 @@ namespace BrickBreaker
         public void OnEnd()
         {
             // Goes to the game over screen
-
- 
-
             Form1 form = FindForm() as Form1;
             form.ChangeScreen(this, new MenuScreen());
 
@@ -412,6 +452,12 @@ namespace BrickBreaker
             foreach (Ball b in ballList)
             {
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
+            }
+
+            // draw line aim
+            if (!start)
+            {
+                e.Graphics.DrawLine(linePen, p1, p2);
             }
 
             // Draw lives and score

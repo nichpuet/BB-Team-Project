@@ -46,24 +46,21 @@ namespace BrickBreaker
         #endregion
 
         // Creates a new ball
-        int xSpeed = 6;
-        int ySpeed = 6;
+        int xSpeed = 8;
+        int ySpeed = 8;
         int ballSize = 20;
 
         // angle change buttons
-        int angleposition = 2;
+        int angleposition = 3;
         static bool start = false;
 
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
 
         List<XmlReader> levelList = new List<XmlReader>();
-        int currentlevelnum = 1;
+        int currentlevelnum = 4;
         bool levelLoadstart = true;
-
-        bool needtoremove = false;
-        private int blocklistindex;
-
+        
         public GameScreen(bool multiplayer = false)
         {
             InitializeComponent();
@@ -135,7 +132,6 @@ namespace BrickBreaker
 
                 currentlevel.Add(new Block(X, Y, HP));
             }
-            // the line bellow removes the block in the corner, but also some blocks from level
             currentlevel.RemoveAt(currentlevel.Count - 1);
             reader.Close();
         }
@@ -195,16 +191,16 @@ namespace BrickBreaker
                 {
                     case Keys.A:
                         // move left
-                        if (angleposition >= 1 && angleposition < 6)
+                        if (angleposition >= 2 && angleposition <= 6)
                         {
-                            angleposition++;
+                            angleposition--;
                         }
                         break;
                     case Keys.D:
                         // move right
-                        if (angleposition <= 6 && angleposition > 1)
+                        if (angleposition < 6 && angleposition >= 1)
                         {
-                            angleposition--;
+                            angleposition++;
                         }
                         break;
                 }
@@ -216,27 +212,27 @@ namespace BrickBreaker
             switch (angleposition)
             {
                 case 1:
-                    ballList[0].Xangle = 0.5;
+                    ballList[0].Xangle = -0.5;
                     ballList[0].Yangle = -1;         
                     break;
                 case 2:
-                    ballList[0].Xangle = 1;
+                    ballList[0].Xangle = -1;
                     ballList[0].Yangle = -1;
                     break;
                 case 3:
-                    ballList[0].Xangle = 1;
+                    ballList[0].Xangle = -1;
                     ballList[0].Yangle = -0.5;
                     break;
                 case 4:
-                    ballList[0].Xangle = -1;
+                    ballList[0].Xangle = 1;
                     ballList[0].Yangle = -0.5;
                     break;
                 case 5:
-                    ballList[0].Xangle = -1;
+                    ballList[0].Xangle = 1;
                     ballList[0].Yangle = -1;
                     break;
                 case 6:
-                    ballList[0].Xangle = -0.5;
+                    ballList[0].Xangle = 0.5;
                     ballList[0].Yangle = -1;
                     break;
             }
@@ -263,7 +259,6 @@ namespace BrickBreaker
         //Note Form1 has a soundplayer, you can access it with Form1.SoundPlayer
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-         //angleLable.Text = angleposition.ToString();
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {
@@ -298,7 +293,7 @@ namespace BrickBreaker
                         start = false;
 
                         // reset ball angle
-                        angleposition = 2;
+                        angleposition = 3;
 
                         // reset paddle x and y
                         paddle.x = paddleX;
@@ -377,12 +372,6 @@ namespace BrickBreaker
                             break;
                         }
                     }
-
-                    if (needtoremove)
-                    {
-                        currentlevel.Remove(currentlevel[blocklistindex]);
-                        needtoremove = false;
-                    }
                 }
             }
             else
@@ -411,7 +400,6 @@ namespace BrickBreaker
         {
             // Draws paddle
             e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
-;
 
             // Draws blocks
             foreach (Block b in currentlevel)
@@ -427,7 +415,7 @@ namespace BrickBreaker
             }
 
             // Draw lives and score
-            e.Graphics.DrawString("Level: " + currentlevelnum.ToString(), textFont, sb, new Point(25, this.Height - 100));
+            e.Graphics.DrawString("angle position: " + angleposition.ToString(), textFont, sb, new Point(25, this.Height - 100));
             e.Graphics.DrawString("block number: " + currentlevel.Count().ToString(), textFont, sb, new Point(this.Width - 300, this.Height - 100));
 
             switch(player1Lives)

@@ -32,7 +32,7 @@ namespace BrickBreaker
         Random random = new Random();
 
         // list of all blocks for current level
-        List<Block> blocks = new List<Block>();
+        List<Block> currentlevel = new List<Block>();
 
         // Brushes
         SolidBrush paddleBrush = new SolidBrush(Color.White);
@@ -40,7 +40,7 @@ namespace BrickBreaker
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
         // Lives
-        public int player1Lives = 300;
+        public int player1Lives = 5;
         public int? player2Lives = null;
         public static int score = 0;
         #endregion
@@ -56,7 +56,6 @@ namespace BrickBreaker
 
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
-        List<Block> currentlevel = new List<Block>();
 
         List<XmlReader> levelList = new List<XmlReader>();
         int currentlevelnum = 4;
@@ -311,7 +310,6 @@ namespace BrickBreaker
                         if (player1Lives < 1)
                         {
                             start = false;                            
-                            
                             if (player2Lives < 0)
                             {
                                 gameTimer.Enabled = false;
@@ -331,13 +329,11 @@ namespace BrickBreaker
                     // Check for collision of ball with paddle, (incl. paddle movement)
                     b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
                 }
-
                 // remove any balls that need to be removed
                 foreach (Ball b in removeBalls)
                 {
                     ballList.Remove(b);
                 }
-
                 // Check if ball has collided with any blocks
                 foreach (Ball ba in ballList)
                 {
@@ -346,9 +342,11 @@ namespace BrickBreaker
                         Block b = currentlevel[i];
                         if (ba.BlockCollision(b))
                         {
-                            currentlevel.Remove(b);
-
-                            score += b.score;
+                            b.hp--;
+                            if(b.hp < 1)
+                                currentlevel.Remove(b);
+                                
+                            score += 100;
 
                             // powerups random
                             if (random.Next(1, 11) <= 2)
@@ -357,7 +355,7 @@ namespace BrickBreaker
                                 // TODO: powerups
                             }
 
-                            if (currentlevel.Count == 1)
+                            if (currentlevel.Count < 1)
                             {
                                 if(currentlevelnum == levelList.Count())
                                 {
@@ -419,6 +417,27 @@ namespace BrickBreaker
             // Draw lives and score
             e.Graphics.DrawString("angle position: " + angleposition.ToString(), textFont, sb, new Point(25, this.Height - 100));
             e.Graphics.DrawString("block number: " + currentlevel.Count().ToString(), textFont, sb, new Point(this.Width - 300, this.Height - 100));
+
+            switch(player1Lives)
+            {
+                case 4:
+                    life5Output.Visible = false;
+                    break;
+                case 3:
+                    life4Output.Visible = false;
+                    break;
+                case 2:
+                    life3Output.Visible = false;
+                    break;
+                case 1:
+                    life2Output.Visible = false;
+                    break;
+                case 0:
+                    life1Output.Visible = false;
+                    break;
+                default:
+                    break;
+            }
         }
 
         [Obsolete("Please rename this method to what it is supposed to do", true)]
@@ -449,8 +468,6 @@ namespace BrickBreaker
             // Creates a new ball
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
-
-            blocks.Clear();
             //int x = 10;
 
             //while (blocks.Count < 12)

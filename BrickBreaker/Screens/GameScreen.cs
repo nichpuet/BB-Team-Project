@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using System.Media;
 using System.Xml;
 
-
 namespace BrickBreaker
 {
     public partial class GameScreen : UserControl
@@ -35,12 +34,16 @@ namespace BrickBreaker
         // list of all blocks for current level
         List<Block> currentlevel = new List<Block>();
 
+
+
         // Brushes
         SolidBrush paddleBrush = new SolidBrush(Color.White);
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
         Pen linePen = new Pen(Color.White);
 
+        //Testing: Declaring variables
+        int score = 0;
         // Lives
         public int player1Lives = 5;
         public int? player2Lives = null;
@@ -168,6 +171,9 @@ namespace BrickBreaker
             
             // start the game engine loop
             gameTimer.Enabled = true;
+
+           
+            
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -340,13 +346,39 @@ namespace BrickBreaker
                 // remove any balls that need to be removed
                 foreach (Ball b in removeBalls)
                 {
+                    gameTimer.Enabled = false;
+                    //testing
+                    scores();
+                }
+            }
+
+            //Testing Purposes: Score Tracker...1st Tracker...Adding the number to scores
+            foreach (Block b in blocks)
+            {
+                if (ball.ScoreTracker(b))
+                {
+                    score++;
+                }
+            }
+            
+
+            // Check for collision of ball with paddle, (incl. paddle movement)
+            ball.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+
+
+            // Check if ball has collided with any blocks
+            foreach (Block b in blocks)
+            {
+                if (ball.BlockCollision(b))
                     ballList.Remove(b);
                 }
                 // Check if ball has collided with any blocks
-                foreach (Ball ba in ballList)
                 {
                     for (int i = 0; i < currentlevel.Count(); i++)
                     {
+                        //changed
+                        gameTimer.Enabled = false;
+                        scores();
                         Block b = currentlevel[i];
                         if (ba.BlockCollision(b))
                         {
@@ -428,8 +460,59 @@ namespace BrickBreaker
             Refresh();
          }
 
+        //testing 
+        public void scores()
+        {
+            string scoreNumber = score.ToString();
+            HighScore s = new HighScore(scoreNumber);
+            Form1.highScores.Add(s);
+            
+            OnEnd();
+            //GameOver();
+        }
+        
+
+        //testing
+        public void saveScoresRK()
+        {
+            XmlWriter writer = XmlWriter.Create("Resources/HighScores.xml", null);
+
+            writer.WriteStartElement("TheScores");
+
+            foreach (HighScore s in Form1.highScores)
+            {
+                writer.WriteStartElement("TheScore");
+
+                writer.WriteElementString("Score", s.score);
+
+                writer.WriteEndElement();
+            }
+
+            writer.WriteEndElement();
+
+            writer.Close();
+        }
+        
+
+        //testing
+        public void GameOver()
+        {
+            Form form = this.FindForm();
+            GameOverScreen ps = new GameOverScreen();
+            ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
+
+            form.Controls.Add(ps);
+            form.Controls.Remove(this);
+        }
+
         public void OnEnd()
         {
+            //Testing: Saving the scores
+            saveScoresRK();
+            // Goes to the game over screen //changed
+            Form form = this.FindForm();
+            MenuScreen ps = new MenuScreen();
+            ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
             // Goes to the game over screen
             Form1 form = FindForm() as Form1;
             form.ChangeScreen(this, new MenuScreen());

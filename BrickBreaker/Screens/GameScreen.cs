@@ -19,7 +19,8 @@ namespace BrickBreaker
 
         //player1 button control keys - DO NOT CHANGE
         Boolean leftArrowDown, rightArrowDown, ADown, DDown;
-        // TODO: Draw line to show ball aim
+
+        // TODO: Work on block collision
 
         // Paddle and Ball objects
         public static Paddle paddle;
@@ -30,6 +31,7 @@ namespace BrickBreaker
         int paddleX;
         int paddleY;
 
+        // random for powerups
         Random random = new Random();
 
         // list of all blocks for current level
@@ -40,6 +42,7 @@ namespace BrickBreaker
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
         Pen linePen = new Pen(Color.White);
+        Pen testPen = new Pen(Color.Red);
 
         // Lives
         public int player1Lives = 5;
@@ -47,6 +50,7 @@ namespace BrickBreaker
         public static int score = 0;
         #endregion
 
+        // start for game loop
         public static bool start = false;
 
         // Creates a new ball
@@ -59,9 +63,11 @@ namespace BrickBreaker
         // angle points for the line aim
         Point p1, p2;
 
+        // font and brush for text
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
 
+        // level variables
         List<XmlReader> levelList = new List<XmlReader>();
         int currentlevelnum = 4;
         bool levelLoadstart = true;
@@ -348,6 +354,7 @@ namespace BrickBreaker
                     for (int i = 0; i < currentlevel.Count(); i++)
                     {
                         Block b = currentlevel[i];
+                        // TODO: Check if the ball hits the top, bottom, left, or right
                         if (ba.BlockCollision(b))
                         {
                             b.hp--;
@@ -446,6 +453,7 @@ namespace BrickBreaker
             {
                 blockBrush = new SolidBrush(b.colour());
                 e.Graphics.FillRectangle(blockBrush, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
+                e.Graphics.DrawRectangle(testPen, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
             }
 
             // Draws ball

@@ -18,7 +18,7 @@ namespace BrickBreaker
         public MenuScreen()
         {
             InitializeComponent();
-            //loadScoresRK();
+            loadScoresRK();
 
 
             scoreOutput();
@@ -41,7 +41,7 @@ namespace BrickBreaker
         public void loadScoresRK()
         {
             //creating Xml reader file 
-            XmlReader reader = XmlReader.Create("Resources/HighScore.xml", null);
+            XmlReader reader = XmlReader.Create("Resources/HighScores.xml", null);
             string newScoreString;
 
             //basically highScore1String is going to be highScore #1...and on...etc
@@ -70,13 +70,13 @@ namespace BrickBreaker
         private void playButton_Click(object sender, EventArgs e)
         {
             // Goes to the game screen
-            //GameScreen gs = new GameScreen();
-            //Form form = this.FindForm();
+            GameScreen gs = new GameScreen();
+            Form form = this.FindForm();
 
-            //form.Controls.Add(gs);
-            //form.Controls.Remove(this);
+            form.Controls.Add(gs);
+            form.Controls.Remove(this);
 
-            //gs.Location = new Point((form.Width - gs.Width) / 2, (form.Height - gs.Height) / 2);
+            gs.Location = new Point((form.Width - gs.Width) / 2, (form.Height - gs.Height) / 2);
 
             //testing: most likely will be deleted for the future
             //GameOverScreen gos = new GameOverScreen();
@@ -88,13 +88,13 @@ namespace BrickBreaker
             //gos.Location = new Point((form.Width - gos.Width) / 2, (form.Height - gos.Height) / 2);
 
             //testing: most likely will be deleted for the future
-            WinScreen ws = new WinScreen();
-            Form form = this.FindForm();
+            //WinScreen ws = new WinScreen();
+            //Form form = this.FindForm();
 
-            form.Controls.Add(ws);
-            form.Controls.Remove(this);
+            //form.Controls.Add(ws);
+            //form.Controls.Remove(this);
 
-            ws.Location = new Point((form.Width - ws.Width) / 2, (form.Height - ws.Height) / 2);
+            //ws.Location = new Point((form.Width - ws.Width) / 2, (form.Height - ws.Height) / 2);
         }
 
     }

@@ -222,13 +222,13 @@ namespace BrickBreaker
         //testing
         public void saveScoresRK()
         {
-            XmlWriter writer = XmlWriter.Create("Resources/GameLevels.xml", null);
+            XmlWriter writer = XmlWriter.Create("Resources/HighScores.xml", null);
 
-            writer.WriteStartElement("HighScores");
+            writer.WriteStartElement("TheScores");
 
             foreach (HighScore s in Form1.highScores)
             {
-                writer.WriteStartElement("HighScore");
+                writer.WriteStartElement("TheScore");
 
                 writer.WriteElementString("Score", s.score);
 

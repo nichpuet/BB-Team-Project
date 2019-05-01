@@ -26,6 +26,16 @@ namespace BrickBreaker
         {
             InitializeComponent();
             Directory.SetCurrentDirectory(Program.FilePath);//Set the program to put files in the created directory
+            Size = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
+            Location = new Point(0, 0);
+        }
+
+        [Obsolete("TODO Game Screen scales incorrectly")]
+        public void ConfigScreen(ref UserControl c)
+        {
+            c.Width = Width;
+            c.Height = Height;
+            c.Location = new Point(0, 0);
         }
 
         /// <summary>
@@ -60,8 +70,8 @@ namespace BrickBreaker
         }
 
         public void ChangeScreen(UserControl remove, UserControl add)
-
         {
+            ConfigScreen(ref add);
             Controls.Add(add);
             Controls.Remove(remove);
             remove.Dispose();

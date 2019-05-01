@@ -96,10 +96,10 @@
     <Compile Include="Screens\GameScreen.Designer.cs">
       <DependentUpon>GameScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="StartScreen.cs">
+    <Compile Include="Screens\StartScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="StartScreen.Designer.cs">
+    <Compile Include="Screens\StartScreen.Designer.cs">
       <DependentUpon>StartScreen.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Form1.resx">
@@ -124,7 +124,7 @@
     <EmbeddedResource Include="Screens\GameScreen.resx">
       <DependentUpon>GameScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StartScreen.resx">
+    <EmbeddedResource Include="Screens\StartScreen.resx">
       <DependentUpon>StartScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

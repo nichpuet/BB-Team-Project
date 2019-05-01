@@ -196,16 +196,16 @@ namespace BrickBreaker
                 {
                     case Keys.A:
                         // move left
-                        if (angleposition >= 2 && angleposition <= 6)
+                        if (angleposition >= 1 && angleposition < 6)
                         {
-                            angleposition--;
+                            angleposition++;
                         }
                         break;
                     case Keys.D:
                         // move right
-                        if (angleposition < 6 && angleposition >= 1)
+                        if (angleposition <= 6 && angleposition > 1)
                         {
-                            angleposition++;
+                            angleposition--;
                         }
                         break;
                 }

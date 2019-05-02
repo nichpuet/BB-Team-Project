@@ -277,7 +277,7 @@ namespace BrickBreaker
 
                             //Powerup Chance 
                             Random randPower = new Random();
-                            randomPowerupChance = randPower.Next(1, 6);
+                            randomPowerupChance = randPower.Next(1, 21);
 
                             if (randomPowerupChance == 1)
                             {

@@ -63,8 +63,12 @@ namespace BrickBreaker
 
         // angle change buttons
         int angleposition = 3;
+
+        public static bool start = false;
+
         // angle points for the line aim
         Point p1, p2;
+
 
         // font and brush for text
         Font textFont;

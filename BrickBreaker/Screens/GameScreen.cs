@@ -470,7 +470,7 @@ namespace BrickBreaker
                             }
 
 
-                            if (blocks.Count == 0)
+                            if (currentlevel.Count == 0)
                             {
                                 gameTimer.Enabled = false;
                                 OnEnd();

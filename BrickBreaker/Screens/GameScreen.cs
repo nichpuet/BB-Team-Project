@@ -443,7 +443,6 @@ namespace BrickBreaker
             // Draw lives and font
             e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 25));
             //e.Graphics.DrawString(scoe.ToString(), textFont, sb, new Point(25, 75));
-            // TODO: Draw score (Rie)
         }
 
         public void NickMethod()

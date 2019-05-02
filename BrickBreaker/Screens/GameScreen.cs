@@ -31,12 +31,18 @@ namespace BrickBreaker
         //Powerups
         List<Powerups> powerup = new List<Powerups>();
         Boolean activated = false;
+        public static int randomPowerupChance;
+
+        SolidBrush powerups3Brush = new SolidBrush(Color.Green);
+        SolidBrush powerupsLBrush = new SolidBrush(Color.Blue);
+        SolidBrush powerupslBrush = new SolidBrush(Color.Red);
+        SolidBrush powerupsBSBrush = new SolidBrush(Color.Purple);
+        SolidBrush powerupsbsBrush = new SolidBrush(Color.Orange);
 
         // Brushes
         SolidBrush paddleBrush = new SolidBrush(Color.White);
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
-        SolidBrush powerupsBrush = new SolidBrush(Color.Green);
 
         // Lives
         public int player1Lives = 3;
@@ -148,7 +154,6 @@ namespace BrickBreaker
 
         private void anglechange()
         {
-            // For the first ball, it works fine. For subsequent it breaks
             switch (angleposition)
             {
                 case 1:
@@ -222,7 +227,6 @@ namespace BrickBreaker
                     // Check for ball hitting bottom of screen
                     if (b.BottomCollision(this, paddle) && ballNumber == 1)
                     {
-
                         // decrease player 1 lives
                         player1Lives--;
 
@@ -252,8 +256,10 @@ namespace BrickBreaker
                     }
                     else if (b.BottomCollision(this, paddle))
                     {
-                        //TODO Remove ball that hit bottom from list
+                        //Remove ball that hit bottom from list
                         ballNumber -= 1;
+                        ballList.Remove(b);
+                        break;
                     }
 
                     // Check for collision of ball with paddle, (incl. paddle movement)
@@ -270,9 +276,40 @@ namespace BrickBreaker
                             blocks.Remove(b);
 
                             //Powerup Chance 
-                            //TODO want this to happen 20% of the time
-                            Powerups p = new Powerups(b.x, b.y, 5, "3");
-                            powerup.Add(p);
+                            Random randPower = new Random();
+                            randomPowerupChance = randPower.Next(1, 6);
+
+                            if (randomPowerupChance == 1)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "3");
+                                powerup.Add(p);
+                                activated = false;
+                            }
+                            if (randomPowerupChance == 2)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "L");
+                                powerup.Add(p);
+                                activated = false;
+                            }
+                            if (randomPowerupChance == 3)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "l");
+                                powerup.Add(p);
+                                activated = false;
+                            }
+                            if (randomPowerupChance == 4)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "BS");
+                                powerup.Add(p);
+                                activated = false;
+                            }
+                            if (randomPowerupChance == 5)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "bs");
+                                powerup.Add(p);
+                                activated = false;
+                            }
+
 
                             if (blocks.Count == 0)
                             {
@@ -303,14 +340,39 @@ namespace BrickBreaker
             {
                 if (p.PowerupCollision() == true && activated == false)
                 {
-                    //activate powerup
-                    Ball b2 = new Ball(200, 100, xSpeed, ySpeed, ballSize, 1, -1);
-                    ballList.Add(b2);
-                    ballNumber += 1;
+                    if (p.type == "3")
+                    {
+                        Random randGen = new Random();
+                        int x, y;
 
-                    Ball b3 = new Ball(100, 200, xSpeed, ySpeed, ballSize, 1, -1);
-                    ballList.Add(b3);
-                    ballNumber += 1;
+                        x = randGen.Next(1, 301);
+                        y = randGen.Next(1, 301);
+
+                        //activate powerup
+                        Ball b2 = new Ball(x, y, xSpeed, ySpeed, ballSize, 1, -1);
+                        ballList.Add(b2);
+                        ballNumber += 1;
+
+                        Ball b3 = new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1);
+                        ballList.Add(b3);
+                        ballNumber += 1;
+                    }
+                    else if (p.type == "L")
+                    {
+                        paddle.width += 25;
+                    }
+                    else if (p.type == "l")
+                    {
+                        paddle.width -= 25;
+                    }
+                    else if (p.type == "BS")
+                    {
+                        ySpeed -= 2;
+                    }
+                    else if (p.type == "bs")
+                    {
+                        ySpeed += 2;
+                    }
 
                     activated = true;
                 }
@@ -327,6 +389,7 @@ namespace BrickBreaker
             MenuScreen ps = new MenuScreen();
 
             ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
+            ballNumber = 0;
 
             form.Controls.Add(ps);
             form.Controls.Remove(this);
@@ -355,13 +418,31 @@ namespace BrickBreaker
             //Draws Powerups
             foreach (Powerups p in powerup)
             {
-                e.Graphics.FillRectangle(powerupsBrush, p.x, p.y, p.width, p.height);
+                if (p.type == "3")
+                {
+                    e.Graphics.FillRectangle(powerups3Brush, p.x, p.y, p.width, p.height);
+                }
+                else if (p.type == "L")
+                {
+                    e.Graphics.FillRectangle(powerupsLBrush, p.x, p.y, p.width, p.height);
+                }
+                else if (p.type == "l")
+                {
+                    e.Graphics.FillRectangle(powerupslBrush, p.x, p.y, p.width, p.height);
+                }
+                else if (p.type == "BS")
+                {
+                    e.Graphics.FillRectangle(powerupsBSBrush, p.x, p.y, p.width, p.height);
+                }
+                else if (p.type == "bs")
+                {
+                    e.Graphics.FillRectangle(powerupsbsBrush, p.x, p.y, p.width, p.height);
+                }
             }
 
             // Draw lives and font
             e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 25));
             //e.Graphics.DrawString(scoe.ToString(), textFont, sb, new Point(25, 75));
-            // TODO: Draw score (Rie)
         }
 
         public void NickMethod()

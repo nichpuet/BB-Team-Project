@@ -34,7 +34,6 @@ namespace BrickBreaker
 
             if (powerupR.IntersectsWith(paddleR))
             {
-                //TODO this would activate the powerup
                 return true;
             }
             else

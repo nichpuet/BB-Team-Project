@@ -15,8 +15,7 @@ namespace BrickBreaker
         public int x;
         public int y; 
         public int hp;
-        public int score; // TODO: Have bricks in a designed level have more points or less
-        
+        public int score; 
         /// <summary>
         /// Gets the color based on the hp
         /// </summary>

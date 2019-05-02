@@ -60,7 +60,7 @@ namespace BrickBreaker
         List<Block> currentlevel = new List<Block>();
 
         List<XmlReader> levelList = new List<XmlReader>();
-        int currentlevelnum = 0;
+        int currentlevelnum = 9;
         bool levelLoadstart = true;
 
         public GameScreen(bool multiplayer = false)

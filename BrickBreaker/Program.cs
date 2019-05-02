@@ -12,8 +12,8 @@ namespace BrickBreaker
         //Declares a file system path
         public static string FilePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Brick Breaker";//Thayen with all Directory code
         public static string ResourcePath = $@"{FilePath}\Resources";
+        public static string AudioPath = $@"{ResourcePath}\Sounds";
         public static string LevelPath = $@"{FilePath}\Levels";
-
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -28,7 +28,10 @@ namespace BrickBreaker
                 Directory.CreateDirectory(ResourcePath);
 
             if (!Directory.Exists(LevelPath))
-                Directory.CreateDirectory(ResourcePath);
+                Directory.CreateDirectory(LevelPath);
+
+            if (!Directory.Exists(AudioPath))
+                Directory.CreateDirectory(AudioPath);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

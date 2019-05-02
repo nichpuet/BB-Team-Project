@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<level>
+    -<brick x ="127" y ="32" hp ="2"/>
+    -<brick x ="239" y ="80" hp ="2"/>
+    -<brick x ="351" y ="131" hp ="2"/>
+    -<brick x ="463" y ="184" hp ="2"/>
+    -<brick x ="687" y ="184" hp ="2"/>
+    -<brick x ="799" y ="131" hp ="2"/>
+    -<brick x ="575" y ="80" hp ="2"/>
+    -<brick x ="1023" y ="32" hp ="2"/>
+    -<brick x ="575" y ="131" hp ="3"/>
+    -<brick x ="575" y ="184" hp ="3"/>
+    -<brick x ="575" y ="238" hp ="3"/>
+    -<brick x ="239" y ="32" hp ="1"/>
+    -<brick x ="351" y ="32" hp ="1"/>
+    -<brick x ="463" y ="32" hp ="1"/>
+    -<brick x ="687" y ="32" hp ="1"/>
+    -<brick x ="799" y ="32" hp ="1"/>
+    -<brick x ="911" y ="32" hp ="1"/>
+    -<brick x ="911" y ="80" hp ="2"/>
+    -<brick x ="799" y ="80" hp ="1"/>
+    -<brick x ="687" y ="80" hp ="1"/>
+    -<brick x ="463" y ="80" hp ="1"/>
+    -<brick x ="351" y ="80" hp ="1"/>
+    -<brick x ="463" y ="131" hp ="1"/>
+    -<brick x ="687" y ="131" hp ="1"/>
+</level>

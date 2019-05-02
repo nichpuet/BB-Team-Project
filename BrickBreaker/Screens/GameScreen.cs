@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Media;
+using System.Xml;
 
 namespace BrickBreaker
 {
@@ -18,15 +14,24 @@ namespace BrickBreaker
         //player1 button control keys
         Boolean leftArrowDown, rightArrowDown, ADown, DDown;
 
+        // TODO: Work on block collision
+
         // Paddle and Ball objects
         public static Paddle paddle;
         public static List<Ball> ballList = new List<Ball>();
+        public static List<Ball> removeBalls = new List<Ball>();
         public static int paddleWidth = 80;
         public static int paddleHeight = 20;
         public static int ballNumber = 0;
+        int paddleX;
+        int paddleY;
 
-        // list of all blocks for current level
-        List<Block> blocks = new List<Block>();
+        // random for powerups
+        Random random = new Random();
+
+        // list of all currentlevel for current level
+        List<Block> currentlevel = new List<Block>();
+
 
         //Powerups
         List<Powerups> powerup = new List<Powerups>();
@@ -43,16 +48,39 @@ namespace BrickBreaker
         SolidBrush paddleBrush = new SolidBrush(Color.White);
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
+        Pen linePen = new Pen(Color.White);
+        Pen testPen = new Pen(Color.Red);
 
+        //Testing: Declaring variables;
         // Lives
-        public int player1Lives = 3;
+        public int player1Lives = 5;
         public int? player2Lives = null;
+        public static int score = 0;
         #endregion
 
+        // start for game loop
+        public static bool start = false;
+
         // Creates a new ball
-        int xSpeed = 6;
-        int ySpeed = 6;
+        int xSpeed = 12;
+        int ySpeed = 12;
         int ballSize = 20;
+
+        // angle change buttons
+        int angleposition = 3;
+
+        // angle points for the line aim
+        Point p1, p2;
+
+
+        // font and brush for text
+        Font textFont;
+        SolidBrush sb = new SolidBrush(Color.White);
+
+        // level variables
+        List<XmlReader> levelList = new List<XmlReader>();
+        int currentlevelnum = 4;
+        bool levelLoadstart = true;
 
         public GameScreen(bool multiplayer = false)
         {
@@ -62,26 +90,90 @@ namespace BrickBreaker
                 player2Lives = 3;
         }
 
-        // angle change buttons
-        int angleposition = 3;
-        bool start = false;
+        public void levelLoad()
+        {
+            if (levelLoadstart)
+            {
+                // need ten total items, think of list as actual level number -1
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/testlevel.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level1.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level2.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level3.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level4.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level5.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level6.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level7.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level8.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level9.xml"));
+                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level10.xml"));
+            }
 
-        bool Akeydown = false;
-        bool Dkeydown = false;
-        Font textFont;
-        SolidBrush sb = new SolidBrush(Color.White);
+            XmlReader reader = levelList[1];
+            switch (currentlevelnum)
+            {
+                case 0:
+                    reader = levelList[0];
+                    break;
+                case 1:
+                    reader = levelList[1];
+                    break;
+                case 2:
+                    reader = levelList[2];
+                    break;
+                case 3:
+                    reader = levelList[3];
+                    break;
+                case 4:
+                    reader = levelList[4];
+                    break;
+                case 5:
+                    reader = levelList[5];
+                    break;
+                case 6:
+                    reader = levelList[6];
+                    break;
+                case 7:
+                    reader = levelList[7];
+                    break;
+                case 8:
+                    reader = levelList[8];
+                    break;
+                case 9:
+                    reader = levelList[9];
+                    break;
+            }
+
+            currentlevel.Clear();
+            while (reader.Read())
+            {
+                string X, Y, HP;
+                reader.ReadToFollowing("brick");
+                X = reader.GetAttribute("x");
+                Y = reader.GetAttribute("y");
+                HP = reader.GetAttribute("hp");
+
+                currentlevel.Add(new Block(X, Y, HP));
+            }
+            currentlevel.RemoveAt(currentlevel.Count - 1);
+            reader.Close();
+        }
 
         public void OnStart()
         {
+            levelLoad();
+
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 
+            // reset score
+            score = 0;
+
             // create text graphics
-            textFont = new Font("Verdana", 14, FontStyle.Regular);
+            textFont = new Font("Verdana", 20, FontStyle.Regular);
 
             // setup starting paddle values and create paddle object
-            int paddleX = ((this.Width / 2) - (paddleWidth / 2));
-            int paddleY = (this.Height - paddleHeight);
+            paddleX = ((this.Width / 2) - (paddleWidth / 2));
+            paddleY = (this.Height - paddleHeight);
             int paddleSpeed = 8;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
@@ -92,22 +184,11 @@ namespace BrickBreaker
             ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
             ballNumber += 1;
 
-            #region Creates blocks for generic level. Need to replace with code that loads levels.
-
-            blocks.Clear();
-            int x = 10;
-
-            while (blocks.Count < 12)
-            {
-                x += 57;
-                Block b1 = new Block(x, 10, 1, Color.White);
-                blocks.Add(b1);
-            }
-
-            #endregion
-
             // start the game engine loop
             gameTimer.Enabled = true;
+
+
+
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -136,14 +217,14 @@ namespace BrickBreaker
                 {
                     case Keys.A:
                         // move left
-                        if (angleposition > 1)
+                        if (angleposition >= 1 && angleposition < 6)
                         {
                             angleposition++;
                         }
                         break;
                     case Keys.D:
                         // move right
-                        if (angleposition < 6)
+                        if (angleposition <= 6 && angleposition > 1)
                         {
                             angleposition--;
                         }
@@ -156,30 +237,33 @@ namespace BrickBreaker
         {
             switch (angleposition)
             {
+                // right
                 case 1:
                     ballList[0].Xangle = 1;
                     ballList[0].Yangle = -0.5;
                     break;
                 case 2:
-                    ballList[0].Xangle = 1;
-                    ballList[0].Yangle = -1;
-                    break;
-                case 3:
                     ballList[0].Xangle = 0.5;
                     ballList[0].Yangle = -1;
                     break;
-                case 4:
+                case 3:
                     ballList[0].Xangle = -1;
                     ballList[0].Yangle = -0.5;
                     break;
-                case 5:
-                    ballList[0].Xangle = -1;
-                    ballList[0].Yangle = -1;
-                    break;
-                case 6:
+                case 4:
+
                     ballList[0].Xangle = -0.5;
                     ballList[0].Yangle = -1;
                     break;
+                case 5:
+                    ballList[0].Xangle = 1;
+                    ballList[0].Yangle = -1;
+                    break;
+                case 6:
+                    ballList[0].Xangle = -1;
+                    ballList[0].Yangle = -0.5;
+                    break;
+                    // left
             }
         }
 
@@ -199,8 +283,12 @@ namespace BrickBreaker
             }
         }
 
+        //Nit: Can you make the ball fall a little farther before resetting the ball, something doesn't feel right when it falls
+        //Nit: Can you make the ball go in whatever the player last moved
+        //Note Form1 has a soundplayer, you can access it with Form1.SoundPlayer
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+            //   angleLable.Text = angleposition.ToString();
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {
@@ -224,14 +312,21 @@ namespace BrickBreaker
                     // Check for collision with top and side walls
                     b.WallCollision(this);
 
-                    // Check for ball hitting bottom of screen
-                    if (b.BottomCollision(this, paddle) && ballNumber == 1)
+                    // Check for ball hitting bottom of screen and if there is only one ball
+                    if (b.BottomCollision(this, paddle) && ballList.Count == 1)
                     {
                         // decrease player 1 lives
                         player1Lives--;
 
                         // move the ball and paddle back
                         start = false;
+
+                        // reset ball angle
+                        angleposition = 3;
+
+                        // reset paddle x and y
+                        paddle.x = paddleX;
+                        paddle.y = paddleY;
 
                         ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
                         ballList[0].y = paddle.y - 40;
@@ -241,11 +336,10 @@ namespace BrickBreaker
                         ballList[0].xSpeed = xSpeed;
                         ballList[0].ySpeed = ySpeed;
 
-                        if (player1Lives <= 0)
+                        if (player1Lives < 1)
                         {
                             start = false;
-
-                            if (player2Lives == 0)
+                            if (player2Lives < 0)
                             {
                                 gameTimer.Enabled = false;
                                 OnEnd();
@@ -265,15 +359,81 @@ namespace BrickBreaker
                     // Check for collision of ball with paddle, (incl. paddle movement)
                     b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
                 }
-
-                // Check if ball has collided with any blocks
-                foreach (Ball ba in ballList)
+                // remove any balls that need to be removed
+                foreach (Ball b in removeBalls)
                 {
-                    foreach (Block b in blocks)
+                    //testing
+                    scores();
+                }
+            }
+
+            //Testing Purposes: Score Tracker...1st Tracker...Adding the number to scores
+            foreach (Block b in currentlevel)
+            {
+                if (ballList[0].ScoreTracker(b))
+                {
+                    score++;
+                }
+            }
+
+
+            // Check for collision of ball with paddle, (incl. paddle movement)
+            ballList[0].PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+
+
+            // Check if ball has collided with any currentlevel
+            foreach (Block b in currentlevel)
+            {
+                if (ballList[0].BlockCollision(b))
+                {
+                    currentlevel.Remove(b);
+                }
+            }
+            // Check if ball has collided with any currentlevel
+            for (int i = 0; i < currentlevel.Count(); i++)
+            {
+                Ball ba = ballList[0];
+                //changed
+                scores();
+                Block b = currentlevel[i];
+                // TODO: Check if the ball hits the top, bottom, left, or right
+                if (ba.BlockCollision(b))
+                {
+                    b.hp--;
+                    if (b.hp < 1)
+                        currentlevel.Remove(b);
+
+                    score += 100;
+
+                    // powerups random
+                    if (random.Next(1, 11) <= 2)
                     {
-                        if (ba.BlockCollision(b))
+                        // 20 % chance
+                        // TODO: powerups
+                    }
+
+                    if (currentlevel.Count < 1)
+                    {
+                        if (currentlevelnum == levelList.Count())
                         {
-                            blocks.Remove(b);
+                            OnEnd();
+                        }
+                        else
+                        {
+                            currentlevelnum++;
+                            levelLoad();
+                            start = false;
+                            ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
+                            ballList[0].y = paddle.y - 21;
+                        }
+                    }
+                    break;
+                }
+                else
+                {
+                    // center the ball over the paddle
+                    ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
+                    ballList[0].y = paddle.y - 21;
 
                             //Powerup Chance 
                             Random randPower = new Random();
@@ -316,17 +476,70 @@ namespace BrickBreaker
                                 gameTimer.Enabled = false;
                                 OnEnd();
                             }
+                    // draw line to show ball aim
+                    p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
 
+                    // TODO: Fix problem with angle shooting while moving
+                    switch (angleposition)
+                    {
+                        // right
+                        case 1:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
                             break;
-                        }
+
+                        case 2:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 3:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 4:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 5:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 6:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+                        // left
+                        default:
+                            break;
                     }
                 }
             }
-            else
+            //redraw the screen
+            Refresh();
+        }        
+
+        //testing 
+        public void scores()
+        {
+            string scoreNumber = score.ToString();
+            HighScore s = new HighScore(scoreNumber);
+            Form1.highScores.Add(s);
+            //GameOver();
+        }
+        
+
+        //testing
+        public void saveScoresRK()
+        {
+            XmlWriter writer = XmlWriter.Create("Resources/HighScores.xml", null);
+
+            writer.WriteStartElement("TheScores");
+
+            foreach (HighScore s in Form1.highScores)
             {
-                // center the ball over the paddle
-                ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
-                ballList[0].y = paddle.y - 21;
+                writer.WriteStartElement("TheScore");
+
+                writer.WriteElementString("Score", s.score);
+
+                writer.WriteEndElement();
             }
 
             //Move powerups down
@@ -380,33 +593,39 @@ namespace BrickBreaker
 
             //redraw the screen
             Refresh();
+            writer.WriteEndElement();
+
+            writer.Close();
+        }
+        
+
+        //testing
+        public void GameOver()
+        {
+            Form1 form = FindForm() as Form1;
+            form.ChangeScreen(this, new GameOverScreen());
         }
 
         public void OnEnd()
         {
+            //Testing: Saving the scores
+            saveScoresRK();
             // Goes to the game over screen
-            Form form = this.FindForm();
-            MenuScreen ps = new MenuScreen();
-
-            ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
-            ballNumber = 0;
-
-            form.Controls.Add(ps);
-            form.Controls.Remove(this);
+            Form1 form = FindForm() as Form1;
+            form.ChangeScreen(this, new MenuScreen());
         }
 
         public void GameScreen_Paint(object sender, PaintEventArgs e)
         {
             // Draws paddle
-            paddleBrush.Color = paddle.colour;
             e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
-            //paddleBrush.Color = newPaddle.colour;
-            //e.Graphics.FillRectangle(paddleBrush, newPaddle.x, newPaddle.y, newPaddle.width, newPaddle.height);
 
-            // Draws blocks
-            foreach (Block b in blocks)
+            // Draws currentlevel
+            foreach (Block b in currentlevel)
             {
-                e.Graphics.FillRectangle(blockBrush, b.x, b.y, b.width, b.height);
+                blockBrush = new SolidBrush(b.colour());
+                e.Graphics.FillRectangle(blockBrush, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
+                e.Graphics.DrawRectangle(testPen, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
             }
 
             // Draws ball
@@ -443,8 +662,39 @@ namespace BrickBreaker
             // Draw lives and font
             e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 25));
             //e.Graphics.DrawString(scoe.ToString(), textFont, sb, new Point(25, 75));
+            // draw line aim
+            if (!start)
+            {
+                e.Graphics.DrawLine(linePen, p1, p2);
+            }
+
+            // Draw lives and score
+            e.Graphics.DrawString("angle position: " + angleposition.ToString(), textFont, sb, new Point(25, this.Height - 100));
+            e.Graphics.DrawString("block number: " + currentlevel.Count().ToString(), textFont, sb, new Point(this.Width - 300, this.Height - 100));
+
+            switch(player1Lives)
+            {
+                case 4:
+                    life5Output.Visible = false;
+                    break;
+                case 3:
+                    life4Output.Visible = false;
+                    break;
+                case 2:
+                    life3Output.Visible = false;
+                    break;
+                case 1:
+                    life2Output.Visible = false;
+                    break;
+                case 0:
+                    life1Output.Visible = false;
+                    break;
+                default:
+                    break;
+            }
         }
 
+        [Obsolete("Please rename this method to what it is supposed to do", true)]
         public void NickMethod()
         {
             //set all button presses to false.
@@ -471,17 +721,15 @@ namespace BrickBreaker
             ballList.Add(new Ball(ballX, this.Height - ballY, 6, 6, 20, 1, 1));
             // Creates a new ball
 
-            #region Creates blocks for generic level. Need to replace with code that loads levels.
+            #region Creates currentlevel for generic level. Need to replace with code that loads levels.
+            //int x = 10;
 
-            blocks.Clear();
-            int x = 10;
-
-            while (blocks.Count < 12)
-            {
-                x += 57;
-                Block b1 = new Block(x, 10, 1, Color.White);
-                blocks.Add(b1);
-            }
+            //while (currentlevel.Count < 12)
+            //{
+            //    x += 57;
+            //    Block b1 = new Block(x, 10, 1, Color.White);
+            //    currentlevel.Add(b1);
+            //}
 
             #endregion
 

@@ -123,7 +123,7 @@
             this.highscoreLabel.Text = "HIGHSCORE: 00000";
             // 
             // GameScreen
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -136,6 +136,9 @@
             this.Controls.Add(this.spacer);
             this.Controls.Add(this.life5Output);
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(8, 9, 8, 9);
+            this.Name = "GameScreen";
+            this.Size = new System.Drawing.Size(2533, 1565);
             this.Name = "GameScreen";
             this.Size = new System.Drawing.Size(1200, 900);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameScreen_Paint);
@@ -148,7 +151,6 @@
         #endregion
 
         private System.Windows.Forms.Timer gameTimer;
-
         private System.Windows.Forms.Label life5Output;
         private System.Windows.Forms.Label spacer;
         private System.Windows.Forms.Label life1Output;

@@ -27,7 +27,7 @@ namespace BrickBreaker
         {
             InitializeComponent();
             gameOverTimer.Enabled = true;
-            b = new Ball(this.Width/2 - 50, this.Height/2 - 50, b1speed, b1speed, b1size);
+            b = new Ball(this.Width/2 - 50, this.Height/2 - 50, b1speed, b1speed, b1size, 0, 1);
 
         }
 
@@ -63,7 +63,7 @@ namespace BrickBreaker
             ballcounter = 0;
             bspeed = randGen.Next(1, 11);
             bsize = randGen.Next(1, 51);
-            Ball explosionb = new Ball(b.x, b.y, bspeed, bspeed, bsize);
+            Ball explosionb = new Ball(Convert.ToInt32(b.x), Convert.ToInt32(b.y), bspeed, bspeed, bsize, 0, 0);
             explosion.Add(explosionb);
 
             foreach (Ball b in explosion)
@@ -85,10 +85,10 @@ namespace BrickBreaker
         public void GameOver_Paint(object sender, PaintEventArgs e)
         {
             // Draws ball
-            e.Graphics.FillRectangle(ballBrush, b.x, b.y, b.size, b.size);
+            e.Graphics.FillRectangle(ballBrush, (float)b.x, (float)b.y, b.size, b.size);
             foreach (Ball b in explosion)
             {
-                e.Graphics.FillRectangle(ballBrush, b.x, b.y, b.size, b.size);
+                e.Graphics.FillRectangle(ballBrush, (float)b.x, (float)b.y, b.size, b.size);
             }
         }
     }

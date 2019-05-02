@@ -18,7 +18,8 @@ namespace BrickBreaker
 
         //player1 button control keys - DO NOT CHANGE
         Boolean leftArrowDown, rightArrowDown, ADown, DDown;
-        // TODO: Draw line to show ball aim
+
+        // TODO: Work on block collision
 
         // Paddle and Ball objects
         public static Paddle paddle;
@@ -29,6 +30,7 @@ namespace BrickBreaker
         int paddleX;
         int paddleY;
 
+        // random for powerups
         Random random = new Random();
 
         // list of all blocks for current level
@@ -41,6 +43,7 @@ namespace BrickBreaker
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
         Pen linePen = new Pen(Color.White);
+        Pen testPen = new Pen(Color.Red);
 
         //Testing: Declaring variables
         int score = 0;
@@ -50,6 +53,7 @@ namespace BrickBreaker
         public static int score = 0;
         #endregion
 
+        // start for game loop
         public static bool start = false;
 
         // Creates a new ball
@@ -62,9 +66,11 @@ namespace BrickBreaker
         // angle points for the line aim
         Point p1, p2;
 
+        // font and brush for text
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
 
+        // level variables
         List<XmlReader> levelList = new List<XmlReader>();
         int currentlevelnum = 4;
         bool levelLoadstart = true;
@@ -203,16 +209,16 @@ namespace BrickBreaker
                 {
                     case Keys.A:
                         // move left
-                        if (angleposition >= 2 && angleposition <= 6)
+                        if (angleposition >= 1 && angleposition < 6)
                         {
-                            angleposition--;
+                            angleposition++;
                         }
                         break;
                     case Keys.D:
                         // move right
-                        if (angleposition < 6 && angleposition >= 1)
+                        if (angleposition <= 6 && angleposition > 1)
                         {
-                            angleposition++;
+                            angleposition--;
                         }
                         break;
                 }
@@ -381,6 +387,7 @@ namespace BrickBreaker
                         gameTimer.Enabled = false;
                         scores();
                         Block b = currentlevel[i];
+                        // TODO: Check if the ball hits the top, bottom, left, or right
                         if (ba.BlockCollision(b))
                         {
                             b.hp--;
@@ -423,8 +430,9 @@ namespace BrickBreaker
                 ballList[0].y = paddle.y - 21;
 
                 // draw line to show ball aim
-                p1 = new Point(Convert.ToInt16(ballList[0].x), Convert.ToInt16(ballList[0].y));
+                p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
 
+                // TODO: Fix problem with angle shooting while moving
                 switch (angleposition)
                 {
                     // right
@@ -433,11 +441,11 @@ namespace BrickBreaker
                         break;
 
                     case 2:
-                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 25, Convert.ToInt16(ballList[0].y) - 120);
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
                         break;
 
                     case 3:
-                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 15, Convert.ToInt16(ballList[0].y) - 120);
+                        p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
                         break;
 
                     case 4:
@@ -531,6 +539,7 @@ namespace BrickBreaker
             {
                 blockBrush = new SolidBrush(b.colour());
                 e.Graphics.FillRectangle(blockBrush, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
+                e.Graphics.DrawRectangle(testPen, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
             }
 
             // Draws ball

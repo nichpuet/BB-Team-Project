@@ -31,7 +31,7 @@ namespace BrickBreaker
 
         Random random = new Random();
 
-        // list of all blocks for current level
+        // list of all currentlevel for current level
         List<Block> currentlevel = new List<Block>();
 
 
@@ -42,8 +42,7 @@ namespace BrickBreaker
         SolidBrush blockBrush = new SolidBrush(Color.Red);
         Pen linePen = new Pen(Color.White);
 
-        //Testing: Declaring variables
-        int score = 0;
+        //Testing: Declaring variables;
         // Lives
         public int player1Lives = 5;
         public int? player2Lives = null;
@@ -354,9 +353,9 @@ namespace BrickBreaker
             }
 
             //Testing Purposes: Score Tracker...1st Tracker...Adding the number to scores
-            foreach (Block b in blocks)
+            foreach (Block b in currentlevel)
             {
-                if (ball.ScoreTracker(b))
+                if (ballSize[0].ScoreTracker(b))
                 {
                     score++;
                 }
@@ -364,16 +363,16 @@ namespace BrickBreaker
             
 
             // Check for collision of ball with paddle, (incl. paddle movement)
-            ball.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+            balls[0].PaddleCollision(paddle, leftArrowDown, rightArrowDown);
 
 
-            // Check if ball has collided with any blocks
-            foreach (Block b in blocks)
+            // Check if ball has collided with any currentlevel
+            foreach (Block b in currentlevel)
             {
                 if (ball.BlockCollision(b))
                     ballList.Remove(b);
                 }
-                // Check if ball has collided with any blocks
+                // Check if ball has collided with any currentlevel
                 {
                     for (int i = 0; i < currentlevel.Count(); i++)
                     {
@@ -415,8 +414,7 @@ namespace BrickBreaker
                         }
                     }
                 }
-            }
-            else
+                        else
             {
                 // center the ball over the paddle
                 ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
@@ -460,7 +458,8 @@ namespace BrickBreaker
 
             //redraw the screen
             Refresh();
-         }
+        }
+         
 
         //testing 
         public void scores()
@@ -526,7 +525,7 @@ namespace BrickBreaker
             // Draws paddle
             e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
 
-            // Draws blocks
+            // Draws currentlevel
             foreach (Block b in currentlevel)
             {
                 blockBrush = new SolidBrush(b.colour());
@@ -598,14 +597,14 @@ namespace BrickBreaker
             ballList.Add(new Ball(ballX, this.Height - ballY, 6, 6, 20, 1, 1));
             // Creates a new ball
 
-            #region Creates blocks for generic level. Need to replace with code that loads levels.
+            #region Creates currentlevel for generic level. Need to replace with code that loads levels.
             //int x = 10;
 
-            //while (blocks.Count < 12)
+            //while (currentlevel.Count < 12)
             //{
             //    x += 57;
             //    Block b1 = new Block(x, 10, 1, Color.White);
-            //    blocks.Add(b1);
+            //    currentlevel.Add(b1);
             //}
 
             #endregion

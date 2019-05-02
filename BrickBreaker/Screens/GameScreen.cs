@@ -368,10 +368,8 @@ namespace BrickBreaker
                 }
             }
 
-
             // Check for collision of ball with paddle, (incl. paddle movement)
             ballList[0].PaddleCollision(paddle, leftArrowDown, rightArrowDown);
-
 
             // Check if ball has collided with any currentlevel
             foreach (Block b in currentlevel)
@@ -382,6 +380,7 @@ namespace BrickBreaker
                 }
             }
             // Check if ball has collided with any currentlevel
+            // TODO: Fix ball not moving after shooting
             for (int i = 0; i < currentlevel.Count(); i++)
             {
                 Ball ba = ballList[0];

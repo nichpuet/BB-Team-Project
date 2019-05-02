@@ -16,14 +16,14 @@ namespace BrickBreaker
     {
         public void scoreOutput()
         {
-            highScoreLabel.Text = "High Scores\n";
+            highscoreLabel.Text = "High Scores\n";
             //testing: displaying the scores
             foreach (HighScore s in Form1.highScores)
             {
 
-                highScoreLabel.Text += s.score + " " + "\n";
+                highscoreLabel.Text += s.score + " " + "\n";
 
-                //highScoreLabel.Text = s.score[0] + " " + "\n" + s.score[1] + " " + "\n" + s.score[2]
+                //highscoreLabel.Text = s.score[0] + " " + "\n" + s.score[1] + " " + "\n" + s.score[2]
                 //    + " " + "\n" + s.score[3] + " " + "\n" + s.score[4] + " " + "\n";
             }
         }
@@ -50,6 +50,7 @@ namespace BrickBreaker
             }
 
             reader.Close();
+        }
         private static int index = 0;
         private List<Button> buttons = new List<Button>();
         public MenuScreen()

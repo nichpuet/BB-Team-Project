@@ -7,12 +7,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using System.IO;
 
 namespace BrickBreaker
 {
     public partial class MenuScreen : UserControl
     {
+        public void scoreOutput()
+        {
+            highscoreLabel.Text = "High Scores\n";
+            //testing: displaying the scores
+            foreach (HighScore s in Form1.highScores)
+            {
+
+                highscoreLabel.Text += s.score + " " + "\n";
+
+                //highscoreLabel.Text = s.score[0] + " " + "\n" + s.score[1] + " " + "\n" + s.score[2]
+                //    + " " + "\n" + s.score[3] + " " + "\n" + s.score[4] + " " + "\n";
+            }
+        }
+        //testing
+        public void loadScoresRK()
+        {
+            //creating Xml reader file 
+            XmlReader reader = XmlReader.Create("Resources/HighScores.xml", null);
+            string newScoreString;
+
+            //basically highScore1String is going to be highScore #1...and on...etc
+            //plan: "highScores" should only contain 5 high "scores"
+
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.Text)
+                {
+                    newScoreString = reader.ReadString();
+
+                    HighScore newScore = new HighScore(newScoreString);
+                    Form1.highScores.Add(newScore);
+
+                }
+            }
+
+            reader.Close();
+        }
         private static int index = 0;
         private List<Button> buttons = new List<Button>();
         public MenuScreen()
@@ -58,13 +96,8 @@ namespace BrickBreaker
         private void playButton_Click(object sender, EventArgs e)
         {
             // Goes to the game screen
-            GameScreen gs = new GameScreen();
-            Form form = this.FindForm();
-
-            form.Controls.Add(gs);
-            form.Controls.Remove(this);
-            //center game screen
-            gs.Location = new Point((form.Width - gs.Width) / 2, (form.Height - gs.Height) / 2);
+            var form = FindForm() as Form1;
+            form.ChangeScreen(this, new GameScreen());
         }
 
         
@@ -103,11 +136,6 @@ namespace BrickBreaker
                     break;
             }
         }
-
-
-        private void menuTimer_Tick(object sender, EventArgs e)
-        {
-}
 
         /// <summary>
         /// Gets the newly selected button based on where the last one was. Pass a negative to go back in the list of buttons

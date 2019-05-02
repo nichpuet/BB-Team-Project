@@ -33,7 +33,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.highscoreLabel = new System.Windows.Forms.Label();
             this.exitLabel = new System.Windows.Forms.Label();
-            this.menuTimer = new System.Windows.Forms.Timer(this.components);
             this.brickWallPic = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.brickWallPic)).BeginInit();
             this.SuspendLayout();
@@ -59,7 +58,7 @@
             this.label1.Location = new System.Drawing.Point(325, 162);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(140, 71);
+            this.label1.Size = new System.Drawing.Size(183, 71);
             this.label1.TabIndex = 1;
             this.label1.Text = "PLAY";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -91,12 +90,6 @@
             this.exitLabel.Text = "Exit";
             this.exitLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // menuTimer
-            // 
-            this.menuTimer.Enabled = true;
-            this.menuTimer.Interval = 16;
-            this.menuTimer.Tick += new System.EventHandler(this.menuTimer_Tick);
-            // 
             // brickWallPic
             // 
             this.brickWallPic.Image = global::BrickBreaker.Properties.Resources.brickWall;
@@ -106,6 +99,16 @@
             this.brickWallPic.Size = new System.Drawing.Size(17, 518);
             this.brickWallPic.TabIndex = 4;
             this.brickWallPic.TabStop = false;
+            // 
+            // highScoreLabel
+            // 
+            this.highscoreLabel.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.highscoreLabel.Font = new System.Drawing.Font("Bahnschrift SemiBold", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.highscoreLabel.Location = new System.Drawing.Point(1308, 97);
+            this.highscoreLabel.Name = "highScoreLabel";
+            this.highscoreLabel.Size = new System.Drawing.Size(1196, 1330);
+            this.highscoreLabel.TabIndex = 2;
+            this.highscoreLabel.Text = "High Score For Testing Purposes";
             // 
             // MenuScreen
             // 
@@ -130,8 +133,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label highscoreLabel;
         private System.Windows.Forms.Label exitLabel;
-        private System.Windows.Forms.Timer menuTimer;
         private System.Windows.Forms.PictureBox brickWallPic;
-
     }
 }

@@ -11,7 +11,7 @@ namespace BrickBreaker
     {
         #region global values
 
-        //player1 button control keys - DO NOT CHANGE
+        //player1 button control keys
         Boolean leftArrowDown, rightArrowDown, ADown, DDown;
 
         // TODO: Work on block collision
@@ -22,6 +22,7 @@ namespace BrickBreaker
         public static List<Ball> removeBalls = new List<Ball>();
         public static int paddleWidth = 80;
         public static int paddleHeight = 20;
+        public static int ballNumber = 0;
         int paddleX;
         int paddleY;
 
@@ -32,6 +33,16 @@ namespace BrickBreaker
         List<Block> currentlevel = new List<Block>();
 
 
+        //Powerups
+        List<Powerups> powerup = new List<Powerups>();
+        Boolean activated = false;
+        public static int randomPowerupChance;
+
+        SolidBrush powerups3Brush = new SolidBrush(Color.Green);
+        SolidBrush powerupsLBrush = new SolidBrush(Color.Blue);
+        SolidBrush powerupslBrush = new SolidBrush(Color.Red);
+        SolidBrush powerupsBSBrush = new SolidBrush(Color.Purple);
+        SolidBrush powerupsbsBrush = new SolidBrush(Color.Orange);
 
         // Brushes
         SolidBrush paddleBrush = new SolidBrush(Color.White);
@@ -171,6 +182,7 @@ namespace BrickBreaker
             int ballY = paddle.y - 21;
             ballList.Clear();
             ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
+            ballNumber += 1;
 
             // start the game engine loop
             gameTimer.Enabled = true;
@@ -332,15 +344,16 @@ namespace BrickBreaker
                                 gameTimer.Enabled = false;
                                 OnEnd();
                             }
-                            // TODO: Why is this here?
                             gameTimer.Enabled = false;
                             OnEnd();
                         }
                     }
                     else if (b.BottomCollision(this, paddle))
                     {
-                        // add the ball to the remove list
-                        removeBalls.Add(b);
+                        //Remove ball that hit bottom from list
+                        ballNumber -= 1;
+                        ballList.Remove(b);
+                        break;
                     }
 
                     // Check for collision of ball with paddle, (incl. paddle movement)
@@ -422,6 +435,47 @@ namespace BrickBreaker
                     ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
                     ballList[0].y = paddle.y - 21;
 
+                            //Powerup Chance 
+                            Random randPower = new Random();
+                            randomPowerupChance = randPower.Next(1, 21);
+
+                            if (randomPowerupChance == 1)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "3");
+                                powerup.Add(p);
+                                activated = false;
+                            }
+                            if (randomPowerupChance == 2)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "L");
+                                powerup.Add(p);
+                                activated = false;
+                            }
+                            if (randomPowerupChance == 3)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "l");
+                                powerup.Add(p);
+                                activated = false;
+                            }
+                            if (randomPowerupChance == 4)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "BS");
+                                powerup.Add(p);
+                                activated = false;
+                            }
+                            if (randomPowerupChance == 5)
+                            {
+                                Powerups p = new Powerups(b.x, b.y, 5, "bs");
+                                powerup.Add(p);
+                                activated = false;
+                            }
+
+
+                            if (blocks.Count == 0)
+                            {
+                                gameTimer.Enabled = false;
+                                OnEnd();
+                            }
                     // draw line to show ball aim
                     p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
 
@@ -454,7 +508,6 @@ namespace BrickBreaker
                             break;
                         // left
                         default:
-
                             break;
                     }
                 }
@@ -489,6 +542,57 @@ namespace BrickBreaker
                 writer.WriteEndElement();
             }
 
+            //Move powerups down
+            foreach (Powerups p in powerup)
+            {
+                p.powerupMove();
+            }
+
+            //Check for collision of powerups
+            foreach (Powerups p in powerup)
+            {
+                if (p.PowerupCollision() == true && activated == false)
+                {
+                    if (p.type == "3")
+                    {
+                        Random randGen = new Random();
+                        int x, y;
+
+                        x = randGen.Next(1, 301);
+                        y = randGen.Next(1, 301);
+
+                        //activate powerup
+                        Ball b2 = new Ball(x, y, xSpeed, ySpeed, ballSize, 1, -1);
+                        ballList.Add(b2);
+                        ballNumber += 1;
+
+                        Ball b3 = new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1);
+                        ballList.Add(b3);
+                        ballNumber += 1;
+                    }
+                    else if (p.type == "L")
+                    {
+                        paddle.width += 25;
+                    }
+                    else if (p.type == "l")
+                    {
+                        paddle.width -= 25;
+                    }
+                    else if (p.type == "BS")
+                    {
+                        ySpeed -= 2;
+                    }
+                    else if (p.type == "bs")
+                    {
+                        ySpeed += 2;
+                    }
+
+                    activated = true;
+                }
+            }
+
+            //redraw the screen
+            Refresh();
             writer.WriteEndElement();
 
             writer.Close();
@@ -509,7 +613,6 @@ namespace BrickBreaker
             // Goes to the game over screen
             Form1 form = FindForm() as Form1;
             form.ChangeScreen(this, new MenuScreen());
-
         }
 
         public void GameScreen_Paint(object sender, PaintEventArgs e)
@@ -531,6 +634,34 @@ namespace BrickBreaker
                 e.Graphics.FillEllipse(ballBrush, Convert.ToSingle(b.x), Convert.ToInt32(b.y), b.size, b.size);
             }
 
+            //Draws Powerups
+            foreach (Powerups p in powerup)
+            {
+                if (p.type == "3")
+                {
+                    e.Graphics.FillRectangle(powerups3Brush, p.x, p.y, p.width, p.height);
+                }
+                else if (p.type == "L")
+                {
+                    e.Graphics.FillRectangle(powerupsLBrush, p.x, p.y, p.width, p.height);
+                }
+                else if (p.type == "l")
+                {
+                    e.Graphics.FillRectangle(powerupslBrush, p.x, p.y, p.width, p.height);
+                }
+                else if (p.type == "BS")
+                {
+                    e.Graphics.FillRectangle(powerupsBSBrush, p.x, p.y, p.width, p.height);
+                }
+                else if (p.type == "bs")
+                {
+                    e.Graphics.FillRectangle(powerupsbsBrush, p.x, p.y, p.width, p.height);
+                }
+            }
+
+            // Draw lives and font
+            e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 25));
+            //e.Graphics.DrawString(scoe.ToString(), textFont, sb, new Point(25, 75));
             // draw line aim
             if (!start)
             {

@@ -9,11 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
 
-/// <summary>
-/// ball speed doesnt change untill u die
-/// 
-/// </summary>
-
 namespace BrickBreaker
 {
     public partial class GameScreen : UserControl
@@ -282,7 +277,7 @@ namespace BrickBreaker
 
                             //Powerup Chance 
                             Random randPower = new Random();
-                            randomPowerupChance = randPower.Next(1, 16);
+                            randomPowerupChance = randPower.Next(1, 6);
 
                             if (randomPowerupChance == 1)
                             {
@@ -394,6 +389,7 @@ namespace BrickBreaker
             MenuScreen ps = new MenuScreen();
 
             ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
+            ballNumber = 0;
 
             form.Controls.Add(ps);
             form.Controls.Remove(this);

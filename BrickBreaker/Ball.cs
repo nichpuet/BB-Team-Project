@@ -116,7 +116,7 @@ namespace BrickBreaker
         //Testing Purposes: Collision Method
         public bool ScoreTracker(Block bl)
         {
-            Rectangle ball = new Rectangle(x, y, size, size);
+            Rectangle ball = new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), size, size);
             Rectangle block = new Rectangle(bl.x, bl.y, bl.width, bl.height);
 
             if (ball.IntersectsWith(block))

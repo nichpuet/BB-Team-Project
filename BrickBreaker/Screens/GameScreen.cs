@@ -398,6 +398,7 @@ namespace BrickBreaker
                 // draw line to show ball aim
                 p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
 
+                // TODO: Fix problem with angle shooting while moving
                 switch (angleposition)
                 {
                     // right

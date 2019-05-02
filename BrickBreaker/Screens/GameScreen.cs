@@ -52,9 +52,6 @@ namespace BrickBreaker
         public static int score = 0;
         #endregion
 
-        // start for game loop
-        public static bool start = false;
-
         // Creates a new ball
         int xSpeed = 12;
         int ySpeed = 12;
@@ -283,7 +280,7 @@ namespace BrickBreaker
         //Note Form1 has a soundplayer, you can access it with Form1.SoundPlayer
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-         //   angleLable.Text = angleposition.ToString();
+            //   angleLable.Text = angleposition.ToString();
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {
@@ -293,7 +290,7 @@ namespace BrickBreaker
             {
                 paddle.Move("right");
             }
-           
+
             if (start)
             {
                 // Move ball
@@ -333,7 +330,7 @@ namespace BrickBreaker
 
                         if (player1Lives <= 1)
                         {
-                            start = false;                            
+                            start = false;
                             if (player2Lives < 0)
                             {
                                 gameTimer.Enabled = false;
@@ -370,7 +367,7 @@ namespace BrickBreaker
                     score++;
                 }
             }
-            
+
 
             // Check for collision of ball with paddle, (incl. paddle movement)
             balls[0].PaddleCollision(paddle, leftArrowDown, rightArrowDown);
@@ -381,50 +378,50 @@ namespace BrickBreaker
             {
                 if (ball.BlockCollision(b))
                     ballList.Remove(b);
-                }
-                // Check if ball has collided with any currentlevel
+            }
+            // Check if ball has collided with any currentlevel
+            {
+                for (int i = 0; i < currentlevel.Count(); i++)
                 {
-                    for (int i = 0; i < currentlevel.Count(); i++)
+                    //changed
+                    gameTimer.Enabled = false;
+                    scores();
+                    Block b = currentlevel[i];
+                    // TODO: Check if the ball hits the top, bottom, left, or right
+                    if (ba.BlockCollision(b))
                     {
-                        //changed
-                        gameTimer.Enabled = false;
-                        scores();
-                        Block b = currentlevel[i];
-                        // TODO: Check if the ball hits the top, bottom, left, or right
-                        if (ba.BlockCollision(b))
+                        b.hp--;
+                        if (b.hp < 1)
+                            currentlevel.Remove(b);
+
+                        score += 100;
+
+                        // powerups random
+                        if (random.Next(1, 11) <= 2)
                         {
-                            b.hp--;
-                            if(b.hp < 1)
-                                currentlevel.Remove(b);
-                                
-                            score += 100;
-
-                            // powerups random
-                            if (random.Next(1, 11) <= 2)
-                            {
-                                // 20 % chance
-                                // TODO: powerups
-                            }
-
-                            if (currentlevel.Count < 1)
-                            {
-                                if(currentlevelnum == levelList.Count())
-                                {
-                                    OnEnd();
-                                }
-                                else
-                                {
-                                    currentlevelnum++;
-                                    levelLoad();
-                                    start = false;
-                                    ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
-                                    ballList[0].y = paddle.y - 21;
-                                }
-                            }
-                            break;
+                            // 20 % chance
+                            // TODO: powerups
                         }
+
+                        if (currentlevel.Count < 1)
+                        {
+                            if (currentlevelnum == levelList.Count())
+                            {
+                                OnEnd();
+                            }
+                            else
+                            {
+                                currentlevelnum++;
+                                levelLoad();
+                                start = false;
+                                ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
+                                ballList[0].y = paddle.y - 21;
+                            }
+                        }
+                        break;
                     }
                 }
+            } 
                         else
             {
                 // center the ball over the paddle

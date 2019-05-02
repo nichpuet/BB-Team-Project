@@ -99,6 +99,16 @@
             this.brickWallPic.TabIndex = 4;
             this.brickWallPic.TabStop = false;
             // 
+            // highScoreLabel
+            // 
+            this.highscoreLabel.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.highscoreLabel.Font = new System.Drawing.Font("Bahnschrift SemiBold", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.highscoreLabel.Location = new System.Drawing.Point(1308, 97);
+            this.highscoreLabel.Name = "highScoreLabel";
+            this.highscoreLabel.Size = new System.Drawing.Size(1196, 1330);
+            this.highscoreLabel.TabIndex = 2;
+            this.highscoreLabel.Text = "High Score For Testing Purposes";
+            // 
             // MenuScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -125,6 +135,5 @@
         private System.Windows.Forms.Label highscoreLabel;
         private System.Windows.Forms.Label exitLabel;
         private System.Windows.Forms.PictureBox brickWallPic;
-
     }
 }

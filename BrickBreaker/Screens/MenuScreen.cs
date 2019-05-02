@@ -7,12 +7,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using System.IO;
 
 namespace BrickBreaker
 {
     public partial class MenuScreen : UserControl
     {
+        public void scoreOutput()
+        {
+            highscoreLabel.Text = "High Scores\n";
+            //testing: displaying the scores
+            foreach (HighScore s in Form1.highScores)
+            {
+
+                highscoreLabel.Text += s.score + " " + "\n";
+
+                //highscoreLabel.Text = s.score[0] + " " + "\n" + s.score[1] + " " + "\n" + s.score[2]
+                //    + " " + "\n" + s.score[3] + " " + "\n" + s.score[4] + " " + "\n";
+            }
+        }
+        //testing
+        public void loadScoresRK()
+        {
+            //creating Xml reader file 
+            XmlReader reader = XmlReader.Create("Resources/HighScores.xml", null);
+            string newScoreString;
+
+            //basically highScore1String is going to be highScore #1...and on...etc
+            //plan: "highScores" should only contain 5 high "scores"
+
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.Text)
+                {
+                    newScoreString = reader.ReadString();
+
+                    HighScore newScore = new HighScore(newScoreString);
+                    Form1.highScores.Add(newScore);
+
+                }
+            }
+
+            reader.Close();
+        }
         private static int index = 0;
         private List<Label> labels = new List<Label>();
         public MenuScreen()

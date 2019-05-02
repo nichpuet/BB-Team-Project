@@ -25,6 +25,5 @@ namespace BrickBreaker
 
             form.ChangeScreen(this, ms);
         }
-
     }
 }

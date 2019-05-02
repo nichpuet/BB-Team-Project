@@ -59,7 +59,7 @@
             this.label1.Location = new System.Drawing.Point(325, 162);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(140, 71);
+            this.label1.Size = new System.Drawing.Size(183, 71);
             this.label1.TabIndex = 1;
             this.label1.Text = "PLAY";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -107,6 +107,16 @@
             this.brickWallPic.TabIndex = 4;
             this.brickWallPic.TabStop = false;
             // 
+            // highScoreLabel
+            // 
+            this.highScoreLabel.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.highScoreLabel.Font = new System.Drawing.Font("Bahnschrift SemiBold", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.highScoreLabel.Location = new System.Drawing.Point(1308, 97);
+            this.highScoreLabel.Name = "highScoreLabel";
+            this.highScoreLabel.Size = new System.Drawing.Size(1196, 1330);
+            this.highScoreLabel.TabIndex = 2;
+            this.highScoreLabel.Text = "High Score For Testing Purposes";
+            // 
             // MenuScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -132,6 +142,5 @@
         private System.Windows.Forms.Label exitLabel;
         private System.Windows.Forms.Timer menuTimer;
         private System.Windows.Forms.PictureBox brickWallPic;
-
     }
 }

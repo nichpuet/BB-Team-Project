@@ -46,7 +46,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup />
+
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+
   <PropertyGroup>
     <StartupObject>
     </StartupObject>
@@ -76,6 +81,13 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Screens\GameOverScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\GameOverScreen.Designer.cs">
+      <DependentUpon>GameOverScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HighScore.cs" />
     <Compile Include="Paddle.cs" />
     <Compile Include="PauseScreen.cs">
       <SubType>Form</SubType>
@@ -97,6 +109,11 @@
     <Compile Include="Screens\GameScreen.Designer.cs">
       <DependentUpon>GameScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WinScreen.Designer.cs">
+      <DependentUpon>WinScreen.cs</DependentUpon>
     <Compile Include="StartScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -106,6 +123,8 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Screens\GameOverScreen.resx">
+      <DependentUpon>GameOverScreen.cs</DependentUpon>
     <EmbeddedResource Include="PauseScreen.resx">
       <DependentUpon>PauseScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -125,6 +144,10 @@
     <EmbeddedResource Include="Screens\GameScreen.resx">
       <DependentUpon>GameScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinScreen.resx">
+      <DependentUpon>WinScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.manifest" />
     <EmbeddedResource Include="StartScreen.resx">
       <DependentUpon>StartScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -156,7 +179,10 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
+    <Content Include="Resources\GameLevels.xml" />
+    <Content Include="Resources\HighScores.xml" />
     <EmbeddedResource Include="Resources\negitive.jpg" />
   </ItemGroup>
   <ItemGroup>

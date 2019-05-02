@@ -50,6 +50,7 @@ namespace BrickBreaker
             }
 
             reader.Close();
+        }
         private static int index = 0;
         private List<Button> buttons = new List<Button>();
         public MenuScreen()

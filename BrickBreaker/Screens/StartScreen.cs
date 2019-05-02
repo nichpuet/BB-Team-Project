@@ -21,13 +21,9 @@ namespace BrickBreaker
         private void StartScreen_KeyDown(object sender, KeyEventArgs e)
         {
             MenuScreen ms = new MenuScreen();
-            Form form = this.FindForm();
+            Form1 form = FindForm() as Form1;
 
-            form.Controls.Add(ms);
-            form.Controls.Remove(this);
-
-            ms.Location = new Point((form.Width - ms.Width) / 2, (form.Height - ms.Height) / 2);
+            form.ChangeScreen(this, ms);
         }
-
     }
 }

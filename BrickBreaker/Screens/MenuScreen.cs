@@ -52,12 +52,17 @@ namespace BrickBreaker
             reader.Close();
         }
         private static int index = 0;
-        private List<Button> buttons = new List<Button>();
+        private List<Label> labels = new List<Label>();
         public MenuScreen()
         {
-
-            InitializeComponent();                   
-
+            InitializeComponent();
+            //
+            //Adding Labels to Label list for easy management
+            //
+            labels.Add(titleLabel);
+            labels.Add(playLabel);
+            labels.Add(highscoreLabel);
+            labels.Add(exitLabel);
         }
 
         /// <summary>
@@ -65,8 +70,8 @@ namespace BrickBreaker
         /// </summary>
         private void gainFocus(object sender, EventArgs e)
         {
-            var button = sender as Button;
-            button.ForeColor = Color.Red;
+            var label = sender as Label;
+            label.ForeColor = Color.Red;
         }
 
         /// <summary>
@@ -98,9 +103,7 @@ namespace BrickBreaker
             // Goes to the game screen
             var form = FindForm() as Form1;
             form.ChangeScreen(this, new GameScreen());
-        }
-
-        
+        }        
        
         /// <summary>
         /// The event code for when the Menu Screen finishes initializing loads
@@ -109,13 +112,12 @@ namespace BrickBreaker
         /// <param name="e"></param>
         private void MenuScreen_Load(object sender, EventArgs e)
         {
-            var buttonGap = 50;
-            var maxSpace = buttons[0].Height * buttons.Count() + (buttonGap * (buttons.Count() - 1));
-            //For every button in the screen set the location to the middle X of the screen and the Height divided by the number of buttons
-            for (int i = 0; i < buttons.Count; i++)
+            var ratio = 6;
+            for (int i = 0; i < labels.Count; i++)
             {
-                var space = maxSpace / (1 + i);
-                buttons[i].Location = new Point((Width / 2) - (buttons[i].Width / 2), space);
+                labels[i].Size = new Size(Width / ratio + 125, Height / ratio);
+                var space = (Height /4) - labels[i].Height + (100 * i);
+                labels[i].Location = new Point((Width / 2) - (labels[i].Width / 2), space);
             }
         }
 
@@ -142,16 +144,16 @@ namespace BrickBreaker
         /// </summary>
         /// <param name="changeInIndex"></param>
         /// <returns></returns>
-        private Button _newButton(int changeInIndex)
+        private Label _newButton(int changeInIndex)
         {
             //Thayen
             index += changeInIndex;
             //If the button is out of range set the button within range
             if (index < 0)
                 index = 0;
-            else if (index >= buttons.Count)
-                index = buttons.Count - 1;
-            return buttons[index];
+            else if (index >= labels.Count)
+                index = labels.Count - 1;
+            return labels[index];
 
         }
     }

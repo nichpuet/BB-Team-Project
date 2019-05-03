@@ -22,6 +22,29 @@ namespace BrickBreaker
 
         }
 
+        public static void ChangeScreen(UserControl current, string next)
+        {
+            //f is set to the form that the current control is on
+            Form f = current.FindForm();
+            f.Controls.Remove(current);
+            UserControl ns = null;
+
+            ///If any screens, (UserControls), are added to the program they need to
+            ///be added within this switch block as well.
+            switch (next)
+            {
+                case "MenuScreen":
+                    ns = new MenuScreen();
+                    break;
+                case "GameScreen":
+                    ns = new GameScreen();
+                    break;
+            }
+            ns.Location = new Point((f.Width - ns.Width) / 2, (f.Height - ns.Height) / 2);
+            f.Controls.Add(ns);
+            ns.Focus();
+        }
+
         /// <summary>
         /// Only for buttons made by Thayen
         /// </summary>

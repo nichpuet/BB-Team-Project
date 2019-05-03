@@ -193,6 +193,22 @@ namespace BrickBreaker
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
+            if (e.KeyCode == Keys.Escape && gameTimer.Enabled)
+            {
+                gameTimer.Enabled = false;
+
+                DialogResult result = PauseScreen.Show();
+
+                if (result == DialogResult.Cancel)
+                {
+                    gameTimer.Enabled = true;
+                }
+                else if (result == DialogResult.Abort)
+                {
+                    MenuScreen.ChangeScreen(this, "MenuScreen");
+                }
+            }
+
             //player 1 button presses
             switch (e.KeyCode)
             {

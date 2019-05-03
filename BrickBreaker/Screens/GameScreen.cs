@@ -485,13 +485,12 @@ namespace BrickBreaker
                                 powerup.Add(p);
                                 activated = false;
                             }
-
-
-                            if (blocks.Count == 0)
+                            if (currentlevel.Count == 0)
                             {
                                 gameTimer.Enabled = false;
                                 OnEnd();
                             }
+
                     // draw line to show ball aim
                     p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
 

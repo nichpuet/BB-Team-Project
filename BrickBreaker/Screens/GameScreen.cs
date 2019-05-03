@@ -450,46 +450,46 @@ namespace BrickBreaker
                     ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
                     ballList[0].y = paddle.y - 21;
 
-                            //Powerup Chance 
-                            Random randPower = new Random();
-                            randomPowerupChance = randPower.Next(1, 21);
+                    //Powerup Chance 
+                    Random randPower = new Random();
+                    randomPowerupChance = randPower.Next(1, 21);
 
-                            if (randomPowerupChance == 1)
-                            {
-                                Powerups p = new Powerups(b.x, b.y, 5, "3");
-                                powerup.Add(p);
-                                activated = false;
-                            }
-                            if (randomPowerupChance == 2)
-                            {
-                                Powerups p = new Powerups(b.x, b.y, 5, "L");
-                                powerup.Add(p);
-                                activated = false;
-                            }
-                            if (randomPowerupChance == 3)
-                            {
-                                Powerups p = new Powerups(b.x, b.y, 5, "l");
-                                powerup.Add(p);
-                                activated = false;
-                            }
-                            if (randomPowerupChance == 4)
-                            {
-                                Powerups p = new Powerups(b.x, b.y, 5, "BS");
-                                powerup.Add(p);
-                                activated = false;
-                            }
-                            if (randomPowerupChance == 5)
-                            {
-                                Powerups p = new Powerups(b.x, b.y, 5, "bs");
-                                powerup.Add(p);
-                                activated = false;
-                            }
-                            
-                   if (currentlevel.Count == 0)
-                            {
-                                gameTimer.Enabled = false;
-                                OnEnd();
-                            }
+                    if (randomPowerupChance == 1)
+                    {
+                        Powerups p = new Powerups(b.x, b.y, 5, "3");
+                        powerup.Add(p);
+                        activated = false;
+                    }
+                    if (randomPowerupChance == 2)
+                    {
+                        Powerups p = new Powerups(b.x, b.y, 5, "L");
+                        powerup.Add(p);
+                        activated = false;
+                    }
+                    if (randomPowerupChance == 3)
+                    {
+                        Powerups p = new Powerups(b.x, b.y, 5, "l");
+                        powerup.Add(p);
+                        activated = false;
+                    }
+                    if (randomPowerupChance == 4)
+                    {
+                        Powerups p = new Powerups(b.x, b.y, 5, "BS");
+                        powerup.Add(p);
+                        activated = false;
+                    }
+                    if (randomPowerupChance == 5)
+                    {
+                        Powerups p = new Powerups(b.x, b.y, 5, "bs");
+                        powerup.Add(p);
+                        activated = false;
+                    }
+
+                    if (currentlevel.Count == 0)
+                    {
+                        gameTimer.Enabled = false;
+                        OnEnd();
+                    }
 
                     // draw line to show ball aim
                     p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
@@ -527,9 +527,10 @@ namespace BrickBreaker
                     }
                 }
             }
+
             //redraw the screen
             Refresh();
-        }        
+        }
 
         //testing 
         public void scores()
@@ -539,7 +540,6 @@ namespace BrickBreaker
             Form1.highScores.Add(s);
             //GameOver();
         }
-        
 
         //testing
         public void saveScoresRK()
@@ -612,7 +612,7 @@ namespace BrickBreaker
 
             writer.Close();
         }
-        
+
 
         //testing
         public void GameOver()
@@ -687,7 +687,7 @@ namespace BrickBreaker
             e.Graphics.DrawString("angle position: " + angleposition.ToString(), textFont, sb, new Point(25, this.Height - 100));
             e.Graphics.DrawString("block number: " + currentlevel.Count().ToString(), textFont, sb, new Point(this.Width - 300, this.Height - 100));
 
-            switch(player1Lives)
+            switch (player1Lives)
             {
                 case 4:
                     life5Output.Visible = false;

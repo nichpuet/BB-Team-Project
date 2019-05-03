@@ -14,7 +14,6 @@ namespace BrickBreaker
         public static string ResourcePath = $@"{FilePath}\Resources";
         public static string AudioPath = $@"{ResourcePath}\Sounds";
         public static string LevelPath = $@"{FilePath}\Levels";
-
         /// <summary>
         /// The main entry point for the application.
         /// </summary>

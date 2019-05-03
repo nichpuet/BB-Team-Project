@@ -35,7 +35,7 @@ namespace BrickBreaker
             winnerLabel.Visible = false;
 
             //initial position 
-            b = new Ball(this.Width/2 - b1size/2, this.Height - b1size, b1speed, b1speed, b1size);
+            b = new Ball(this.Width/2 - b1size/2, this.Height - b1size, b1speed, b1speed, b1size, 0, 1);
             
 
 
@@ -76,12 +76,12 @@ namespace BrickBreaker
         private void FollowerMaker()
         {
             followercounter = 0;
-            int followerx = randGen.Next(b.x, b.x + b.size);
-            int followery = randGen.Next(b.y, b.y + b.size);
+            int followerx = randGen.Next(Convert.ToInt32(b.x), Convert.ToInt32(b.x + b.size));
+            int followery = randGen.Next(Convert.ToInt32(b.y), Convert.ToInt32(b.y + b.size));
             int followerspeed = randGen.Next(40, 51); //in this case, xspeed or yspeed does not matter because I am going to set them as the same
             int followersize = randGen.Next(1, b.size/2 + 1);
 
-            Ball follower = new Ball(followerx, followery, followerspeed, followerspeed, followersize);
+            Ball follower = new Ball(followerx, followery, followerspeed, followerspeed, followersize, 0, 1);
             followers.Add(follower);
 
             foreach (Ball f in followers)
@@ -96,11 +96,11 @@ namespace BrickBreaker
         {
             otherscounter = 0;
             int othersx = randGen.Next(0, this.Width);
-            int othersy = randGen.Next(b.y, b.y + b.size);
+            int othersy = randGen.Next(Convert.ToInt32(b.y), Convert.ToInt32(b.y + b.size));
             int otherspeed = randGen.Next(40, 51); //in this case, xspeed or yspeed does not matter because I am going to set them as the same
             int othersize = randGen.Next(1, b.size / 2 + 1);
 
-            Ball other = new Ball(othersx, othersy, otherspeed, otherspeed, othersize);
+            Ball other = new Ball(othersx, othersy, otherspeed, otherspeed, othersize, 0, 1);
             others.Add(other);
 
             foreach (Ball o in others)
@@ -113,16 +113,16 @@ namespace BrickBreaker
 
         private void WinScreen_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(ballBrush, b.x, b.y, b.size, b.size);
+            e.Graphics.FillRectangle(ballBrush, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.size, b.size);
 
             foreach (Ball f in followers)
             {
-                e.Graphics.FillRectangle(ballBrush, f.x, f.y, f.size, f.size);
+                e.Graphics.FillRectangle(ballBrush, Convert.ToInt32(f.x), Convert.ToInt32(f.y), f.size, f.size);
             }
 
             foreach (Ball o in others)
             {
-                e.Graphics.FillRectangle(ballBrush2, o.x, o.y, o.size, o.size);
+                e.Graphics.FillRectangle(ballBrush2, Convert.ToInt32(o.x), Convert.ToInt32(o.y), o.size, o.size);
             }
 
         }

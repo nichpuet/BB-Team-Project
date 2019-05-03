@@ -32,6 +32,16 @@ namespace BrickBreaker
         {
             InitializeComponent();
             Directory.SetCurrentDirectory(Program.FilePath);//Set the program to put files in the created directory
+            Size = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
+            Location = new Point(0, 0);
+        }
+
+        [Obsolete("TODO Game Screen scales incorrectly")]
+        public void ConfigScreen(ref UserControl c)
+        {
+            c.Width = Width;
+            c.Height = Height;
+            c.Location = new Point(0, 0);
         }
 
         /// <summary>
@@ -66,11 +76,12 @@ namespace BrickBreaker
         }
 
         public void ChangeScreen(UserControl remove, UserControl add)
-
         {
+            ConfigScreen(ref add);
             Controls.Add(add);
             Controls.Remove(remove);
-            remove.Dispose();
+            if(remove != null)
+                remove.Dispose();
 
         }
 
@@ -88,11 +99,7 @@ namespace BrickBreaker
             //  if the score is more, then display
             //  if the score is less, then do not display
             //}
-            StartScreen ss = new StartScreen();
-            this.Controls.Add(ss);
-
-            ss.Location = new Point((this.Width - ss.Width) / 2, (this.Height - ss.Height) / 2);
-
+            ChangeScreen(null, new StartScreen());
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using System.Threading;
 
@@ -24,6 +25,11 @@ namespace BrickBreaker
             Form1 form = FindForm() as Form1;
 
             form.ChangeScreen(this, ms);
+        }
+
+        private void StartScreen_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

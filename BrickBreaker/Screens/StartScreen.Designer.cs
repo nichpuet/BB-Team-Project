@@ -36,9 +36,10 @@
             // 
             // anyButtonPB
             // 
-            this.anyButtonPB.Location = new System.Drawing.Point(290, 685);
+            this.anyButtonPB.Location = new System.Drawing.Point(258, 548);
+            this.anyButtonPB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.anyButtonPB.Name = "anyButtonPB";
-            this.anyButtonPB.Size = new System.Drawing.Size(600, 70);
+            this.anyButtonPB.Size = new System.Drawing.Size(533, 56);
             this.anyButtonPB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.anyButtonPB.TabIndex = 1;
             this.anyButtonPB.TabStop = false;
@@ -46,23 +47,26 @@
             // startScreenPB
             // 
             this.startScreenPB.Image = global::BrickBreaker.Properties.Resources.startScreenBG;
-            this.startScreenPB.Location = new System.Drawing.Point(-3, -3);
+            this.startScreenPB.Location = new System.Drawing.Point(-3, -2);
+            this.startScreenPB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.startScreenPB.Name = "startScreenPB";
-            this.startScreenPB.Size = new System.Drawing.Size(1200, 800);
+            this.startScreenPB.Size = new System.Drawing.Size(1067, 640);
             this.startScreenPB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.startScreenPB.TabIndex = 0;
             this.startScreenPB.TabStop = false;
             // 
             // StartScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Controls.Add(this.anyButtonPB);
             this.Controls.Add(this.startScreenPB);
             this.ForeColor = System.Drawing.SystemColors.Control;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "StartScreen";
-            this.Size = new System.Drawing.Size(1200, 800);
+            this.Size = new System.Drawing.Size(1067, 640);
+            this.Load += new System.EventHandler(this.StartScreen_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StartScreen_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.anyButtonPB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.startScreenPB)).EndInit();

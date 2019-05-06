@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -531,11 +531,11 @@ namespace BrickBreaker
             }
 
             //Check for collision of powerups
-            foreach (Powerups p in powerup)
+            for(int p = 0; p < powerup.Count(); p++)
             {
-                if ((new Rectangle(p.x, p.y, p.width, p.height)).IntersectsWith((new Rectangle(paddle.x, paddle.y, paddle.y, paddle.height))))
+                if ((new Rectangle(powerup[p].x, powerup[p].y, powerup[p].width, powerup[p].height)).IntersectsWith((new Rectangle(paddle.x, paddle.y, paddle.y, paddle.height))))
                 {
-                    if (p.type == "3")
+                    if (powerup[p].type == "3")
                     {
                         Random randGen = new Random();
                         int x, y;
@@ -556,20 +556,42 @@ namespace BrickBreaker
                     {
                         paddle.width += 25;
                     }
-                    else if (p.type == "l")
+                    else if (powerup[p].type == "l")
                     {
-                        paddle.width -= 25;
+                        if(paddle.width > 25)
+                        {
+                            paddle.width -= 25;
+                        }
+                        else if (paddle.width > 10)
+                        {
+                            paddle.width -= 10;
+                        }
+                        else if (paddle.width > 5)
+                        {
+                            paddle.width -= 5;
+                        }
                     }
-                    else if (p.type == "BS")
+                    else if (powerup[p].type == "BS")
                     {
-                        ySpeed -= 2;
+                        foreach(Ball b in ballList)
+                        {
+                            if(b.ySpeed > 2)
+                            {
+                                b.ySpeed -= 2;
+                            }
+                        }
                     }
-                    else if (p.type == "bs")
+                    else if (powerup[p].type == "bs")
                     {
-                        ySpeed += 2;
+                        foreach (Ball b in ballList)
+                        {
+                            b.ySpeed += 2;
+                        }
                     }
 
                     activated = true;
+
+                    powerup.RemoveAt(p);
                 }
             }
 

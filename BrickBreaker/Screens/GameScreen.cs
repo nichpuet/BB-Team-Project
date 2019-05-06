@@ -418,7 +418,6 @@ namespace BrickBreaker
                 Rectangle ballrec = new Rectangle(Convert.ToInt32(ball.x), Convert.ToInt32(ball.y), Convert.ToInt32(ball.size), Convert.ToInt32(ball.size));
                 if (ballrec.IntersectsWith(new Rectangle(paddle.x, paddle.y, paddle.x, paddle.height)))
                 {
-                    removeBlocks.Add(b);
                     ball.Yangle *= -1;
 
                     //if(direction == "left" && ball.Xangle < 0)
@@ -442,7 +441,6 @@ namespace BrickBreaker
             // Check if ball has collided with any currentlevel
             foreach (Ball ba in ballList)
             {
-                Ball ba = ballList[0];
                 ba.Move();
                 scores();
                 foreach(Block b in currentlevel)
@@ -580,84 +578,6 @@ namespace BrickBreaker
             //redraw the screen
             Refresh();
         }
-
-        //testing 
-        public void scores()
-        {
-            string scoreNumber = score.ToString();
-            HighScore s = new HighScore(scoreNumber);
-            Form1.highScores.Add(s);
-            //GameOver();
-        }
-
-        //testing
-        public void saveScoresRK()
-        {
-            XmlWriter writer = XmlWriter.Create("Resources/HighScores.xml", null);
-
-            writer.WriteStartElement("TheScores");
-
-            foreach (HighScore s in Form1.highScores)
-            {
-                writer.WriteStartElement("TheScore");
-
-                writer.WriteElementString("Score", s.score);
-
-                writer.WriteEndElement();
-            }
-
-            //Move powerups down
-            foreach (Powerups p in powerup)
-            {
-                p.powerupMove();
-            }
-
-            //Check for collision of powerups
-            foreach (Powerups p in powerup)
-            {
-                if ((new Rectangle(p.x, p.y, p.width, p.height)).IntersectsWith((new Rectangle(paddle.x, paddle.y, paddle.y, paddle.height))))
-                {
-                    if (p.type == "3")
-                    {
-                        Random randGen = new Random();
-                        int x, y;
-
-                        x = randGen.Next(1, 301);
-                        y = randGen.Next(1, 301);
-
-                        //activate powerup
-                        Ball b2 = new Ball(x, y, xSpeed, ySpeed, ballSize, 1, -1);
-                        ballList.Add(b2);
-                        ballNumber += 1;
-
-                        Ball b3 = new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1);
-                        ballList.Add(b3);
-                        ballNumber += 1;
-                    }
-                    else if (p.type == "L")
-                    {
-                        paddle.width += 25;
-                    }
-                    else if (p.type == "l")
-                    {
-                        paddle.width -= 25;
-                    }
-                    else if (p.type == "BS")
-                    {
-                        ySpeed -= 2;
-                    }
-                    else if (p.type == "bs")
-                    {
-                        ySpeed += 2;
-                    }
-
-                    activated = true;
-                }
-            }
-
-            //redraw the screen
-            Refresh();
-        }        
 
         public void powerup_creation(Point loc)
         {

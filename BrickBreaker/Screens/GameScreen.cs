@@ -72,7 +72,6 @@ namespace BrickBreaker
         // angle points for the line aim
         Point p1, p2;
 
-
         // font and brush for text
         Font textFont;
         SolidBrush sb = new SolidBrush(Color.White);
@@ -186,9 +185,6 @@ namespace BrickBreaker
 
             // start the game engine loop
             gameTimer.Enabled = true;
-
-
-
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -374,6 +370,12 @@ namespace BrickBreaker
 
                     // Check for collision of ball with paddle, (incl. paddle movement)
                     b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+
+                    if (currentlevel.Count == 0)
+                    {
+                        gameTimer.Enabled = false;
+                        OnEnd();
+                    }
                 }
                 // remove any balls that need to be removed
                 foreach (Ball b in removeBalls)
@@ -403,12 +405,13 @@ namespace BrickBreaker
                     currentlevel.Remove(b);
                 }
             }
+
             // Check if ball has collided with any currentlevel
             // TODO: Fix ball not moving after shooting
             for (int i = 0; i < currentlevel.Count(); i++)
             {
                 Ball ba = ballList[0];
-                //changed
+                ba.Move();
                 scores();
                 Block b = currentlevel[i];
                 // TODO: Check if the ball hits the top, bottom, left, or right
@@ -444,7 +447,7 @@ namespace BrickBreaker
                     }
                     break;
                 }
-                else
+                else if (!start)
                 {
                     // center the ball over the paddle
                     ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
@@ -454,42 +457,36 @@ namespace BrickBreaker
                     Random randPower = new Random();
                     randomPowerupChance = randPower.Next(1, 21);
 
-                    if (randomPowerupChance == 1)
-                    {
-                        Powerups p = new Powerups(b.x, b.y, 5, "3");
-                        powerup.Add(p);
-                        activated = false;
-                    }
-                    if (randomPowerupChance == 2)
-                    {
-                        Powerups p = new Powerups(b.x, b.y, 5, "L");
-                        powerup.Add(p);
-                        activated = false;
-                    }
-                    if (randomPowerupChance == 3)
-                    {
-                        Powerups p = new Powerups(b.x, b.y, 5, "l");
-                        powerup.Add(p);
-                        activated = false;
-                    }
-                    if (randomPowerupChance == 4)
-                    {
-                        Powerups p = new Powerups(b.x, b.y, 5, "BS");
-                        powerup.Add(p);
-                        activated = false;
-                    }
-                    if (randomPowerupChance == 5)
-                    {
-                        Powerups p = new Powerups(b.x, b.y, 5, "bs");
-                        powerup.Add(p);
-                        activated = false;
-                    }
-
-                    if (currentlevel.Count == 0)
-                    {
-                        gameTimer.Enabled = false;
-                        OnEnd();
-                    }
+                    //if (randomPowerupChance == 1)
+                    //{
+                    //    Powerups p = new Powerups(b.x, b.y, 5, "3");
+                    //    powerup.Add(p);
+                    //    activated = false;
+                    //}
+                    //if (randomPowerupChance == 2)
+                    //{
+                    //    Powerups p = new Powerups(b.x, b.y, 5, "L");
+                    //    powerup.Add(p);
+                    //    activated = false;
+                    //}
+                    //if (randomPowerupChance == 3)
+                    //{
+                    //    Powerups p = new Powerups(b.x, b.y, 5, "l");
+                    //    powerup.Add(p);
+                    //    activated = false;
+                    //}
+                    //if (randomPowerupChance == 4)
+                    //{
+                    //    Powerups p = new Powerups(b.x, b.y, 5, "BS");
+                    //    powerup.Add(p);
+                    //    activated = false;
+                    //}
+                    //if (randomPowerupChance == 5)
+                    //{
+                    //    Powerups p = new Powerups(b.x, b.y, 5, "bs");
+                    //    powerup.Add(p);
+                    //    activated = false;
+                    //}
 
                     // draw line to show ball aim
                     p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
@@ -613,7 +610,6 @@ namespace BrickBreaker
             writer.Close();
         }
 
-
         //testing
         public void GameOver()
         {
@@ -640,7 +636,6 @@ namespace BrickBreaker
             {
                 blockBrush = new SolidBrush(b.colour());
                 e.Graphics.FillRectangle(blockBrush, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
-                e.Graphics.DrawRectangle(testPen, Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.width, b.height);
             }
 
             // Draws ball
@@ -677,6 +672,7 @@ namespace BrickBreaker
             // Draw lives and font
             e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 25));
             //e.Graphics.DrawString(scoe.ToString(), textFont, sb, new Point(25, 75));
+
             // draw line aim
             if (!start)
             {

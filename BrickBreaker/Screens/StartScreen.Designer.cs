@@ -59,7 +59,7 @@
             // 
             // startTimer
             // 
-            this.startTimer.Interval = 500;
+            this.startTimer.Interval = 800;
             this.startTimer.Tick += new System.EventHandler(this.StartTimer_Tick);
             // 
             // StartScreen

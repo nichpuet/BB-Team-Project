@@ -36,7 +36,7 @@ namespace BrickBreaker
             }
             else
             {
-                anyButtonPB.Image = null;
+                anyButtonPB.Image = new Bitmap(Properties.Resources.pressAnyButton);
             }
             i++;
             Refresh();

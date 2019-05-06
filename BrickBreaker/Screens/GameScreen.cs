@@ -31,7 +31,7 @@ namespace BrickBreaker
 
         // list of all currentlevel for current level
         List<Block> currentlevel = new List<Block>();
-
+        List<Block> removeBlocks = new List<Block>();
 
         //Powerups
         List<Powerups> powerup = new List<Powerups>();
@@ -72,7 +72,6 @@ namespace BrickBreaker
         // angle points for the line aim
         Point p1, p2;
         public string direction = "left";
-
 
         // font and brush for text
         Font textFont;
@@ -188,7 +187,6 @@ namespace BrickBreaker
 
             // start the game engine loop
             gameTimer.Enabled = true;
-
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -380,6 +378,12 @@ namespace BrickBreaker
 
                     // Check for collision of ball with paddle, (incl. paddle movement)
                     b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+
+                    if (currentlevel.Count == 0)
+                    {
+                        gameTimer.Enabled = false;
+                        OnEnd();
+                    }
                 }
                 // remove any balls that need to be removed
                 foreach (Ball b in removeBalls)
@@ -414,6 +418,7 @@ namespace BrickBreaker
                 Rectangle ballrec = new Rectangle(Convert.ToInt32(ball.x), Convert.ToInt32(ball.y), Convert.ToInt32(ball.size), Convert.ToInt32(ball.size));
                 if (ballrec.IntersectsWith(new Rectangle(paddle.x, paddle.y, paddle.x, paddle.height)))
                 {
+                    removeBlocks.Add(b);
                     ball.Yangle *= -1;
 
                     //if(direction == "left" && ball.Xangle < 0)
@@ -429,9 +434,16 @@ namespace BrickBreaker
 
             }
 
+            foreach (Block b in removeBlocks)
+            {
+                currentlevel.Remove(b);
+            }
+
             // Check if ball has collided with any currentlevel
             foreach (Ball ba in ballList)
             {
+                Ball ba = ballList[0];
+                ba.Move();
                 scores();
                 foreach(Block b in currentlevel)
                 {
@@ -474,6 +486,41 @@ namespace BrickBreaker
                     //center the ball over the paddle
                     ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
                     ballList[0].y = paddle.y - 21;
+
+                    //Powerup Chance 
+                    Random randPower = new Random();
+                    randomPowerupChance = randPower.Next(1, 21);
+
+                    //if (randomPowerupChance == 1)
+                    //{
+                    //    Powerups p = new Powerups(b.x, b.y, 5, "3");
+                    //    powerup.Add(p);
+                    //    activated = false;
+                    //}
+                    //if (randomPowerupChance == 2)
+                    //{
+                    //    Powerups p = new Powerups(b.x, b.y, 5, "L");
+                    //    powerup.Add(p);
+                    //    activated = false;
+                    //}
+                    //if (randomPowerupChance == 3)
+                    //{
+                    //    Powerups p = new Powerups(b.x, b.y, 5, "l");
+                    //    powerup.Add(p);
+                    //    activated = false;
+                    //}
+                    //if (randomPowerupChance == 4)
+                    //{
+                    //    Powerups p = new Powerups(b.x, b.y, 5, "BS");
+                    //    powerup.Add(p);
+                    //    activated = false;
+                    //}
+                    //if (randomPowerupChance == 5)
+                    //{
+                    //    Powerups p = new Powerups(b.x, b.y, 5, "bs");
+                    //    powerup.Add(p);
+                    //    activated = false;
+                    //}
                 }
                 else
                 {
@@ -528,6 +575,41 @@ namespace BrickBreaker
                             break;
                     }
                 }
+            }
+
+            //redraw the screen
+            Refresh();
+        }
+
+        //testing 
+        public void scores()
+        {
+            string scoreNumber = score.ToString();
+            HighScore s = new HighScore(scoreNumber);
+            Form1.highScores.Add(s);
+            //GameOver();
+        }
+
+        //testing
+        public void saveScoresRK()
+        {
+            XmlWriter writer = XmlWriter.Create("Resources/HighScores.xml", null);
+
+            writer.WriteStartElement("TheScores");
+
+            foreach (HighScore s in Form1.highScores)
+            {
+                writer.WriteStartElement("TheScore");
+
+                writer.WriteElementString("Score", s.score);
+
+                writer.WriteEndElement();
+            }
+
+            //Move powerups down
+            foreach (Powerups p in powerup)
+            {
+                p.powerupMove();
             }
 
             //Check for collision of powerups
@@ -647,7 +729,6 @@ namespace BrickBreaker
             //redraw the screen
             Refresh();
         }
-        
 
         //testing
         public void GameOver()
@@ -711,7 +792,7 @@ namespace BrickBreaker
             // Draw lives and font
             e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 25));
             e.Graphics.DrawString(score.ToString(), textFont, sb, new Point(25, 75));
-            
+
             // draw line aim
             if (!start)
             {
@@ -722,7 +803,7 @@ namespace BrickBreaker
             e.Graphics.DrawString("angle position: " + angleposition.ToString(), textFont, sb, new Point(25, this.Height - 100));
             e.Graphics.DrawString("block number: " + currentlevel.Count().ToString(), textFont, sb, new Point(this.Width - 300, this.Height - 100));
 
-            switch(player1Lives)
+            switch (player1Lives)
             {
                 case 4:
                     life5Output.Visible = false;

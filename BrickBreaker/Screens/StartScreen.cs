@@ -32,11 +32,11 @@ namespace BrickBreaker
         {
             if (i % 2 == 0)
             {
-                startScreenPB.Image = new Bitmap(Properties.Resources.negitive);
+                anyButtonPB.Image = new Bitmap(Properties.Resources.negitive);
             }
             else
             {
-                startScreenPB.Image = new Bitmap(Properties.Resources.startScreenBG);
+                anyButtonPB.Image = null;
             }
             i++;
             Refresh();

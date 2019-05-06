@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.anyButtonPB = new System.Windows.Forms.PictureBox();
             this.startScreenPB = new System.Windows.Forms.PictureBox();
+            this.startTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.anyButtonPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.startScreenPB)).BeginInit();
             this.SuspendLayout();
@@ -55,6 +57,11 @@
             this.startScreenPB.TabIndex = 0;
             this.startScreenPB.TabStop = false;
             // 
+            // startTimer
+            // 
+            this.startTimer.Interval = 500;
+            this.startTimer.Tick += new System.EventHandler(this.StartTimer_Tick);
+            // 
             // StartScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -66,7 +73,6 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "StartScreen";
             this.Size = new System.Drawing.Size(1067, 640);
-            this.Load += new System.EventHandler(this.StartScreen_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StartScreen_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.anyButtonPB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.startScreenPB)).EndInit();
@@ -78,5 +84,6 @@
 
         private System.Windows.Forms.PictureBox startScreenPB;
         private System.Windows.Forms.PictureBox anyButtonPB;
+        private System.Windows.Forms.Timer startTimer;
     }
 }

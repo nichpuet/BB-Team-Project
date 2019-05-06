@@ -8,15 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace BrickBreaker
 {
     public partial class StartScreen : UserControl
     {
+        static int i = 1;
         public StartScreen()
         {
             InitializeComponent();
+            startTimer.Enabled = true;
 
         }
         private void StartScreen_KeyDown(object sender, KeyEventArgs e)
@@ -27,9 +28,18 @@ namespace BrickBreaker
             form.ChangeScreen(this, ms);
         }
 
-        private void StartScreen_Load(object sender, EventArgs e)
+        private void StartTimer_Tick(object sender, EventArgs e)
         {
-
+            if (i % 2 == 0)
+            {
+                startScreenPB.Image = new Bitmap(Properties.Resources.negitive);
+            }
+            else
+            {
+                startScreenPB.Image = new Bitmap(Properties.Resources.startScreenBG);
+            }
+            i++;
+            Refresh();
         }
     }
 }

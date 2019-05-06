@@ -31,7 +31,7 @@ namespace BrickBreaker
 
         // list of all currentlevel for current level
         List<Block> currentlevel = new List<Block>();
-
+        List<Block> removeBlocks = new List<Block>();
 
         //Powerups
         List<Powerups> powerup = new List<Powerups>();
@@ -402,8 +402,13 @@ namespace BrickBreaker
             {
                 if (ballList[0].BlockCollision(b))
                 {
-                    currentlevel.Remove(b);
+                    removeBlocks.Add(b);
                 }
+            }
+
+            foreach (Block b in removeBlocks)
+            {
+                currentlevel.Remove(b);
             }
 
             // Check if ball has collided with any currentlevel

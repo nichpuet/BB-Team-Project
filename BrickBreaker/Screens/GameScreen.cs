@@ -86,7 +86,6 @@ namespace BrickBreaker
         public GameScreen(bool multiplayer = false)
         {
             InitializeComponent();
-            OnStart();
             if (multiplayer)
                 player2Lives = 3;
         }
@@ -114,21 +113,27 @@ namespace BrickBreaker
             {
                 case 0:
                     reader = levelList[0];
+                    currentlevelnum = 1;
                     break;
                 case 1:
                     reader = levelList[1];
+                    currentlevelnum = 2;
                     break;
                 case 2:
                     reader = levelList[2];
+                    currentlevelnum = 3;
                     break;
                 case 3:
                     reader = levelList[3];
+                    currentlevelnum = 4;
                     break;
                 case 4:
                     reader = levelList[4];
+                    currentlevelnum = 5;
                     break;
                 case 5:
                     reader = levelList[5];
+                    currentlevelnum = 6;
                     break;
                 case 6:
                     reader = levelList[6];
@@ -414,22 +419,22 @@ namespace BrickBreaker
                     }
                 }
 
-                Rectangle ballrec = new Rectangle(Convert.ToInt32(ball.x), Convert.ToInt32(ball.y), Convert.ToInt32(ball.size), Convert.ToInt32(ball.size));
-                if (ballrec.IntersectsWith(new Rectangle(paddle.x, paddle.y, paddle.x, paddle.height)))
-                {
-                    removeBlocks.Add(b);
-                    ball.Yangle *= -1;
+                //Rectangle ballrec = new Rectangle(Convert.ToInt32(ball.x), Convert.ToInt32(ball.y), Convert.ToInt32(ball.size), Convert.ToInt32(ball.size));
+                //if (ballrec.IntersectsWith(new Rectangle(paddle.x, paddle.y, paddle.x, paddle.height)))
+                //{
+                //    removeBlocks.Add(b);
+                //    ball.Yangle *= -1;
 
-                    //if(direction == "left" && ball.Xangle < 0)
-                    //{
-                    //    ball.Xangle *= -1;
-                    //}
+                //    //if(direction == "left" && ball.Xangle < 0)
+                //    //{
+                //    //    ball.Xangle *= -1;
+                //    //}
 
-                    //if (direction == "right" && ball.Xangle > 0)
-                    //{
-                    //    ball.Xangle *= -1;
-                    //}
-                }
+                //    //if (direction == "right" && ball.Xangle > 0)
+                //    //{
+                //    //    ball.Xangle *= -1;
+                //    //}
+                //}
 
             }
 
@@ -441,7 +446,6 @@ namespace BrickBreaker
             // Check if ball has collided with any currentlevel
             foreach (Ball ba in ballList)
             {
-                Ball ba = ballList[0];
                 ba.Move();
                 scores();
                 foreach(Block b in currentlevel)
@@ -453,13 +457,6 @@ namespace BrickBreaker
                             currentlevel.Remove(b);
 
                         score += 100;
-
-                        // powerups random
-                        if (random.Next(1, 11) <= 2)
-                        {
-                            // 20 % chance
-                            // TODO: powerups
-                        }
 
                         if (currentlevel.Count < 1)
                         {
@@ -692,38 +689,6 @@ namespace BrickBreaker
                 activated = false;
             }
             
-        }
-
-        //testing 
-        public void scores()
-        {
-            string scoreNumber = score.ToString();
-            HighScore s = new HighScore(scoreNumber);
-            Form1.highScores.Add(s);
-            //GameOver();
-        }
-
-
-        //testing
-        public void saveScoresRK()
-        {
-            XmlWriter writer = XmlWriter.Create("Resources/HighScores.xml", null);
-
-            writer.WriteStartElement("TheScores");
-
-            foreach (HighScore s in Form1.highScores)
-            {
-                writer.WriteStartElement("TheScore");
-
-                writer.WriteElementString("Score", s.score);
-
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
-            writer.Close();
-
-            //redraw the screen
-            Refresh();
         }
 
         //testing

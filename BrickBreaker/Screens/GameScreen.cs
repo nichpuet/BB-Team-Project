@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -22,7 +22,6 @@ namespace BrickBreaker
         public static List<Ball> removeBalls = new List<Ball>();
         public static int paddleWidth = 80;
         public static int paddleHeight = 20;
-        public static int ballNumber = 0;
         int paddleX;
         int paddleY;
 
@@ -93,54 +92,54 @@ namespace BrickBreaker
 
         public void levelLoad()
         {
-            if (levelLoadstart)
-            {
-                // need ten total items, think of list as actual level number -1
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/testlevel.xml"));
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level1.xml"));
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level2.xml"));
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level3.xml"));
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level4.xml"));
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level5.xml"));
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level6.xml"));
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level7.xml"));
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level8.xml"));
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level9.xml"));
-                levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level10.xml"));
-            }
+            //if (levelLoadstart)
+            //{
+            //    // need ten total items, think of list as actual level number -1
+            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/testlevel.xml"));
+            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level1.xml"));
+            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level2.xml"));
+            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level3.xml"));
+            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level4.xml"));
+            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level5.xml"));
+            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level6.xml"));
+            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level7.xml"));
+            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level8.xml"));
+            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level9.xml"));
+            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level10.xml"));
+            //}
 
-            XmlReader reader = levelList[1];
+            XmlReader reader = XmlReader.Create("testlevel.xml");
             switch (currentlevelnum)
             {
                 case 0:
-                    reader = levelList[0];
+                    reader = XmlReader.Create("testlevel.xml");
                     break;
                 case 1:
-                    reader = levelList[1];
+                    reader = XmlReader.Create("level1.xml");
                     break;
                 case 2:
-                    reader = levelList[2];
+                    reader = XmlReader.Create("level2.xml"); 
                     break;
                 case 3:
-                    reader = levelList[3];
+                    reader = XmlReader.Create("level3.xml"); 
                     break;
                 case 4:
-                    reader = levelList[4];
+                    reader = XmlReader.Create("level4.xml"); 
                     break;
                 case 5:
-                    reader = levelList[5];
+                    reader = XmlReader.Create("level5.xml"); 
                     break;
                 case 6:
-                    reader = levelList[6];
+                    reader = XmlReader.Create("level6.xml"); 
                     break;
                 case 7:
-                    reader = levelList[7];
+                    reader = XmlReader.Create("level7.xml"); 
                     break;
                 case 8:
-                    reader = levelList[8];
+                    reader = XmlReader.Create("level8.xml"); 
                     break;
                 case 9:
-                    reader = levelList[9];
+                    reader = XmlReader.Create("level9.xml"); 
                     break;
             }
 
@@ -184,11 +183,9 @@ namespace BrickBreaker
             int ballY = paddle.y - 21;
             ballList.Clear();
             ballList.Add(new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, 1, -1));
-            ballNumber += 1;
 
             // start the game engine loop
             gameTimer.Enabled = true;
-
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -344,7 +341,7 @@ namespace BrickBreaker
                         start = false;
 
                         // reset ball angle
-                        angleposition = 3;
+                        anglechange();
 
                         // reset paddle x and y
                         paddle.x = paddleX;
@@ -373,7 +370,6 @@ namespace BrickBreaker
                     else if (b.BottomCollision(this, paddle))
                     {
                         //Remove ball that hit bottom from list
-                        //ballNumber -= 1;
                         ballList.Remove(b);
                         break;
                     }
@@ -415,18 +411,7 @@ namespace BrickBreaker
                 if (ballrec.IntersectsWith(new Rectangle(paddle.x, paddle.y, paddle.x, paddle.height)))
                 {
                     ball.Yangle *= -1;
-
-                    //if(direction == "left" && ball.Xangle < 0)
-                    //{
-                    //    ball.Xangle *= -1;
-                    //}
-
-                    //if (direction == "right" && ball.Xangle > 0)
-                    //{
-                    //    ball.Xangle *= -1;
-                    //}
                 }
-
             }
 
             // Check if ball has collided with any currentlevel
@@ -450,9 +435,10 @@ namespace BrickBreaker
                             // TODO: powerups
                         }
 
-                        if (currentlevel.Count < 1)
+                        if (currentlevel.Count < 0)
                         {
-                            if (currentlevelnum == levelList.Count())
+                            //if (currentlevelnum == levelList.Count())
+                            if (currentlevelnum == 9)
                             {
                                 OnEnd();
                             }
@@ -479,7 +465,7 @@ namespace BrickBreaker
                 {
                         if (currentlevel.Count == 0)
                         {
-                            if (currentlevelnum == levelList.Count())
+                            if (currentlevelnum == 9)
                             {
                                 OnEnd();
                             }
@@ -527,6 +513,7 @@ namespace BrickBreaker
                         default:
                             break;
                     }
+                    Refresh();
                 }
             }
 
@@ -544,15 +531,10 @@ namespace BrickBreaker
                         y = randGen.Next(1, 301);
 
                         //activate powerup
-                        Ball b2 = new Ball(x, y, xSpeed, ySpeed, ballSize, 1, -1);
-                        ballList.Add(b2);
-                        ballNumber += 1;
-
-                        Ball b3 = new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1);
-                        ballList.Add(b3);
-                        ballNumber += 1;
+                        ballList.Add(new Ball(x, y, xSpeed, ySpeed, ballSize, 1, -1));
+                        ballList.Add(new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1));
                     }
-                    else if (p.type == "L")
+                    else if (powerup[p].type == "L")
                     {
                         paddle.width += 25;
                     }
@@ -588,13 +570,10 @@ namespace BrickBreaker
                             b.ySpeed += 2;
                         }
                     }
-
                     activated = true;
-
                     powerup.RemoveAt(p);
                 }
             }
-
             //redraw the screen
             Refresh();
         }        
@@ -635,7 +614,6 @@ namespace BrickBreaker
                 powerup.Add(p);
                 activated = false;
             }
-            
         }
 
         //testing 
@@ -647,7 +625,6 @@ namespace BrickBreaker
             //GameOver();
         }
         
-
         //testing
         public void saveScoresRK()
         {

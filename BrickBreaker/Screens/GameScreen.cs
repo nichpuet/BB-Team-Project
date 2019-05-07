@@ -66,8 +66,8 @@ namespace BrickBreaker
         public static bool start = false;
 
         // Creates a new ball
-        int xSpeed = 12;
-        int ySpeed = 12;
+        int xSpeed = 8;
+        int ySpeed = 8;
         int ballSize = 20;
 
         // angle change buttons
@@ -161,7 +161,7 @@ namespace BrickBreaker
 
             // setup starting paddle values and create paddle object
             paddleX = ((this.Width / 2) - (paddleWidth / 2));
-            paddleY = (this.Height - paddleHeight) - 25;
+            paddleY = 700;
             int paddleSpeed = 16;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
@@ -346,8 +346,8 @@ namespace BrickBreaker
                         ballList[0].Yangle *= -1;
 
                         // reset x and y speeds
-                        ballList[0].xSpeed = 12;
-                        ballList[0].ySpeed = 12;
+                        ballList[0].xSpeed = 8;
+                        ballList[0].ySpeed = 8;
 
                         if (player1Lives < 1)
                         {
@@ -410,7 +410,7 @@ namespace BrickBreaker
                 Rectangle ballrec = new Rectangle(Convert.ToInt32(ball.x), Convert.ToInt32(ball.y), Convert.ToInt32(ball.size), Convert.ToInt32(ball.size));
                 if (ballrec.IntersectsWith(new Rectangle(paddle.x, paddle.y, paddle.x, paddle.height)))
                 {
-                    removeBlocks.Add(b);
+                    //removeBlocks.Add(b);
                     ball.Yangle *= -1;
                 }
             }
@@ -423,7 +423,6 @@ namespace BrickBreaker
             // Check if ball has collided with any currentlevel
             foreach (Ball ba in ballList)
             {
-                Ball ba = ballList[0];
                 ba.Move();
                 scores();
                 foreach(Block b in currentlevel)
@@ -477,32 +476,6 @@ namespace BrickBreaker
             }
             //redraw the screen
             Refresh();
-        }
-
-        //testing 
-        public void scores()
-        {
-            string scoreNumber = score.ToString();
-            HighScore s = new HighScore(scoreNumber);
-            Form1.highScores.Add(s);
-            //GameOver();
-        }
-
-        //testing
-        public void saveScoresRK()
-        {
-            XmlWriter writer = XmlWriter.Create("Resources/HighScores.xml", null);
-
-            writer.WriteStartElement("TheScores");
-
-            foreach (HighScore s in Form1.highScores)
-            {
-                writer.WriteStartElement("TheScore");
-
-                writer.WriteElementString("Score", s.score);
-
-                writer.WriteEndElement();
-            }
 
             //Move powerups down
             foreach (Powerups p in powerup)
@@ -569,7 +542,16 @@ namespace BrickBreaker
             }
             //redraw the screen
             Refresh();
-        }        
+        }      
+        
+        //testing 
+        public void scores()
+        {
+            string scoreNumber = score.ToString();
+            HighScore s = new HighScore(scoreNumber);
+            Form1.highScores.Add(s);
+            //GameOver();
+        }
 
         public void powerup_creation(Point loc)
         {
@@ -607,15 +589,6 @@ namespace BrickBreaker
                 powerup.Add(p);
                 activated = false;
             }
-        }
-
-        //testing 
-        public void scores()
-        {
-            string scoreNumber = score.ToString();
-            HighScore s = new HighScore(scoreNumber);
-            Form1.highScores.Add(s);
-            //GameOver();
         }
 
         //testing

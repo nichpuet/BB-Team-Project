@@ -99,7 +99,7 @@
             // 
             // brickWallPic
             // 
-            this.brickWallPic.Image = global::BrickBreaker.Properties.Resources.brickWall;
+            
             this.brickWallPic.Location = new System.Drawing.Point(12, 0);
             this.brickWallPic.Margin = new System.Windows.Forms.Padding(2);
             this.brickWallPic.Name = "brickWallPic";

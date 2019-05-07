@@ -45,7 +45,7 @@
             // 
             // startScreenPB
             // 
-            this.startScreenPB.Image = global::BrickBreaker.Properties.Resources.startScreenBG;
+            
             this.startScreenPB.Location = new System.Drawing.Point(-3, -3);
             this.startScreenPB.Name = "startScreenPB";
             this.startScreenPB.Size = new System.Drawing.Size(1200, 800);

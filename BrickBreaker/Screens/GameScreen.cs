@@ -66,8 +66,8 @@ namespace BrickBreaker
         public static bool start = false;
 
         // Creates a new ball
-        int xSpeed = 8;
-        int ySpeed = 8;
+        int xSpeed = 6;
+        int ySpeed = 6;
         int ballSize = 20;
 
         // angle change buttons
@@ -88,6 +88,7 @@ namespace BrickBreaker
         public GameScreen(bool multiplayer = false)
         {
             InitializeComponent();
+            OnStart(); 
             if (multiplayer)
                 player2Lives = 3;
         }
@@ -161,6 +162,7 @@ namespace BrickBreaker
             // setup starting paddle values and create paddle object
             paddleX = ((this.Width / 2) - (paddleWidth / 2));
             paddleY = 700;
+            
             int paddleSpeed = 16;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
@@ -297,7 +299,7 @@ namespace BrickBreaker
         {
             //   angleLable.Text = angleposition.ToString();
             // Move the paddle
-            foreach(Powerups up in powerup)
+            foreach (Powerups up in powerup)
             {
                 up.y += up.speed;
             }
@@ -393,7 +395,7 @@ namespace BrickBreaker
                 }
             }
 
-            foreach(Ball ball in ballList)
+            foreach (Ball ball in ballList)
             {
                 for (int i = 0; i < currentlevel.Count(); i++)
                 {
@@ -417,7 +419,7 @@ namespace BrickBreaker
             {
                 ba.Move();
                 scores();
-                foreach(Block b in currentlevel)
+                foreach (Block b in currentlevel)
                 {
                     if (ba.BlockCollision(b))
                     {
@@ -472,41 +474,42 @@ namespace BrickBreaker
                             ballList[0].y = paddle.y - 21;
                         }
 
-                    // TODO: Fix problem with angle shooting while moving
-                    switch (angleposition)
-                    {
-                        // right
-                        case 1:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
+                        // TODO: Fix problem with angle shooting while moving
+                        switch (angleposition)
+                        {
+                            // right
+                            case 1:
+                                p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
+                                break;
 
-                        case 2:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
+                            case 2:
+                                p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
+                                break;
 
-                        case 3:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
+                            case 3:
+                                p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
+                                break;
 
-                        case 4:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
+                            case 4:
+                                p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
+                                break;
 
-                        case 5:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
+                            case 5:
+                                p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
+                                break;
 
-                        case 6:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
-                        // left
-                        default:
-                            break;
+                            case 6:
+                                p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
+                                break;
+                            // left
+                            default:
+                                break;
+                        }
                     }
                 }
+                //redraw the screen
+                Refresh();
             }
-            //redraw the screen
-            Refresh();
         }
 
 
@@ -600,16 +603,9 @@ namespace BrickBreaker
             }
             //redraw the screen
             Refresh();
-        }      
+        }    
         
         //testing 
-        public void scores()
-        {
-            string scoreNumber = score.ToString();
-            HighScore s = new HighScore(scoreNumber);
-            Form1.highScores.Add(s);
-            //GameOver();
-        }
 
         public void powerup_creation(Point loc)
         {
@@ -649,26 +645,9 @@ namespace BrickBreaker
             }
         }
 
-        //testing
-        public void saveScoresRK()
+        private void GameScreen_Load(object sender, EventArgs e)
         {
-            XmlWriter writer = XmlWriter.Create("Resources/HighScores.xml", null);
-
-            writer.WriteStartElement("TheScores");
-
-            foreach (HighScore s in Form1.highScores)
-            {
-                writer.WriteStartElement("TheScore");
-
-                writer.WriteElementString("Score", s.score);
-
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
-            writer.Close();
-
-            //redraw the screen
-            Refresh();
+            OnStart();
         }
         //testing
         public void GameOver()

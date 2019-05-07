@@ -89,6 +89,9 @@ namespace BrickBreaker
                     xSpeed = -Math.Abs(xSpeed);
                 else if (pMovingRight)
                     xSpeed = Math.Abs(xSpeed);
+
+                // Makes the ball have a dinamic angle, comment out to remove the feature
+                GameScreen.angleposition = rand.Next(1, 7);
             }
         }
 

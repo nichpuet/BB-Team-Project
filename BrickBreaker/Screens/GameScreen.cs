@@ -71,7 +71,7 @@ namespace BrickBreaker
         int ballSize = 20;
 
         // angle change buttons
-        int angleposition = 3;
+        public static int angleposition = 3;
 
         // angle points for the line aim
         Point p1 = new Point(1,1), p2 = new Point(1, 1);
@@ -469,14 +469,6 @@ namespace BrickBreaker
                             if (currentlevelnum == levelList.Count())
                             {
                                 OnEnd();
-                            }
-                            else
-                            {
-                                //currentlevelnum++;
-                                //levelLoad();
-                                //start = false;
-                                //ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
-                                //ballList[0].y = paddle.y - 21;
                             }
                         }
                         break;

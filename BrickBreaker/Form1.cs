@@ -39,9 +39,9 @@ namespace BrickBreaker
         [Obsolete("TODO Game Screen scales incorrectly")]
         public void ConfigScreen(ref UserControl c)
         {
-            c.Width = Width;
-            c.Height = Height;
-            c.Location = new Point(0, 0);
+            c.Width = (Width / 3) * 2;
+            c.Height = (Height / 3) * 2;
+            c.Location = new Point(Width / 2 - c.Width /2, Height / 2  - c.Height /2);
         }
 
         /// <summary>

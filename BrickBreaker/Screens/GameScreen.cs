@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Data;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 using System.Xml;
 
 namespace BrickBreaker
@@ -22,15 +27,15 @@ namespace BrickBreaker
         public static List<Ball> removeBalls = new List<Ball>();
         public static int paddleWidth = 80;
         public static int paddleHeight = 20;
-        int paddleX;
-        int paddleY;
 
         // random for powerups
         Random random = new Random();
+        private int paddleX;
+        private int paddleY;
 
         // list of all currentlevel for current level
         List<Block> currentlevel = new List<Block>();
-
+        List<Block> removeBlocks = new List<Block>();
 
         //Powerups
         List<Powerups> powerup = new List<Powerups>();
@@ -71,7 +76,6 @@ namespace BrickBreaker
         // angle points for the line aim
         Point p1 = new Point(1,1), p2 = new Point(1, 1);
         public string direction = "left";
-
 
         // font and brush for text
         Font textFont;
@@ -342,8 +346,8 @@ namespace BrickBreaker
                         ballList[0].Yangle *= -1;
 
                         // reset x and y speeds
-                        ballList[0].xSpeed = xSpeed;
-                        ballList[0].ySpeed = ySpeed;
+                        ballList[0].xSpeed = 12;
+                        ballList[0].ySpeed = 12;
 
                         if (player1Lives < 1)
                         {
@@ -366,6 +370,12 @@ namespace BrickBreaker
 
                     // Check for collision of ball with paddle, (incl. paddle movement)
                     b.PaddleCollision(paddle, leftArrowDown, rightArrowDown);
+
+                    if (currentlevel.Count == 0)
+                    {
+                        gameTimer.Enabled = false;
+                        OnEnd();
+                    }
                 }
                 // remove any balls that need to be removed
                 foreach (Ball b in removeBalls)
@@ -400,13 +410,21 @@ namespace BrickBreaker
                 Rectangle ballrec = new Rectangle(Convert.ToInt32(ball.x), Convert.ToInt32(ball.y), Convert.ToInt32(ball.size), Convert.ToInt32(ball.size));
                 if (ballrec.IntersectsWith(new Rectangle(paddle.x, paddle.y, paddle.x, paddle.height)))
                 {
+                    removeBlocks.Add(b);
                     ball.Yangle *= -1;
                 }
+            }
+
+            foreach (Block b in removeBlocks)
+            {
+                currentlevel.Remove(b);
             }
 
             // Check if ball has collided with any currentlevel
             foreach (Ball ba in ballList)
             {
+                Ball ba = ballList[0];
+                ba.Move();
                 scores();
                 foreach(Block b in currentlevel)
                 {
@@ -433,6 +451,10 @@ namespace BrickBreaker
                     //center the ball over the paddle
                     ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
                     ballList[0].y = paddle.y - 21;
+
+                    //Powerup Chance 
+                    Random randPower = new Random();
+                    randomPowerupChance = randPower.Next(1, 21);
                 }
                 else
                 {
@@ -452,6 +474,40 @@ namespace BrickBreaker
                         }
                     }
                 }
+            }
+            //redraw the screen
+            Refresh();
+        }
+
+        //testing 
+        public void scores()
+        {
+            string scoreNumber = score.ToString();
+            HighScore s = new HighScore(scoreNumber);
+            Form1.highScores.Add(s);
+            //GameOver();
+        }
+
+        //testing
+        public void saveScoresRK()
+        {
+            XmlWriter writer = XmlWriter.Create("Resources/HighScores.xml", null);
+
+            writer.WriteStartElement("TheScores");
+
+            foreach (HighScore s in Form1.highScores)
+            {
+                writer.WriteStartElement("TheScore");
+
+                writer.WriteElementString("Score", s.score);
+
+                writer.WriteEndElement();
+            }
+
+            //Move powerups down
+            foreach (Powerups p in powerup)
+            {
+                p.powerupMove();
             }
 
             //Check for collision of powerups
@@ -561,7 +617,7 @@ namespace BrickBreaker
             Form1.highScores.Add(s);
             //GameOver();
         }
-        
+
         //testing
         public void saveScoresRK()
         {
@@ -646,7 +702,7 @@ namespace BrickBreaker
             // Draw lives and font
             e.Graphics.DrawString("Lives: " + player1Lives.ToString(), textFont, sb, new Point(25, this.Height - 25));
             e.Graphics.DrawString(score.ToString(), textFont, sb, new Point(25, 75));
-            
+
             // draw line aim
             if (!start)
             {
@@ -659,7 +715,7 @@ namespace BrickBreaker
             e.Graphics.DrawString("angle position: " + angleposition.ToString(), textFont, sb, new Point(25, this.Height - 100));
             e.Graphics.DrawString("block number: " + currentlevel.Count().ToString(), textFont, sb, new Point(this.Width - 300, this.Height - 100));
 
-            switch(player1Lives)
+            switch (player1Lives)
             {
                 case 4:
                     life5Output.Visible = false;
@@ -707,18 +763,6 @@ namespace BrickBreaker
             ballList.Add(new Ball(ballX, ballY, 6, 6, 20, 1, 1));
             ballList.Add(new Ball(ballX, this.Height - ballY, 6, 6, 20, 1, 1));
             // Creates a new ball
-
-            #region Creates currentlevel for generic level. Need to replace with code that loads levels.
-            //int x = 10;
-
-            //while (currentlevel.Count < 12)
-            //{
-            //    x += 57;
-            //    Block b1 = new Block(x, 10, 1, Color.White);
-            //    currentlevel.Add(b1);
-            //}
-
-            #endregion
 
             // start the game engine loop
             gameTimer.Enabled = true;

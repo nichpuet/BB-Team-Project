@@ -456,7 +456,7 @@ namespace BrickBreaker
                         if (b.hp < 1)
                             currentlevel.Remove(b);
 
-                        score += 100;
+                        // powerups here
 
                         if (currentlevel.Count < 1)
                         {
@@ -486,37 +486,6 @@ namespace BrickBreaker
                     //Powerup Chance 
                     Random randPower = new Random();
                     randomPowerupChance = randPower.Next(1, 21);
-
-                    //if (randomPowerupChance == 1)
-                    //{
-                    //    Powerups p = new Powerups(b.x, b.y, 5, "3");
-                    //    powerup.Add(p);
-                    //    activated = false;
-                    //}
-                    //if (randomPowerupChance == 2)
-                    //{
-                    //    Powerups p = new Powerups(b.x, b.y, 5, "L");
-                    //    powerup.Add(p);
-                    //    activated = false;
-                    //}
-                    //if (randomPowerupChance == 3)
-                    //{
-                    //    Powerups p = new Powerups(b.x, b.y, 5, "l");
-                    //    powerup.Add(p);
-                    //    activated = false;
-                    //}
-                    //if (randomPowerupChance == 4)
-                    //{
-                    //    Powerups p = new Powerups(b.x, b.y, 5, "BS");
-                    //    powerup.Add(p);
-                    //    activated = false;
-                    //}
-                    //if (randomPowerupChance == 5)
-                    //{
-                    //    Powerups p = new Powerups(b.x, b.y, 5, "bs");
-                    //    powerup.Add(p);
-                    //    activated = false;
-                    //}
                 }
                 else
                 {
@@ -535,9 +504,6 @@ namespace BrickBreaker
                                 ballList[0].y = paddle.y - 21;
                             }
                         }
-
-                    // draw line to show ball aim
-                    p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
 
                     // TODO: Fix problem with angle shooting while moving
                     switch (angleposition)
@@ -575,6 +541,7 @@ namespace BrickBreaker
             //redraw the screen
             Refresh();
         }
+
 
         //testing 
         public void scores()

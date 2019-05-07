@@ -23,6 +23,16 @@ namespace BrickBreaker
             Yangle = _Yangle;      
         }
 
+        public bool side_collision(Rectangle rec)
+        {
+            Rectangle ball = new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), Convert.ToInt32(size), Convert.ToInt32(size));
+            if (ball.IntersectsWith(rec))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void Move()
         {
             x = x + xSpeed*Xangle;

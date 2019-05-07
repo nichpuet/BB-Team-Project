@@ -691,6 +691,11 @@ namespace BrickBreaker
             
         }
 
+        private void GameScreen_Load(object sender, EventArgs e)
+        {
+            OnStart();
+        }
+
         //testing
         public void GameOver()
         {

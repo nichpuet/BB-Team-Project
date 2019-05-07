@@ -69,7 +69,7 @@ namespace BrickBreaker
         int angleposition = 3;
 
         // angle points for the line aim
-        Point p1, p2;
+        Point p1 = new Point(1,1), p2 = new Point(1, 1);
         public string direction = "left";
 
 
@@ -80,7 +80,6 @@ namespace BrickBreaker
         // level variables
         List<XmlReader> levelList = new List<XmlReader>();
         int currentlevelnum = 0;
-        bool levelLoadstart = true;
 
         public GameScreen(bool multiplayer = false)
         {
@@ -92,22 +91,6 @@ namespace BrickBreaker
 
         public void levelLoad()
         {
-            //if (levelLoadstart)
-            //{
-            //    // need ten total items, think of list as actual level number -1
-            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/testlevel.xml"));
-            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level1.xml"));
-            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level2.xml"));
-            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level3.xml"));
-            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level4.xml"));
-            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level5.xml"));
-            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level6.xml"));
-            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level7.xml"));
-            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level8.xml"));
-            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level9.xml"));
-            //    levelList.Add(XmlReader.Create("https://raw.githubusercontent.com/DimaPokusaev/BB-Team-Project/master/level10.xml"));
-            //}
-
             XmlReader reader = XmlReader.Create("testlevel.xml");
             switch (currentlevelnum)
             {
@@ -256,29 +239,36 @@ namespace BrickBreaker
                 case 1:
                     ballList[0].Xangle = 1;
                     ballList[0].Yangle = -0.5;
+                    p2 = new Point(p1.X + 200, p1.Y - 120);
                     break;
                 case 2:
                     ballList[0].Xangle = 0.5;
                     ballList[0].Yangle = -1;
+                    p2 = new Point(p1.X + 75, p1.Y - 120);
                     break;
                 case 3:
                     ballList[0].Xangle = -1;
                     ballList[0].Yangle = -0.5;
+                    p2 = new Point(p1.X + 50, p1.Y - 120);
                     break;
                 case 4:
                     ballList[0].Xangle = -0.5;
                     ballList[0].Yangle = -1;
+                    p2 = new Point(p1.X - 15, p1.Y - 120);
                     break;
                 case 5:
                     ballList[0].Xangle = 1;
                     ballList[0].Yangle = -1;
+                    p2 = new Point(p1.X - 25, p1.Y - 120);
                     break;
                 case 6:
                     ballList[0].Xangle = -1;
                     ballList[0].Yangle = -0.5;
+                    p2 = new Point(p1.X - 75, p1.Y - 120);
                     break;
                     // left
             }
+            Refresh();
         }
 
         private void GameScreen_KeyUp(object sender, KeyEventArgs e)
@@ -434,23 +424,6 @@ namespace BrickBreaker
                             // 20 % chance
                             // TODO: powerups
                         }
-
-                        if (currentlevel.Count < 0)
-                        {
-                            //if (currentlevelnum == levelList.Count())
-                            if (currentlevelnum == 9)
-                            {
-                                OnEnd();
-                            }
-                            else
-                            {
-                                currentlevelnum++;
-                                levelLoad();
-                                start = false;
-                                ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
-                                ballList[0].y = paddle.y - 21;
-                            }
-                        }
                         break;
                     }
                 }
@@ -463,57 +436,21 @@ namespace BrickBreaker
                 }
                 else
                 {
-                        if (currentlevel.Count == 0)
-                        {
-                            if (currentlevelnum == 9)
-                            {
-                                OnEnd();
-                            }
-                            else
-                            {
-                                currentlevelnum++;
-                                levelLoad();
-                                start = false;
-                                ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
-                                ballList[0].y = paddle.y - 21;
-                            }
-                        }
-
-                    // draw line to show ball aim
-                    p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
-
-                    // TODO: Fix problem with angle shooting while moving
-                    switch (angleposition)
+                    if (currentlevel.Count == 0)
                     {
-                        // right
-                        case 1:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
-
-                        case 2:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
-
-                        case 3:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
-
-                        case 4:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
-
-                        case 5:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
-
-                        case 6:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
-                        // left
-                        default:
-                            break;
+                        if (currentlevelnum == 9)
+                        {
+                            OnEnd();
+                        }
+                        else
+                        {
+                            currentlevelnum++;
+                            levelLoad();
+                            start = false;
+                            ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
+                            ballList[0].y = paddle.y - 21;
+                        }
                     }
-                    Refresh();
                 }
             }
 
@@ -646,7 +583,6 @@ namespace BrickBreaker
             //redraw the screen
             Refresh();
         }
-        
 
         //testing
         public void GameOver()
@@ -714,6 +650,8 @@ namespace BrickBreaker
             // draw line aim
             if (!start)
             {
+                // draw line to show ball aim
+                p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
                 e.Graphics.DrawLine(linePen, p1, p2);
             }
 

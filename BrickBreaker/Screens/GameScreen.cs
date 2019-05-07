@@ -297,7 +297,7 @@ namespace BrickBreaker
         {
             //   angleLable.Text = angleposition.ToString();
             // Move the paddle
-            foreach(Powerups up in powerup)
+            foreach (Powerups up in powerup)
             {
                 up.y += up.speed;
             }
@@ -393,7 +393,7 @@ namespace BrickBreaker
                 }
             }
 
-            foreach(Ball ball in ballList)
+            foreach (Ball ball in ballList)
             {
                 for (int i = 0; i < currentlevel.Count(); i++)
                 {
@@ -417,7 +417,7 @@ namespace BrickBreaker
             {
                 ba.Move();
                 scores();
-                foreach(Block b in currentlevel)
+                foreach (Block b in currentlevel)
                 {
                     if (ba.BlockCollision(b))
                     {
@@ -472,41 +472,42 @@ namespace BrickBreaker
                             ballList[0].y = paddle.y - 21;
                         }
 
-                    // TODO: Fix problem with angle shooting while moving
-                    switch (angleposition)
-                    {
-                        // right
-                        case 1:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
+                        // TODO: Fix problem with angle shooting while moving
+                        switch (angleposition)
+                        {
+                            // right
+                            case 1:
+                                p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
+                                break;
 
-                        case 2:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
+                            case 2:
+                                p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
+                                break;
 
-                        case 3:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
+                            case 3:
+                                p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
+                                break;
 
-                        case 4:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
+                            case 4:
+                                p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
+                                break;
 
-                        case 5:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
+                            case 5:
+                                p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
+                                break;
 
-                        case 6:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
-                            break;
-                        // left
-                        default:
-                            break;
+                            case 6:
+                                p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
+                                break;
+                            // left
+                            default:
+                                break;
+                        }
                     }
                 }
+                //redraw the screen
+                Refresh();
             }
-            //redraw the screen
-            Refresh();
         }
 
 
@@ -600,16 +601,9 @@ namespace BrickBreaker
             }
             //redraw the screen
             Refresh();
-        }      
+        }    
         
         //testing 
-        public void scores()
-        {
-            string scoreNumber = score.ToString();
-            HighScore s = new HighScore(scoreNumber);
-            Form1.highScores.Add(s);
-            //GameOver();
-        }
 
         public void powerup_creation(Point loc)
         {
@@ -652,28 +646,6 @@ namespace BrickBreaker
         private void GameScreen_Load(object sender, EventArgs e)
         {
             OnStart();
-        }
-
-        //testing
-        public void saveScoresRK()
-        {
-            XmlWriter writer = XmlWriter.Create("Resources/HighScores.xml", null);
-
-            writer.WriteStartElement("TheScores");
-
-            foreach (HighScore s in Form1.highScores)
-            {
-                writer.WriteStartElement("TheScore");
-
-                writer.WriteElementString("Score", s.score);
-
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
-            writer.Close();
-
-            //redraw the screen
-            Refresh();
         }
         //testing
         public void GameOver()

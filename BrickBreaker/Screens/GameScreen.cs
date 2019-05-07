@@ -63,8 +63,8 @@ namespace BrickBreaker
         public static bool start = false;
 
         // Creates a new ball
-        int xSpeed = 12;
-        int ySpeed = 12;
+        int xSpeed = 6;
+        int ySpeed = 6;
         int ballSize = 20;
 
         // angle change buttons
@@ -86,6 +86,7 @@ namespace BrickBreaker
         public GameScreen(bool multiplayer = false)
         {
             InitializeComponent();
+            OnStart(); 
             if (multiplayer)
                 player2Lives = 3;
         }
@@ -179,8 +180,8 @@ namespace BrickBreaker
             textFont = new Font("Verdana", 20, FontStyle.Regular);
 
             // setup starting paddle values and create paddle object
-            paddleX = ((this.Width / 2) - (paddleWidth / 2));
-            paddleY = (this.Height - paddleHeight) - 25;
+            paddleX = 50; //((this.Width / 2) - (paddleWidth / 2));
+            paddleY = 675; //(this.Height - paddleHeight) - 25;
             int paddleSpeed = 16;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 

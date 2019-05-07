@@ -109,7 +109,7 @@
             this.levelLabel.Name = "levelLabel";
             this.levelLabel.Size = new System.Drawing.Size(170, 59);
             this.levelLabel.TabIndex = 6;
-            this.levelLabel.Text = "LVL: " + (currentlevelnum + 1);
+            this.levelLabel.Text = "LVL: ";
             // 
             // highscoreLabel
             // 

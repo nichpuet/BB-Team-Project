@@ -504,6 +504,39 @@ namespace BrickBreaker
 
                     //clear the powerups from the screen
                     powerup.Clear();
+
+                    p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
+
+                    switch (angleposition)
+                    {
+                        // right
+                        case 1:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 2:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 3:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 4:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 5:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 6:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+                        // left
+                        default:
+                            break;
+                    }
                 }
                 else
                 {

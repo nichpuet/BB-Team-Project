@@ -275,32 +275,26 @@ namespace BrickBreaker
                 case 1:
                     ballList[0].Xangle = 1;
                     ballList[0].Yangle = -0.5;
-                    p2 = new Point(p1.X + 200, p1.Y - 120);
                     break;
                 case 2:
                     ballList[0].Xangle = 0.5;
                     ballList[0].Yangle = -1;
-                    p2 = new Point(p1.X + 75, p1.Y - 120);
                     break;
                 case 3:
-                    ballList[0].Xangle = -1;
-                    ballList[0].Yangle = -0.5;
-                    p2 = new Point(p1.X + 50, p1.Y - 120);
+                    ballList[0].Xangle = 0.5;
+                    ballList[0].Yangle = -1;
                     break;
                 case 4:
                     ballList[0].Xangle = -0.5;
                     ballList[0].Yangle = -1;
-                    p2 = new Point(p1.X - 15, p1.Y - 120);
                     break;
                 case 5:
-                    ballList[0].Xangle = 1;
+                    ballList[0].Xangle = -1;
                     ballList[0].Yangle = -1;
-                    p2 = new Point(p1.X - 25, p1.Y - 120);
                     break;
                 case 6:
                     ballList[0].Xangle = -1;
                     ballList[0].Yangle = -0.5;
-                    p2 = new Point(p1.X - 75, p1.Y - 120);
                     break;
                     // left
             }
@@ -367,6 +361,7 @@ namespace BrickBreaker
                         start = false;
 
                         // reset ball angle
+                        angleposition = 3;
                         anglechange();
 
                         // reset paddle x and y
@@ -481,6 +476,39 @@ namespace BrickBreaker
                     ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
                     ballList[0].y = paddle.y - 21;
 
+                    p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
+
+                    switch (angleposition)
+                    {
+                        // right
+                        case 1:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 2:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 3:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 4:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 5:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+
+                        case 6:
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
+                            break;
+                        // left
+                        default:
+                            break;
+                    }
+
                     //Powerup Chance 
                     Random randPower = new Random();
                     randomPowerupChance = randPower.Next(1, 21);
@@ -496,43 +524,13 @@ namespace BrickBreaker
                         else
                         {
                             currentlevelnum++;
+                            player1Lives++;
                             levelLoad();
                             start = false;
                             ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
                             ballList[0].y = paddle.y - 21;
                         }
 
-                        // TODO: Fix problem with angle shooting while moving
-                        switch (angleposition)
-                        {
-                            // right
-                            case 1:
-                                p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
-                                break;
-
-                            case 2:
-                                p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
-                                break;
-
-                            case 3:
-                                p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
-                                break;
-
-                            case 4:
-                                p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
-                                break;
-
-                            case 5:
-                                p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
-                                break;
-
-                            case 6:
-                                p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
-                                break;
-                            // left
-                            default:
-                                break;
-                        }
                     }
                 }
                 //redraw the screen
@@ -744,7 +742,6 @@ namespace BrickBreaker
             if (!start)
             {
                 // draw line to show ball aim
-                p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
                 e.Graphics.DrawLine(linePen, p1, p2);
             }
 

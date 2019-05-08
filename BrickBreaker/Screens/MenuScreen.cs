@@ -57,8 +57,7 @@ namespace BrickBreaker
         public MenuScreen()
         {
             InitializeComponent();
-            //
-            loadScoresRK();
+            //loadScoresRK();
             //compare the scores
             if (Form1.highScores.Count() == 2)
             {

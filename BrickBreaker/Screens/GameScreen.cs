@@ -684,11 +684,20 @@ namespace BrickBreaker
 
         public void OnEnd()
         {
+            
             //Testing: Saving the scores
             saveScoresRK();
             // Goes to the game over screen
-            Form1 form = FindForm() as Form1;
-            form.ChangeScreen(this, new MenuScreen());
+            //Form1 form = FindForm() as Form1;
+            //form.ChangeScreen(this, new MenuScreen());
+
+            GameOverScreen gos = new GameOverScreen();
+            Form form = this.FindForm();
+
+            form.Controls.Add(gos);
+            form.Controls.Remove(this);
+
+            gos.Location = new Point((form.Width - gos.Width) / 2, (form.Height - gos.Height) / 2);
         }
 
         public void GameScreen_Paint(object sender, PaintEventArgs e)

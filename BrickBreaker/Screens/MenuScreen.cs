@@ -46,9 +46,10 @@ namespace BrickBreaker
 
                     HighScore newScore = new HighScore(newScoreString);
                     Form1.highScores.Add(newScore);
-
                 }
             }
+
+            
 
             reader.Close();
         }

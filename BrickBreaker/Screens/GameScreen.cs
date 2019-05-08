@@ -90,6 +90,11 @@ namespace BrickBreaker
         List<Rectangle> leftside = new List<Rectangle>();
         List<Rectangle> rightside = new List<Rectangle>();
 
+        // list for block corners
+        List<Rectangle> upLeft = new List<Rectangle>();
+        List<Rectangle> upRight = new List<Rectangle>();
+        List<Rectangle> bottomLeft = new List<Rectangle>();
+        List<Rectangle> bottomRight = new List<Rectangle>();
 
         public GameScreen(bool multiplayer = false)
         {
@@ -173,6 +178,11 @@ namespace BrickBreaker
             {
                 leftside.Add(new Rectangle(block.x, block.y, 1, block.height));
                 rightside.Add(new Rectangle(new Rectangle(block.x, block.y, block.width, block.height).Right, block.y, 1, block.height));
+
+                upLeft.Add(new Rectangle(block.x, block.y, 1, 1));
+                upRight.Add(new Rectangle(block.x + block.width, block.y, 1, 1));
+                bottomLeft.Add(new Rectangle(block.x, block.y + block.height, 1, 1));
+                bottomRight.Add(new Rectangle(block.x + block.width, block.y + block.height, 1, 1));
             }
         }
 
@@ -434,8 +444,14 @@ namespace BrickBreaker
                     Rectangle ls = leftside[i];
                     Rectangle rs = rightside[i];
 
+                    Rectangle curball = new Rectangle(Convert.ToInt32(ball.x), Convert.ToInt32(ball.y), ball.size, ball.size);
+                    if(curball.IntersectsWith(upLeft[i])|| curball.IntersectsWith(upRight[i]) || curball.IntersectsWith(bottomLeft[i]) || curball.IntersectsWith(bottomRight[i]))
+                    {
+                        ball.Yangle *= -1;
+                    }
                     if (ball.BlockCollision(b))
                     {
+
                         if (ball.side_collision(ls) || ball.side_collision(rs))
                         {
                             ball.xSpeed *= -1;
@@ -444,7 +460,6 @@ namespace BrickBreaker
                         rightside.RemoveAt(i);
 
                         powerup_creation(new Point(b.x, b.y));
-                        ball.Yangle *= -1;
                         currentlevel.Remove(b);
                     }
                 }

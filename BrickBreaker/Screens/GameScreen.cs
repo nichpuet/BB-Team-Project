@@ -631,7 +631,7 @@ namespace BrickBreaker
 
                             foreach (Ball b in ballList)
                             {
-                                b.y = ySpeed;
+                                b.ySpeed = ySpeed;
                             }
                         }
                         else if (p.type == "bs")
@@ -640,7 +640,7 @@ namespace BrickBreaker
 
                             foreach (Ball b in ballList)
                             {
-                                b.y = ySpeed;
+                                b.ySpeed = ySpeed;
                             }
                         }
 

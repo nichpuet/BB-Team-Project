@@ -425,7 +425,7 @@ namespace BrickBreaker
 
                     if (ball.BlockCollision(b))
                     {
-                        if (ball.side_collision(ls) || ball.side_collision(rs))
+                       if (ball.side_collision(ls) || ball.side_collision(rs))
                         {
                             ball.xSpeed *= -1;
                         }
@@ -614,6 +614,8 @@ namespace BrickBreaker
 
                             Ball b3 = new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1);
                             ballList.Add(b3);
+
+                            break;
                         }
                         else if (p.type == "L")
                         {

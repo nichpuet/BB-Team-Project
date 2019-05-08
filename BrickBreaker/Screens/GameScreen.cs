@@ -147,6 +147,7 @@ namespace BrickBreaker
                     break;
             }
 
+            powerup.Clear();
             currentlevel.Clear();
             leftside.Clear();
             rightside.Clear();
@@ -645,6 +646,8 @@ namespace BrickBreaker
                         }
 
                         activated = true;
+                        powerup.Remove(p);
+                        break;
                     }
                 }
                 //redraw the screen

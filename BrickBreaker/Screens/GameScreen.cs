@@ -658,12 +658,13 @@ namespace BrickBreaker
 
         public void OnEnd()
         {
-            //
+            
             //Testing: Saving the scores
             saveScoresRK();
             // Goes to the game over screen
             //Form1 form = FindForm() as Form1;
             //form.ChangeScreen(this, new MenuScreen());
+
             GameOverScreen gos = new GameOverScreen();
             Form form = this.FindForm();
 

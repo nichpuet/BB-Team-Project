@@ -57,6 +57,7 @@ namespace BrickBreaker
 
         }
 
+        
 
         public void ExplosionBs()
         {
@@ -80,6 +81,17 @@ namespace BrickBreaker
                     
                
             }
+        }
+
+        private void continueButton_Click(object sender, EventArgs e)
+        {
+            GameScreen gs = new GameScreen();
+            Form form = this.FindForm();
+
+            form.Controls.Add(gs);
+            form.Controls.Remove(this);
+
+            gs.Location = new Point((form.Width - gs.Width) / 2, (form.Height - gs.Height) / 2);
         }
 
         public void GameOver_Paint(object sender, PaintEventArgs e)

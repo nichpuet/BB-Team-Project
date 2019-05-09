@@ -20,8 +20,7 @@ namespace BrickBreaker
             //testing: displaying the scores
             foreach (HighScore s in Form1.highScores)
             {
-
-                highscoreLabel.Text += s.score + " " + "\n";
+                scoreLabel.Text += "\n" + s.score + " " + "\n";
 
                 //highscoreLabel.Text = s.score[0] + " " + "\n" + s.score[1] + " " + "\n" + s.score[2]
                 //    + " " + "\n" + s.score[3] + " " + "\n" + s.score[4] + " " + "\n";
@@ -45,7 +44,6 @@ namespace BrickBreaker
 
                     HighScore newScore = new HighScore(newScoreString);
                     Form1.highScores.Add(newScore);
-
                 }
             }
 
@@ -56,7 +54,24 @@ namespace BrickBreaker
         public MenuScreen()
         {
             InitializeComponent();
-            //
+            loadScoresRK();
+            //compare the scores
+
+            //Sorting the code
+            Form1.highScores.Sort(delegate (HighScore x, HighScore y)
+            {
+                return y.score.CompareTo(x.score);
+            });
+
+            //removing scores at destined number 
+            if (Form1.highScores.Count() > 5)
+            {
+                Form1.highScores.RemoveAt(5);
+            }
+
+            //showing the score 
+            scoreOutput();
+
             //Adding Labels to Label list for easy management
             //
             labels.Add(titleLabel);

@@ -30,10 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.titleLabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.playLabel = new System.Windows.Forms.Label();
             this.highscoreLabel = new System.Windows.Forms.Label();
             this.exitLabel = new System.Windows.Forms.Label();
-            this.menuTimer = new System.Windows.Forms.Timer(this.components);
             this.brickWallPic = new System.Windows.Forms.PictureBox();
             this.scoreLabel = new System.Windows.Forms.Label();
             this.highScores = new System.Windows.Forms.Label();
@@ -102,15 +101,9 @@
             this.exitLabel.Text = "Exit";
             this.exitLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // menuTimer
-            // 
-            this.menuTimer.Enabled = true;
-            this.menuTimer.Interval = 16;
-            this.menuTimer.Tick += new System.EventHandler(this.menuTimer_Tick);
-            // 
             // brickWallPic
             // 
-            this.brickWallPic.Image = global::BrickBreaker.Properties.Resources.brickWall;
+            //this.brickWallPic.Image = global::BrickBreaker.Properties.Resources.brickWall;
             this.brickWallPic.Location = new System.Drawing.Point(38, 0);
             this.brickWallPic.Margin = new System.Windows.Forms.Padding(6);
             this.brickWallPic.Name = "brickWallPic";
@@ -152,7 +145,7 @@
             this.Controls.Add(this.brickWallPic);
             this.Controls.Add(this.exitLabel);
             this.Controls.Add(this.highscoreLabel);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.playLabel);
             this.Controls.Add(this.titleLabel);
             this.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
             this.Name = "MenuScreen";
@@ -167,7 +160,7 @@
         #endregion
 
         private System.Windows.Forms.Label titleLabel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label playLabel;
         private System.Windows.Forms.Label highscoreLabel;
         private System.Windows.Forms.Label exitLabel;
         private System.Windows.Forms.Timer menuTimer;

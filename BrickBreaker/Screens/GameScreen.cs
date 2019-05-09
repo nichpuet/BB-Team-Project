@@ -25,7 +25,7 @@ namespace BrickBreaker
         public static Paddle paddle;
         public static List<Ball> ballList = new List<Ball>();
         public static List<Ball> removeBalls = new List<Ball>();
-        public static int paddleWidth = 80;
+        public static int paddleWidth = 140;
         public static int paddleHeight = 20;
 
         // list of all currentlevel for current level
@@ -73,7 +73,7 @@ namespace BrickBreaker
         public string direction = "left";
 
         // font and brush for text
-        Font textFont;
+        Font textFont = new Font("Verdana", 20, FontStyle.Regular);
         SolidBrush sb = new SolidBrush(Color.White);
 
         // level variables
@@ -192,9 +192,6 @@ namespace BrickBreaker
 
             // reset score
             score = 0;
-
-            // create text graphics
-            textFont = new Font("Verdana", 20, FontStyle.Regular);
 
             // setup starting paddle values and create paddle object
             int paddleX = ((this.Width / 2) - (paddleWidth / 2));

@@ -517,7 +517,15 @@ namespace BrickBreaker
                     {
                         if (currentlevelnum == 9)
                         {
-                            OnEnd();
+                            //OnEnd();
+                            //testing
+                            WinScreen ws = new WinScreen();
+                            Form form = this.FindForm();
+
+                            form.Controls.Add(ws);
+                            form.Controls.Remove(this);
+
+                            ws.Location = new Point((form.Width - ws.Width) / 2, (form.Height - ws.Height) / 2);
                         }
                         else
                         {

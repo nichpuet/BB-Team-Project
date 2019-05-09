@@ -111,7 +111,7 @@
             // 
             this.scoreLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.scoreLabel.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.scoreLabel.Location = new System.Drawing.Point(1951, 241);
+            this.scoreLabel.Location = new System.Drawing.Point(2005, 241);
             this.scoreLabel.Name = "scoreLabel";
             this.scoreLabel.Size = new System.Drawing.Size(500, 899);
             this.scoreLabel.TabIndex = 5;

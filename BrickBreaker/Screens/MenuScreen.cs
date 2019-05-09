@@ -20,8 +20,7 @@ namespace BrickBreaker
             //testing: displaying the scores
             foreach (HighScore s in Form1.highScores)
             {
-
-                highscoreLabel.Text += s.score + " " + "\n";
+                scoreLabel.Text += "\n" + s.score + " " + "\n";
 
                 //highscoreLabel.Text = s.score[0] + " " + "\n" + s.score[1] + " " + "\n" + s.score[2]
                 //    + " " + "\n" + s.score[3] + " " + "\n" + s.score[4] + " " + "\n";
@@ -30,7 +29,6 @@ namespace BrickBreaker
         //testing
         public void loadScoresRK()
         {
-            //Fix
             //creating Xml reader file 
             XmlReader reader = XmlReader.Create("Resources/HighScores.xml", null);
             string newScoreString;
@@ -49,8 +47,6 @@ namespace BrickBreaker
                 }
             }
 
-            
-
             reader.Close();
         }
         private static int index = 0;
@@ -58,52 +54,13 @@ namespace BrickBreaker
         public MenuScreen()
         {
             InitializeComponent();
-            //loadScoresRK();
+            loadScoresRK();
             //compare the scores
-            if (Form1.highScores.Count() == 2)
-            {
-                if (Form1.highScores[0] == Form1.highScores[1]) { Form1.highScores.RemoveAt(1); }
-            }
-            else if (Form1.highScores.Count() == 3)
-            {
-                if (Form1.highScores[0] == Form1.highScores[1]) { Form1.highScores.RemoveAt(1); }
-                if (Form1.highScores[0] == Form1.highScores[2]) { Form1.highScores.RemoveAt(2); }
-
-                if (Form1.highScores[1] == Form1.highScores[2]) { Form1.highScores.RemoveAt(2); }
-            }
-            else if (Form1.highScores.Count() == 4)
-            {
-                if (Form1.highScores[0] == Form1.highScores[1]) { Form1.highScores.RemoveAt(1); }
-                if (Form1.highScores[0] == Form1.highScores[2]) { Form1.highScores.RemoveAt(2); }
-                if (Form1.highScores[0] == Form1.highScores[3]) { Form1.highScores.RemoveAt(3); }
-
-                if (Form1.highScores[1] == Form1.highScores[2]) { Form1.highScores.RemoveAt(2); }
-                if (Form1.highScores[1] == Form1.highScores[3]) { Form1.highScores.RemoveAt(3); }
-
-                if (Form1.highScores[2] == Form1.highScores[3]) { Form1.highScores.RemoveAt(3); }
-            }
-            else if (Form1.highScores.Count() == 5)
-            {
-                if (Form1.highScores[0] == Form1.highScores[1]) { Form1.highScores.RemoveAt(1); }
-                if (Form1.highScores[0] == Form1.highScores[2]) { Form1.highScores.RemoveAt(2); }
-                if (Form1.highScores[0] == Form1.highScores[3]) { Form1.highScores.RemoveAt(3); }
-                if (Form1.highScores[0] == Form1.highScores[4]) { Form1.highScores.RemoveAt(4); }
-
-                if (Form1.highScores[1] == Form1.highScores[2]) { Form1.highScores.RemoveAt(2); }
-                if (Form1.highScores[1] == Form1.highScores[3]) { Form1.highScores.RemoveAt(3); }
-                if (Form1.highScores[1] == Form1.highScores[4]) { Form1.highScores.RemoveAt(4); }
-
-                if (Form1.highScores[2] == Form1.highScores[3]) { Form1.highScores.RemoveAt(3); }
-                if (Form1.highScores[2] == Form1.highScores[4]) { Form1.highScores.RemoveAt(4); }
-
-                if (Form1.highScores[3] == Form1.highScores[4]) { Form1.highScores.RemoveAt(4); }
-            }
-
 
             //Sorting the code
             Form1.highScores.Sort(delegate (HighScore x, HighScore y)
             {
-                return x.score.CompareTo(y.score);
+                return y.score.CompareTo(x.score);
             });
 
             //removing scores at destined number 

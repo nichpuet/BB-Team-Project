@@ -85,13 +85,13 @@ namespace BrickBreaker
 
         private void continueButton_Click(object sender, EventArgs e)
         {
-            GameScreen gs = new GameScreen();
+            MenuScreen ms = new MenuScreen();
             Form form = this.FindForm();
 
-            form.Controls.Add(gs);
+            form.Controls.Add(ms);
             form.Controls.Remove(this);
 
-            gs.Location = new Point((form.Width - gs.Width) / 2, (form.Height - gs.Height) / 2);
+            ms.Location = new Point((form.Width - ms.Width) / 2, (form.Height - ms.Height) / 2);
         }
 
         public void GameOver_Paint(object sender, PaintEventArgs e)

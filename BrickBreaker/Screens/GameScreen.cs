@@ -382,10 +382,10 @@ namespace BrickBreaker
                             if (player2Lives < 0)
                             {
                                 gameTimer.Enabled = false;
-                                OnEnd();
+                                scores();
                             }
                             gameTimer.Enabled = false;
-                            OnEnd();
+                            scores();
                         }
                     }
                     else if (b.BottomCollision(this, paddle))
@@ -408,7 +408,6 @@ namespace BrickBreaker
                 foreach (Ball b in removeBalls)
                 {
                     ballList.Remove(b);
-                    scores();
                 }
             }
 
@@ -449,7 +448,6 @@ namespace BrickBreaker
             foreach (Ball ba in ballList)
             {
                 ba.Move();
-                scores();
                 foreach (Block b in currentlevel)
                 {
                     if (ba.BlockCollision(b))
@@ -519,7 +517,15 @@ namespace BrickBreaker
                     {
                         if (currentlevelnum == 9)
                         {
-                            OnEnd();
+                            //OnEnd();
+                            //testing
+                            WinScreen ws = new WinScreen();
+                            Form form = this.FindForm();
+
+                            form.Controls.Add(ws);
+                            form.Controls.Remove(this);
+
+                            ws.Location = new Point((form.Width - ws.Width) / 2, (form.Height - ws.Height) / 2);
                         }
                         else
                         {
@@ -545,7 +551,7 @@ namespace BrickBreaker
             string scoreNumber = score.ToString();
             HighScore s = new HighScore(scoreNumber);
             Form1.highScores.Add(s);
-            //GameOver();
+            OnEnd();
         }
 
         //testing
@@ -564,71 +570,74 @@ namespace BrickBreaker
                 writer.WriteEndElement();
             }
 
-            //Move powerups down
-            foreach (Powerups p in powerup)
-            {
-                p.powerupMove();
-            }
+            writer.WriteEndElement();
 
-            //Check for collision of powerups
-            for(int p = 0; p < powerup.Count(); p++)
-            {
-                if ((new Rectangle(powerup[p].x, powerup[p].y, powerup[p].width, powerup[p].height)).IntersectsWith((new Rectangle(paddle.x, paddle.y, paddle.y, paddle.height))))
-                {
-                    if (powerup[p].type == "3")
-                    {
-                        Random randGen = new Random();
-                        int x, y;
+            writer.Close();
 
-                        x = randGen.Next(1, 301);
-                        y = randGen.Next(1, 301);
+            ////Move powerups down
+            //foreach (Powerups p in powerup)
+            //{
+            //    p.powerupMove();
+            //}
 
-                        //activate powerup
-                        ballList.Add(new Ball(x, y, xSpeed, ySpeed, ballSize, 1, -1));
-                        ballList.Add(new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1));
-                    }
-                    else if (powerup[p].type == "L")
-                    {
-                        paddle.width += 25;
-                    }
-                    else if (powerup[p].type == "l")
-                    {
-                        if(paddle.width > 25)
-                        {
-                            paddle.width -= 25;
-                        }
-                        else if (paddle.width > 10)
-                        {
-                            paddle.width -= 10;
-                        }
-                        else if (paddle.width > 5)
-                        {
-                            paddle.width -= 5;
-                        }
-                    }
-                    else if (powerup[p].type == "BS")
-                    {
-                        foreach(Ball b in ballList)
-                        {
-                            if(b.ySpeed > 2)
-                            {
-                                b.ySpeed -= 2;
-                            }
-                        }
-                    }
-                    else if (powerup[p].type == "bs")
-                    {
-                        foreach (Ball b in ballList)
-                        {
-                            b.ySpeed += 2;
-                        }
-                    }
-                    activated = true;
-                    powerup.RemoveAt(p);
-                }
-            }
+            ////Check for collision of powerups
+            //for(int p = 0; p < powerup.Count(); p++)
+            //{
+            //    if ((new Rectangle(powerup[p].x, powerup[p].y, powerup[p].width, powerup[p].height)).IntersectsWith((new Rectangle(paddle.x, paddle.y, paddle.y, paddle.height))))
+            //    {
+            //        if (powerup[p].type == "3")
+            //        {
+            //            Random randGen = new Random();
+            //            int x, y;
+
+            //            x = randGen.Next(1, 301);
+            //            y = randGen.Next(1, 301);
+
+            //            //activate powerup
+            //            ballList.Add(new Ball(x, y, xSpeed, ySpeed, ballSize, 1, -1));
+            //            ballList.Add(new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1));
+            //        }
+            //        else if (powerup[p].type == "L")
+            //        {
+            //            paddle.width += 25;
+            //        }
+            //        else if (powerup[p].type == "l")
+            //        {
+            //            if(paddle.width > 25)
+            //            {
+            //                paddle.width -= 25;
+            //            }
+            //            else if (paddle.width > 10)
+            //            {
+            //                paddle.width -= 10;
+            //            }
+            //            else if (paddle.width > 5)
+            //            {
+            //                paddle.width -= 5;
+            //            }
+            //        }
+            //        else if (powerup[p].type == "BS")
+            //        {
+            //            foreach(Ball b in ballList)
+            //            {
+            //                if(b.ySpeed > 2)
+            //                {
+            //                    b.ySpeed -= 2;
+            //                }
+            //            }
+            //        }
+            //        else if (powerup[p].type == "bs")
+            //        {
+            //            foreach (Ball b in ballList)
+            //            {
+            //                b.ySpeed += 2;
+            //            }
+            //        }
+            //        activated = true;
+            //        powerup.RemoveAt(p);
+            //    }
+            //}
             //redraw the screen
-            Refresh();
         }    
         
         //testing 
@@ -684,11 +693,20 @@ namespace BrickBreaker
 
         public void OnEnd()
         {
+            
             //Testing: Saving the scores
             saveScoresRK();
             // Goes to the game over screen
-            Form1 form = FindForm() as Form1;
-            form.ChangeScreen(this, new MenuScreen());
+            //Form1 form = FindForm() as Form1;
+            //form.ChangeScreen(this, new MenuScreen());
+
+            GameOverScreen gos = new GameOverScreen();
+            Form form = this.FindForm();
+
+            form.Controls.Add(gos);
+            form.Controls.Remove(this);
+
+            gos.Location = new Point((form.Width - gos.Width) / 2, (form.Height - gos.Height) / 2);
         }
 
         public void GameScreen_Paint(object sender, PaintEventArgs e)

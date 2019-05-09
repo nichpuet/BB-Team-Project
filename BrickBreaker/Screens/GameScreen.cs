@@ -25,7 +25,7 @@ namespace BrickBreaker
         public static Paddle paddle;
         public static List<Ball> ballList = new List<Ball>();
         public static List<Ball> removeBalls = new List<Ball>();
-        public static int paddleWidth = 80;
+        public static int paddleWidth = 140;
         public static int paddleHeight = 20;
 
         // list of all currentlevel for current level
@@ -73,7 +73,7 @@ namespace BrickBreaker
         public string direction = "left";
 
         // font and brush for text
-        Font textFont;
+        Font textFont = new Font("Verdana", 20, FontStyle.Regular);
         SolidBrush sb = new SolidBrush(Color.White);
 
         // level variables
@@ -192,9 +192,6 @@ namespace BrickBreaker
 
             // reset score
             score = 0;
-
-            // create text graphics
-            textFont = new Font("Verdana", 20, FontStyle.Regular);
 
             // setup starting paddle values and create paddle object
             int paddleX = ((this.Width / 2) - (paddleWidth / 2));
@@ -352,7 +349,9 @@ namespace BrickBreaker
                     b.WallCollision(this);
 
                     // Check for ball hitting bottom of screen and if there is only one ball
-                    if (b.BottomCollision(this, paddle) && ballList.Count == 1)
+                    Rectangle curball = new Rectangle(Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.size, b.size);
+
+                    if((b.BottomCollision(this, paddle) && ballList.Count == 1)|| (curball.IntersectsWith(new Rectangle(0, paddleY + 9, this.Width, 10))))
                     {
                         // decrease player 1 lives
                         player1Lives--;

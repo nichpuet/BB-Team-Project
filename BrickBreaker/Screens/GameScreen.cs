@@ -90,6 +90,11 @@ namespace BrickBreaker
         List<Rectangle> leftside = new List<Rectangle>();
         List<Rectangle> rightside = new List<Rectangle>();
 
+        // list for block corners
+        List<Rectangle> upLeft = new List<Rectangle>();
+        List<Rectangle> upRight = new List<Rectangle>();
+        List<Rectangle> bottomLeft = new List<Rectangle>();
+        List<Rectangle> bottomRight = new List<Rectangle>();
 
         public GameScreen(bool multiplayer = false)
         {
@@ -173,6 +178,11 @@ namespace BrickBreaker
             {
                 leftside.Add(new Rectangle(block.x, block.y, 1, block.height));
                 rightside.Add(new Rectangle(new Rectangle(block.x, block.y, block.width, block.height).Right, block.y, 1, block.height));
+
+                upLeft.Add(new Rectangle(block.x, block.y, 1, 1));
+                upRight.Add(new Rectangle(block.x + block.width, block.y, 1, 1));
+                bottomLeft.Add(new Rectangle(block.x, block.y + block.height, 1, 1));
+                bottomRight.Add(new Rectangle(block.x + block.width, block.y + block.height, 1, 1));
             }
         }
 
@@ -273,28 +283,28 @@ namespace BrickBreaker
             {
                 // right
                 case 1:
-                    ballList[0].Xangle = 1;
-                    ballList[0].Yangle = -0.5;
+                    ballList[0].Xangle = 0.8944;
+                    ballList[0].Yangle = -0.4472;
                     break;
                 case 2:
-                    ballList[0].Xangle = 0.5;
-                    ballList[0].Yangle = -1;
+                    ballList[0].Xangle = 0.7071;
+                    ballList[0].Yangle = -0.7071;
                     break;
                 case 3:
-                    ballList[0].Xangle = 0.5;
-                    ballList[0].Yangle = -1;
+                    ballList[0].Xangle = 0.4472;
+                    ballList[0].Yangle = -0.8944;
                     break;
                 case 4:
-                    ballList[0].Xangle = -0.5;
-                    ballList[0].Yangle = -1;
+                    ballList[0].Xangle = -0.4472;
+                    ballList[0].Yangle = -0.8944;
                     break;
                 case 5:
-                    ballList[0].Xangle = -1;
-                    ballList[0].Yangle = -1;
+                    ballList[0].Xangle = -0.7071;
+                    ballList[0].Yangle = -0.7071;
                     break;
                 case 6:
-                    ballList[0].Xangle = -1;
-                    ballList[0].Yangle = -0.5;
+                    ballList[0].Xangle = -0.8944;
+                    ballList[0].Yangle = -0.4472;
                     break;
                     // left
             }
@@ -428,8 +438,14 @@ namespace BrickBreaker
                     Rectangle ls = leftside[i];
                     Rectangle rs = rightside[i];
 
+                    Rectangle curball = new Rectangle(Convert.ToInt32(ball.x), Convert.ToInt32(ball.y), ball.size, ball.size);
+                    if(curball.IntersectsWith(upLeft[i])|| curball.IntersectsWith(upRight[i]) || curball.IntersectsWith(bottomLeft[i]) || curball.IntersectsWith(bottomRight[i]))
+                    {
+                        ball.Yangle *= -1;
+                    }
                     if (ball.BlockCollision(b))
                     {
+
                         if (ball.side_collision(ls) || ball.side_collision(rs))
                         {
                             ball.xSpeed *= -1;
@@ -438,7 +454,6 @@ namespace BrickBreaker
                         rightside.RemoveAt(i);
 
                         powerup_creation(new Point(b.x, b.y));
-                        ball.Yangle *= -1;
                         currentlevel.Remove(b);
                     }
                 }
@@ -474,33 +489,28 @@ namespace BrickBreaker
                     ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
                     ballList[0].y = paddle.y - 21;
 
-                    p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
+                    p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y) + (ballList[0].size / 2));
 
                     switch (angleposition)
                     {
                         // right
                         case 1:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 89, Convert.ToInt16(ballList[0].y) - 44);
                             break;
-
                         case 2:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 70, Convert.ToInt16(ballList[0].y) - 70);
                             break;
-
                         case 3:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 44, Convert.ToInt16(ballList[0].y) - 89);
                             break;
-
                         case 4:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 44, Convert.ToInt16(ballList[0].y) - 89);
                             break;
-
                         case 5:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 70, Convert.ToInt16(ballList[0].y) - 70);
                             break;
-
                         case 6:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 89, Convert.ToInt16(ballList[0].y) - 44);
                             break;
                         // left
                         default:

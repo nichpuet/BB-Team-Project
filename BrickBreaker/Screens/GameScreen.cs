@@ -25,13 +25,8 @@ namespace BrickBreaker
         public static Paddle paddle;
         public static List<Ball> ballList = new List<Ball>();
         public static List<Ball> removeBalls = new List<Ball>();
-        public static int paddleWidth = 80;
+        public static int paddleWidth = 140;
         public static int paddleHeight = 20;
-
-        // random for powerups
-        Random random = new Random();
-        private int paddleX;
-        private int paddleY;
 
         // list of all currentlevel for current level
         List<Block> currentlevel = new List<Block>();
@@ -78,7 +73,7 @@ namespace BrickBreaker
         public string direction = "left";
 
         // font and brush for text
-        Font textFont;
+        Font textFont = new Font("Verdana", 20, FontStyle.Regular);
         SolidBrush sb = new SolidBrush(Color.White);
 
         // level variables
@@ -90,6 +85,11 @@ namespace BrickBreaker
         List<Rectangle> leftside = new List<Rectangle>();
         List<Rectangle> rightside = new List<Rectangle>();
 
+        // list for block corners
+        List<Rectangle> upLeft = new List<Rectangle>();
+        List<Rectangle> upRight = new List<Rectangle>();
+        List<Rectangle> bottomLeft = new List<Rectangle>();
+        List<Rectangle> bottomRight = new List<Rectangle>();
 
         public GameScreen(bool multiplayer = false)
         {
@@ -152,6 +152,7 @@ namespace BrickBreaker
                     break;
             }
 
+            powerup.Clear();
             currentlevel.Clear();
             leftside.Clear();
             rightside.Clear();
@@ -173,6 +174,11 @@ namespace BrickBreaker
             {
                 leftside.Add(new Rectangle(block.x, block.y, 1, block.height));
                 rightside.Add(new Rectangle(new Rectangle(block.x, block.y, block.width, block.height).Right, block.y, 1, block.height));
+
+                upLeft.Add(new Rectangle(block.x, block.y, 1, 1));
+                upRight.Add(new Rectangle(block.x + block.width, block.y, 1, 1));
+                bottomLeft.Add(new Rectangle(block.x, block.y + block.height, 1, 1));
+                bottomRight.Add(new Rectangle(block.x + block.width, block.y + block.height, 1, 1));
             }
         }
 
@@ -187,13 +193,9 @@ namespace BrickBreaker
             // reset score
             score = 0;
 
-            // create text graphics
-            textFont = new Font("Verdana", 20, FontStyle.Regular);
-
             // setup starting paddle values and create paddle object
-            paddleX = ((this.Width / 2) - (paddleWidth / 2));
-            paddleY = 700;
-            
+            int paddleX = ((this.Width / 2) - (paddleWidth / 2));
+            int paddleY = 700;
             int paddleSpeed = 16;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
@@ -273,28 +275,28 @@ namespace BrickBreaker
             {
                 // right
                 case 1:
-                    ballList[0].Xangle = 1;
-                    ballList[0].Yangle = -0.5;
+                    ballList[0].Xangle = 0.8944;
+                    ballList[0].Yangle = -0.4472;
                     break;
                 case 2:
-                    ballList[0].Xangle = 0.5;
-                    ballList[0].Yangle = -1;
+                    ballList[0].Xangle = 0.7071;
+                    ballList[0].Yangle = -0.7071;
                     break;
                 case 3:
-                    ballList[0].Xangle = 0.5;
-                    ballList[0].Yangle = -1;
+                    ballList[0].Xangle = 0.4472;
+                    ballList[0].Yangle = -0.8944;
                     break;
                 case 4:
-                    ballList[0].Xangle = -0.5;
-                    ballList[0].Yangle = -1;
+                    ballList[0].Xangle = -0.4472;
+                    ballList[0].Yangle = -0.8944;
                     break;
                 case 5:
-                    ballList[0].Xangle = -1;
-                    ballList[0].Yangle = -1;
+                    ballList[0].Xangle = -0.7071;
+                    ballList[0].Yangle = -0.7071;
                     break;
                 case 6:
-                    ballList[0].Xangle = -1;
-                    ballList[0].Yangle = -0.5;
+                    ballList[0].Xangle = -0.8944;
+                    ballList[0].Yangle = -0.4472;
                     break;
                     // left
             }
@@ -324,11 +326,6 @@ namespace BrickBreaker
         {
             //   angleLable.Text = angleposition.ToString();
             // Move the paddle
-            foreach (Powerups up in powerup)
-            {
-                up.y += up.speed;
-            }
-
             if (leftArrowDown && paddle.x > 0)
             {
                 paddle.Move("left");
@@ -352,7 +349,9 @@ namespace BrickBreaker
                     b.WallCollision(this);
 
                     // Check for ball hitting bottom of screen and if there is only one ball
-                    if (b.BottomCollision(this, paddle) && ballList.Count == 1)
+                    Rectangle curball = new Rectangle(Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.size, b.size);
+
+                    if((b.BottomCollision(this, paddle) && ballList.Count == 1)|| (curball.IntersectsWith(new Rectangle(0, paddleY + 9, this.Width, 10))))
                     {
                         // decrease player 1 lives
                         player1Lives--;
@@ -365,8 +364,8 @@ namespace BrickBreaker
                         anglechange();
 
                         // reset paddle x and y
-                        paddle.x = paddleX;
-                        paddle.y = paddleY;
+                        //paddle.x = paddleX;
+                        //paddle.y = paddleY;
 
                         ballList[0].x = ((paddle.x - ballSize) + (paddle.width / 2));
                         ballList[0].y = paddle.y - 40;
@@ -428,6 +427,11 @@ namespace BrickBreaker
                     Rectangle ls = leftside[i];
                     Rectangle rs = rightside[i];
 
+                    Rectangle curball = new Rectangle(Convert.ToInt32(ball.x), Convert.ToInt32(ball.y), ball.size, ball.size);
+                    if(curball.IntersectsWith(upLeft[i])|| curball.IntersectsWith(upRight[i]) || curball.IntersectsWith(bottomLeft[i]) || curball.IntersectsWith(bottomRight[i]))
+                    {
+                        ball.Yangle *= -1;
+                    }
                     if (ball.BlockCollision(b))
                     {
                         if (ball.side_collision(ls) || ball.side_collision(rs))
@@ -436,10 +440,6 @@ namespace BrickBreaker
                         }
                         leftside.RemoveAt(i);
                         rightside.RemoveAt(i);
-
-                        powerup_creation(new Point(b.x, b.y));
-                        ball.Yangle *= -1;
-                        currentlevel.Remove(b);
                     }
                 }
             }
@@ -457,6 +457,42 @@ namespace BrickBreaker
                             currentlevel.Remove(b);
 
                         score += 100;
+                        
+                        //Powerup Chance 
+                        Random randPower = new Random();
+                        randomPowerupChance = randPower.Next(1, 21);
+
+                        if (randomPowerupChance == 1)
+                        {
+                            Powerups p = new Powerups(b.x, b.y, 5, "3");
+                            powerup.Add(p);
+                            activated = false;
+                        }
+                        if (randomPowerupChance == 2)
+                        {
+                            Powerups p = new Powerups(b.x, b.y, 5, "L");
+                            powerup.Add(p);
+                            activated = false;
+                        }
+                        if (randomPowerupChance == 3)
+                        {
+                            Powerups p = new Powerups(b.x, b.y, 5, "l");
+                            powerup.Add(p);
+                            activated = false;
+                        }
+                        if (randomPowerupChance == 4)
+                        {
+                            Powerups p = new Powerups(b.x, b.y, 5, "BS");
+                            powerup.Add(p);
+                            activated = false;
+                        }
+                        if (randomPowerupChance == 5)
+                        {
+                            Powerups p = new Powerups(b.x, b.y, 5, "bs");
+                            powerup.Add(p);
+                            activated = false;
+                        }
+                        
                         if (currentlevel.Count < 1)
                         {
                             if (currentlevelnum == levelList.Count())
@@ -474,42 +510,36 @@ namespace BrickBreaker
                     ballList[0].x = paddle.x + (paddle.width / 2) - (ballList[0].size / 2);
                     ballList[0].y = paddle.y - 21;
 
+                    //clear the powerups from the screen
+                    powerup.Clear();
+
                     p1 = new Point(Convert.ToInt16(ballList[0].x + (ballList[0].size / 2)), Convert.ToInt16(ballList[0].y));
 
                     switch (angleposition)
                     {
                         // right
                         case 1:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 200, Convert.ToInt16(ballList[0].y) - 120);
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 89, Convert.ToInt16(ballList[0].y) - 44);
                             break;
-
                         case 2:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 75, Convert.ToInt16(ballList[0].y) - 120);
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 70, Convert.ToInt16(ballList[0].y) - 70);
                             break;
-
                         case 3:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 50, Convert.ToInt16(ballList[0].y) - 120);
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) + 44, Convert.ToInt16(ballList[0].y) - 89);
                             break;
-
                         case 4:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 15, Convert.ToInt16(ballList[0].y) - 120);
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 44, Convert.ToInt16(ballList[0].y) - 89);
                             break;
-
                         case 5:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 25, Convert.ToInt16(ballList[0].y) - 120);
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 70, Convert.ToInt16(ballList[0].y) - 70);
                             break;
-
                         case 6:
-                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 200, Convert.ToInt16(ballList[0].y) - 120);
+                            p2 = new Point(Convert.ToInt16(ballList[0].x) - 89, Convert.ToInt16(ballList[0].y) - 44);
                             break;
                         // left
                         default:
                             break;
                     }
-
-                    //Powerup Chance 
-                    Random randPower = new Random();
-                    randomPowerupChance = randPower.Next(1, 21);
                 }
                 else
                 {
@@ -537,6 +567,67 @@ namespace BrickBreaker
                             ballList[0].y = paddle.y - 21;
                         }
 
+                    }
+                }
+
+                //Move powerups down
+                foreach (Powerups p in powerup)
+                {
+                    p.powerupMove();
+                }
+
+                //Check for collision of powerups
+                foreach (Powerups p in powerup)
+                {
+                    if (p.PowerupCollision() == true && activated == false)
+                    {
+                        if (p.type == "3")
+                        {
+                            Random randGen = new Random();
+                            int x, y;
+
+                            x = randGen.Next(1, 301);
+                            y = randGen.Next(1, 301);
+
+                            //activate powerup
+                            Ball b2 = new Ball(x, y, xSpeed, ySpeed, ballSize, 1, -1);
+                            ballList.Add(b2);
+
+                            Ball b3 = new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1);
+                            ballList.Add(b3);
+
+                            break;
+                        }
+                        else if (p.type == "L")
+                        {
+                            paddle.width += 25;
+                        }
+                        else if (p.type == "l")
+                        {
+                            paddle.width -= 25;
+                        }
+                        else if (p.type == "BS")
+                        {
+                            ySpeed -= 2;
+
+                            foreach (Ball b in ballList)
+                            {
+                                b.ySpeed = ySpeed;
+                            }
+                        }
+                        else if (p.type == "bs")
+                        {
+                            ySpeed += 2;
+
+                            foreach (Ball b in ballList)
+                            {
+                                b.ySpeed = ySpeed;
+                            }
+                        }
+
+                        activated = true;
+                        powerup.Remove(p);
+                        break;
                     }
                 }
                 //redraw the screen
@@ -573,117 +664,14 @@ namespace BrickBreaker
             writer.WriteEndElement();
 
             writer.Close();
-
-            ////Move powerups down
-            //foreach (Powerups p in powerup)
-            //{
-            //    p.powerupMove();
-            //}
-
-            ////Check for collision of powerups
-            //for(int p = 0; p < powerup.Count(); p++)
-            //{
-            //    if ((new Rectangle(powerup[p].x, powerup[p].y, powerup[p].width, powerup[p].height)).IntersectsWith((new Rectangle(paddle.x, paddle.y, paddle.y, paddle.height))))
-            //    {
-            //        if (powerup[p].type == "3")
-            //        {
-            //            Random randGen = new Random();
-            //            int x, y;
-
-            //            x = randGen.Next(1, 301);
-            //            y = randGen.Next(1, 301);
-
-            //            //activate powerup
-            //            ballList.Add(new Ball(x, y, xSpeed, ySpeed, ballSize, 1, -1));
-            //            ballList.Add(new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1));
-            //        }
-            //        else if (powerup[p].type == "L")
-            //        {
-            //            paddle.width += 25;
-            //        }
-            //        else if (powerup[p].type == "l")
-            //        {
-            //            if(paddle.width > 25)
-            //            {
-            //                paddle.width -= 25;
-            //            }
-            //            else if (paddle.width > 10)
-            //            {
-            //                paddle.width -= 10;
-            //            }
-            //            else if (paddle.width > 5)
-            //            {
-            //                paddle.width -= 5;
-            //            }
-            //        }
-            //        else if (powerup[p].type == "BS")
-            //        {
-            //            foreach(Ball b in ballList)
-            //            {
-            //                if(b.ySpeed > 2)
-            //                {
-            //                    b.ySpeed -= 2;
-            //                }
-            //            }
-            //        }
-            //        else if (powerup[p].type == "bs")
-            //        {
-            //            foreach (Ball b in ballList)
-            //            {
-            //                b.ySpeed += 2;
-            //            }
-            //        }
-            //        activated = true;
-            //        powerup.RemoveAt(p);
-            //    }
-            //}
             //redraw the screen
         }    
-        
-        //testing 
-
-        public void powerup_creation(Point loc)
-        {
-            //Powerup Chance 
-            Random randPower = new Random();
-            randomPowerupChance = randPower.Next(1, 6);
-
-            if (randomPowerupChance == 1)
-            {
-                Powerups p = new Powerups(Convert.ToInt32(loc.X), Convert.ToInt32(loc.Y), 5, "3");
-                powerup.Add(p);
-                activated = false;
-            }
-            if (randomPowerupChance == 2)
-            {
-                Powerups p = new Powerups(Convert.ToInt32(loc.X), Convert.ToInt32(loc.Y), 5, "L");
-                powerup.Add(p);
-                activated = false;
-            }
-            if (randomPowerupChance == 3)
-            {
-                Powerups p = new Powerups(Convert.ToInt32(loc.X), Convert.ToInt32(loc.Y), 5, "l");
-                powerup.Add(p);
-                activated = false;
-            }
-            if (randomPowerupChance == 4)
-            {
-                Powerups p = new Powerups(Convert.ToInt32(loc.X), Convert.ToInt32(loc.Y), 5, "BS");
-                powerup.Add(p);
-                activated = false;
-            }
-            if (randomPowerupChance == 5)
-            {
-                Powerups p = new Powerups(Convert.ToInt32(loc.X), Convert.ToInt32(loc.Y), 5, "bs");
-                powerup.Add(p);
-                activated = false;
-            }
-        }
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
             OnStart();
         }
+
         //testing
         public void GameOver()
         {

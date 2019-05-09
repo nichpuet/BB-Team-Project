@@ -56,6 +56,7 @@ namespace BrickBreaker
         {
             InitializeComponent();
             loadScoresRK();
+            
             //compare the scores
 
             //Sorting the code

@@ -16,8 +16,9 @@ namespace BrickBreaker
     {
         public void scoreOutput()
         {
-            highscoreLabel.Text = "High Scores\n";
             //testing: displaying the scores
+            //scoreLabel.Text = Form1.highScores[0].score + " " + "\n" + Form1.highScores[1].score + " " + "\n" + Form1.highScores[2].score
+            //    + " " + "\n" + Form1.highScores[3].score + " " + "\n" + Form1.highScores[4].score + " " + "\n";
             foreach (HighScore s in Form1.highScores)
             {
                 scoreLabel.Text += "\n" + s.score + " " + "\n";
@@ -77,7 +78,6 @@ namespace BrickBreaker
             //
             labels.Add(titleLabel);
             labels.Add(playLabel);
-            labels.Add(highscoreLabel);
             labels.Add(exitLabel);
         }
 
@@ -194,6 +194,17 @@ namespace BrickBreaker
                 index = labels.Count - 1;
             return labels[index];
 
+        }
+
+        private void highScores_Click(object sender, EventArgs e)
+        {
+            HighScoreScreen hs = new HighScoreScreen();
+            Form form = this.FindForm();
+
+            form.Controls.Add(hs);
+            form.Controls.Remove(this);
+
+            hs.Location = new Point((form.Width - hs.Width) / 2, (form.Height - hs.Height) / 2);
         }
     }
 }

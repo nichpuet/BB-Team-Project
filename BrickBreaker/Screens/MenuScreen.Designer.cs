@@ -34,6 +34,7 @@
             this.exitLabel = new System.Windows.Forms.Label();
             this.brickWallPic = new System.Windows.Forms.PictureBox();
             this.scoreLabel = new System.Windows.Forms.Label();
+            this.highScores = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.brickWallPic)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,7 +58,7 @@
             this.playLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.playLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.playLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.playLabel.Location = new System.Drawing.Point(1029, 461);
+            this.playLabel.Location = new System.Drawing.Point(1029, 377);
             this.playLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.playLabel.Name = "playLabel";
             this.playLabel.Size = new System.Drawing.Size(580, 202);
@@ -101,7 +102,7 @@
             // 
             this.brickWallPic.Image = global::BrickBreaker.Properties.Resources.brickWall;
             this.brickWallPic.Location = new System.Drawing.Point(38, 0);
-            this.brickWallPic.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.brickWallPic.Margin = new System.Windows.Forms.Padding(6);
             this.brickWallPic.Name = "brickWallPic";
             this.brickWallPic.Size = new System.Drawing.Size(54, 1474);
             this.brickWallPic.TabIndex = 4;
@@ -116,11 +117,27 @@
             this.scoreLabel.Size = new System.Drawing.Size(500, 899);
             this.scoreLabel.TabIndex = 5;
             // 
+            // highScores
+            // 
+            this.highScores.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.highScores.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.highScores.ForeColor = System.Drawing.SystemColors.Control;
+            this.highScores.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.highScores.Location = new System.Drawing.Point(720, 713);
+            this.highScores.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.highScores.Name = "highScores";
+            this.highScores.Size = new System.Drawing.Size(1217, 202);
+            this.highScores.TabIndex = 6;
+            this.highScores.Text = "HIGH SCORES";
+            this.highScores.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.highScores.Click += new System.EventHandler(this.highScores_Click);
+            // 
             // MenuScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(19F, 37F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Controls.Add(this.highScores);
             this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.brickWallPic);
             this.Controls.Add(this.exitLabel);
@@ -145,5 +162,6 @@
         private System.Windows.Forms.Label exitLabel;
         private System.Windows.Forms.PictureBox brickWallPic;
         private System.Windows.Forms.Label scoreLabel;
+        private System.Windows.Forms.Label highScores;
     }
 }

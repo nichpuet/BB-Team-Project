@@ -33,6 +33,7 @@
             this.highscoreLabel = new System.Windows.Forms.Label();
             this.exitLabel = new System.Windows.Forms.Label();
             this.brickWallPic = new System.Windows.Forms.PictureBox();
+            this.scoreLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.brickWallPic)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,10 +43,10 @@
             this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.titleLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.titleLabel.Location = new System.Drawing.Point(228, 0);
-            this.titleLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.titleLabel.Location = new System.Drawing.Point(722, 0);
+            this.titleLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(380, 73);
+            this.titleLabel.Size = new System.Drawing.Size(1138, 217);
             this.titleLabel.TabIndex = 0;
             this.titleLabel.Text = "MAINMENU";
             this.titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -56,10 +57,10 @@
             this.playLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.playLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.playLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.playLabel.Location = new System.Drawing.Point(325, 162);
-            this.playLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.playLabel.Location = new System.Drawing.Point(1029, 461);
+            this.playLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.playLabel.Name = "playLabel";
-            this.playLabel.Size = new System.Drawing.Size(183, 71);
+            this.playLabel.Size = new System.Drawing.Size(580, 202);
             this.playLabel.TabIndex = 1;
             this.playLabel.Text = "PLAY";
             this.playLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -72,13 +73,14 @@
             this.highscoreLabel.Font = new System.Drawing.Font("Bahnschrift SemiBold", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.highscoreLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.highscoreLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.highscoreLabel.Location = new System.Drawing.Point(981, 79);
-            this.highscoreLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.highscoreLabel.Location = new System.Drawing.Point(3107, 225);
+            this.highscoreLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.highscoreLabel.Name = "highscoreLabel";
-            this.highscoreLabel.Size = new System.Drawing.Size(897, 1081);
+            this.highscoreLabel.Size = new System.Drawing.Size(2841, 3077);
             this.highscoreLabel.TabIndex = 2;
             this.highscoreLabel.Text = "High Score For Testing Purposes";
             this.highscoreLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.highscoreLabel.Visible = false;
             // 
             // exitLabel
             // 
@@ -86,10 +88,10 @@
             this.exitLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exitLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.exitLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.exitLabel.Location = new System.Drawing.Point(295, 359);
-            this.exitLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.exitLabel.Location = new System.Drawing.Point(934, 1022);
+            this.exitLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.exitLabel.Name = "exitLabel";
-            this.exitLabel.Size = new System.Drawing.Size(213, 89);
+            this.exitLabel.Size = new System.Drawing.Size(675, 253);
             this.exitLabel.TabIndex = 3;
             this.exitLabel.Text = "Exit";
             this.exitLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -98,25 +100,36 @@
             // brickWallPic
             // 
             this.brickWallPic.Image = global::BrickBreaker.Properties.Resources.brickWall;
-            this.brickWallPic.Location = new System.Drawing.Point(12, 0);
-            this.brickWallPic.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.brickWallPic.Location = new System.Drawing.Point(38, 0);
+            this.brickWallPic.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.brickWallPic.Name = "brickWallPic";
-            this.brickWallPic.Size = new System.Drawing.Size(17, 518);
+            this.brickWallPic.Size = new System.Drawing.Size(54, 1474);
             this.brickWallPic.TabIndex = 4;
             this.brickWallPic.TabStop = false;
             // 
+            // scoreLabel
+            // 
+            this.scoreLabel.Font = new System.Drawing.Font("Segoe MDL2 Assets", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.scoreLabel.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.scoreLabel.Location = new System.Drawing.Point(1951, 241);
+            this.scoreLabel.Name = "scoreLabel";
+            this.scoreLabel.Size = new System.Drawing.Size(500, 899);
+            this.scoreLabel.TabIndex = 5;
+            // 
             // MenuScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(19F, 37F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.brickWallPic);
             this.Controls.Add(this.exitLabel);
             this.Controls.Add(this.highscoreLabel);
             this.Controls.Add(this.playLabel);
             this.Controls.Add(this.titleLabel);
+            this.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
             this.Name = "MenuScreen";
-            this.Size = new System.Drawing.Size(800, 520);
+            this.Size = new System.Drawing.Size(2533, 1480);
             this.Load += new System.EventHandler(this.MenuScreen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.brickWallPic)).EndInit();
             this.ResumeLayout(false);
@@ -131,5 +144,6 @@
         private System.Windows.Forms.Label highscoreLabel;
         private System.Windows.Forms.Label exitLabel;
         private System.Windows.Forms.PictureBox brickWallPic;
+        private System.Windows.Forms.Label scoreLabel;
     }
 }

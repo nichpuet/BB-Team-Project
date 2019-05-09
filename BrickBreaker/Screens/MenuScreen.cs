@@ -16,12 +16,12 @@ namespace BrickBreaker
     {
         public void scoreOutput()
         {
-            highscoreLabel.Text = "High Scores\n";
             //testing: displaying the scores
+            //scoreLabel.Text = Form1.highScores[0].score + " " + "\n" + Form1.highScores[1].score + " " + "\n" + Form1.highScores[2].score
+            //    + " " + "\n" + Form1.highScores[3].score + " " + "\n" + Form1.highScores[4].score + " " + "\n";
             foreach (HighScore s in Form1.highScores)
             {
-
-                highscoreLabel.Text += s.score + " " + "\n";
+                scoreLabel.Text += "\n" + s.score + " " + "\n";
 
                 //highscoreLabel.Text = s.score[0] + " " + "\n" + s.score[1] + " " + "\n" + s.score[2]
                 //    + " " + "\n" + s.score[3] + " " + "\n" + s.score[4] + " " + "\n";
@@ -45,7 +45,6 @@ namespace BrickBreaker
 
                     HighScore newScore = new HighScore(newScoreString);
                     Form1.highScores.Add(newScore);
-
                 }
             }
 
@@ -56,12 +55,28 @@ namespace BrickBreaker
         public MenuScreen()
         {
             InitializeComponent();
-            //
+            loadScoresRK();
+            //compare the scores
+
+            //Sorting the code
+            Form1.highScores.Sort(delegate (HighScore x, HighScore y)
+            {
+                return y.score.CompareTo(x.score);
+            });
+
+            //removing scores at destined number 
+            if (Form1.highScores.Count() > 5)
+            {
+                Form1.highScores.RemoveAt(5);
+            }
+
+            //showing the score 
+            scoreOutput();
+
             //Adding Labels to Label list for easy management
             //
             labels.Add(titleLabel);
             labels.Add(playLabel);
-            labels.Add(highscoreLabel);
             labels.Add(exitLabel);
         }
 
@@ -178,6 +193,17 @@ namespace BrickBreaker
                 index = labels.Count - 1;
             return labels[index];
 
+        }
+
+        private void highScores_Click(object sender, EventArgs e)
+        {
+            HighScoreScreen hs = new HighScoreScreen();
+            Form form = this.FindForm();
+
+            form.Controls.Add(hs);
+            form.Controls.Remove(this);
+
+            hs.Location = new Point((form.Width - hs.Width) / 2, (form.Height - hs.Height) / 2);
         }
     }
 }

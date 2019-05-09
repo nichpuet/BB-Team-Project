@@ -81,16 +81,6 @@ namespace BrickBreaker
         int currentlevelnum = 1;
         bool levelLoadstart = true;
 
-        // list for block sides
-        List<Rectangle> leftside = new List<Rectangle>();
-        List<Rectangle> rightside = new List<Rectangle>();
-
-        // list for block corners
-        List<Rectangle> upLeft = new List<Rectangle>();
-        List<Rectangle> upRight = new List<Rectangle>();
-        List<Rectangle> bottomLeft = new List<Rectangle>();
-        List<Rectangle> bottomRight = new List<Rectangle>();
-
         public GameScreen(bool multiplayer = false)
         {
             InitializeComponent();
@@ -154,8 +144,6 @@ namespace BrickBreaker
 
             powerup.Clear();
             currentlevel.Clear();
-            leftside.Clear();
-            rightside.Clear();
             while (reader.Read())
             {
                 string X, Y, HP;
@@ -169,17 +157,6 @@ namespace BrickBreaker
             currentlevel.RemoveAt(currentlevel.Count - 1);
             reader.Close();
             Refresh();
-
-            foreach(Block block in currentlevel)
-            {
-                leftside.Add(new Rectangle(block.x, block.y, 1, block.height));
-                rightside.Add(new Rectangle(new Rectangle(block.x, block.y, block.width, block.height).Right, block.y, 1, block.height));
-
-                upLeft.Add(new Rectangle(block.x, block.y, 1, 1));
-                upRight.Add(new Rectangle(block.x + block.width, block.y, 1, 1));
-                bottomLeft.Add(new Rectangle(block.x, block.y + block.height, 1, 1));
-                bottomRight.Add(new Rectangle(block.x + block.width, block.y + block.height, 1, 1));
-            }
         }
 
 
@@ -351,7 +328,7 @@ namespace BrickBreaker
                     // Check for ball hitting bottom of screen and if there is only one ball
                     Rectangle curball = new Rectangle(Convert.ToInt32(b.x), Convert.ToInt32(b.y), b.size, b.size);
 
-                    if((b.BottomCollision(this, paddle) && ballList.Count == 1)|| (curball.IntersectsWith(new Rectangle(0, paddleY + 9, this.Width, 10))))
+                    if((b.BottomCollision(this, paddle) && ballList.Count == 1)|| (curball.IntersectsWith(new Rectangle(0, paddle.y + 9, this.Width, 10))))
                     {
                         // decrease player 1 lives
                         player1Lives--;
@@ -419,37 +396,20 @@ namespace BrickBreaker
                 }
             }
 
-            foreach (Ball ball in ballList)
-            {
-                for (int i = 0; i < currentlevel.Count(); i++)
-                {
-                    Block b = currentlevel[i];
-                    Rectangle ls = leftside[i];
-                    Rectangle rs = rightside[i];
-
-                    Rectangle curball = new Rectangle(Convert.ToInt32(ball.x), Convert.ToInt32(ball.y), ball.size, ball.size);
-                    if(curball.IntersectsWith(upLeft[i])|| curball.IntersectsWith(upRight[i]) || curball.IntersectsWith(bottomLeft[i]) || curball.IntersectsWith(bottomRight[i]))
-                    {
-                        ball.Yangle *= -1;
-                    }
-                    if (ball.BlockCollision(b))
-                    {
-                        if (ball.side_collision(ls) || ball.side_collision(rs))
-                        {
-                            ball.xSpeed *= -1;
-                        }
-                        leftside.RemoveAt(i);
-                        rightside.RemoveAt(i);
-                    }
-                }
-            }
-
             // Check if ball has collided with any currentlevel
             foreach (Ball ba in ballList)
             {
                 ba.Move();
                 foreach (Block b in currentlevel)
                 {
+                    Rectangle curball = new Rectangle(Convert.ToInt32(ba.x), Convert.ToInt32(ba.y), ba.size, ba.size);
+
+                    if (ba.side_collision(b.leftSide) || ba.side_collision(b.rightSide))
+                    {
+                        ba.xSpeed *= -1;
+                    }
+                    
+
                     if (ba.BlockCollision(b))
                     {
                         b.hp--;

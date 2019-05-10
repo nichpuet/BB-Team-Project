@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.titleLabel = new System.Windows.Forms.Label();
             this.playLabel = new System.Windows.Forms.Label();
             this.highscoreLabel = new System.Windows.Forms.Label();
@@ -45,14 +44,10 @@
             this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.titleLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.titleLabel.Location = new System.Drawing.Point(198, 19);
-            this.titleLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(401, 89);
             this.titleLabel.Location = new System.Drawing.Point(722, 0);
             this.titleLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(1138, 217);
+            this.titleLabel.Size = new System.Drawing.Size(1189, 217);
             this.titleLabel.TabIndex = 0;
             this.titleLabel.Text = "MAIN MENU";
             this.titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -103,7 +98,6 @@
             // 
             // brickWallPic
             // 
-            //this.brickWallPic.Image = global::BrickBreaker.Properties.Resources.brickWall;
             this.brickWallPic.Location = new System.Drawing.Point(38, 0);
             this.brickWallPic.Margin = new System.Windows.Forms.Padding(6);
             this.brickWallPic.Name = "brickWallPic";
@@ -119,6 +113,7 @@
             this.scoreLabel.Name = "scoreLabel";
             this.scoreLabel.Size = new System.Drawing.Size(500, 899);
             this.scoreLabel.TabIndex = 5;
+            this.scoreLabel.Visible = false;
             // 
             // highScores
             // 

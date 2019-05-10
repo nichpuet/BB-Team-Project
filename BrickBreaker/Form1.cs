@@ -31,6 +31,7 @@ namespace BrickBreaker
             Size = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
             Location = new Point(0, 0);
         }
+
         //testing
         public static void loadScoresRK()
         {

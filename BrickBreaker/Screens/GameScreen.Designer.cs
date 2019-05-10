@@ -46,8 +46,7 @@
             this.gameTimer.Enabled = true;
             this.gameTimer.Interval = 16;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
-            // 
-
+            //
             // life5Output
             // 
             this.life5Output.BackColor = System.Drawing.Color.Transparent;

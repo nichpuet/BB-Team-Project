@@ -397,20 +397,21 @@ namespace BrickBreaker
             }
 
             // Check if ball has collided with any currentlevel
-            foreach (Ball ba in ballList)
+            //foreach (Ball ba in ballList)
+            for(int i = 0; i < ballList.Count(); i++)
             {
-                ba.Move();
+                ballList[i].Move();
                 foreach (Block b in currentlevel)
                 {
-                    Rectangle curball = new Rectangle(Convert.ToInt32(ba.x), Convert.ToInt32(ba.y), ba.size, ba.size);
+                    Rectangle curball = new Rectangle(Convert.ToInt32(ballList[i].x), Convert.ToInt32(ballList[i].y), ballList[i].size, ballList[i].size);
 
-                    if (ba.side_collision(b.leftSide) || ba.side_collision(b.rightSide))
+                    if (ballList[i].side_collision(b.leftSide) || ballList[i].side_collision(b.rightSide))
                     {
-                        ba.xSpeed *= -1;
+                        ballList[i].xSpeed *= -1;
                     }
                     
 
-                    if (ba.BlockCollision(b))
+                    if (ballList[i].BlockCollision(b))
                     {
                         b.hp--;
                         if (b.hp < 1)
@@ -550,11 +551,8 @@ namespace BrickBreaker
                             y = randGen.Next(1, 301);
 
                             //activate powerup
-                            Ball b2 = new Ball(x, y, xSpeed, ySpeed, ballSize, 1, -1);
-                            ballList.Add(b2);
-
-                            Ball b3 = new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1);
-                            ballList.Add(b3);
+                            ballList.Add(new Ball(x, y, xSpeed, ySpeed, ballSize, 1, -1));
+                            ballList.Add(new Ball(y, x, xSpeed, ySpeed, ballSize, 1, -1));
 
                             break;
                         }
@@ -564,24 +562,29 @@ namespace BrickBreaker
                         }
                         else if (p.type == "l")
                         {
-                            paddle.width -= 25;
+                            if(paddle.width > 25)
+                            {
+                                paddle.width -= 25;
+                            }
+                            else
+                            {
+                                paddle.width /= 2;
+                            }
+
                         }
                         else if (p.type == "BS")
                         {
-                            ySpeed -= 2;
-
                             foreach (Ball b in ballList)
                             {
-                                b.ySpeed = ySpeed;
+                                b.ySpeed -= 2;
+                                // If the ball gets way too slow at anglepositions of 1 & 6, the ball can get stuck at the top
                             }
                         }
                         else if (p.type == "bs")
                         {
-                            ySpeed += 2;
-
                             foreach (Ball b in ballList)
                             {
-                                b.ySpeed = ySpeed;
+                                b.ySpeed += 2;
                             }
                         }
 

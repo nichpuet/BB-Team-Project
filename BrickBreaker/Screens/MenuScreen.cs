@@ -34,7 +34,6 @@ namespace BrickBreaker
         public MenuScreen()
         {
             InitializeComponent();
-            Form1.loadScoresRK();
             
             //compare the scores
 

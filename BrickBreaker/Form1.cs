@@ -26,6 +26,7 @@ namespace BrickBreaker
         public Form1()
         {
             InitializeComponent();
+            loadScoresRK();
             Directory.SetCurrentDirectory(Program.FilePath);//Set the program to put files in the created directory
             Size = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
             Location = new Point(0, 0);
